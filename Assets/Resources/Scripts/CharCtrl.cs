@@ -9,11 +9,13 @@ public class CharCtrl : MonoBehaviour {
 	//private string surfName;
     private EditorUI editorUI;
 
+    private Vector3 initialPosition;
 
     void Start () {
         // what is it needed for?
 		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();
-	}
+        initialPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+    }
 
 	void Update () {
 
@@ -38,6 +40,12 @@ public class CharCtrl : MonoBehaviour {
 				GameObject.Find (editorUI.surfName).transform.position.y + yLowBound,
 				transform.position.z);
 		}
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            transform.position = initialPosition;
+        }
+
 		//Debug.Log (speed);
 	}
 }
