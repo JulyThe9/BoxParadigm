@@ -1,0 +1,446 @@
+<?xml version="1.0"?>
+<BoxHolder xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <list>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>0</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>1</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>2</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>180</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>3</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>4</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>5</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>6</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>7</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>8</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>9</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>10</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Mirror_Box</type>
+          <caption />
+          <xInd>1</xInd>
+          <yInd>11</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+      </ArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry>
+        <BoxEntry>
+          <type>Turret_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>0</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Turret_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>1</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Turret_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>2</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>180</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Stone_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>3</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Stone_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>4</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Stone_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>5</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>180</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Turret_Box</type>
+          <caption />
+          <xInd>2</xInd>
+          <yInd>6</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+      </ArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>0</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>90</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>1</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>180</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>2</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>3</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+      </ArrayOfBoxEntry>
+      <ArrayOfBoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>0</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>1</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>2</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>5</xInd>
+          <yInd>3</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+      </ArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>0</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>1</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>2</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>3</yInd>
+          <zInd>3</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+      </ArrayOfBoxEntry>
+      <ArrayOfBoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>0</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>1</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>2</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+        <BoxEntry>
+          <type>Wood_Box</type>
+          <caption />
+          <xInd>6</xInd>
+          <yInd>3</yInd>
+          <zInd>4</zInd>
+          <xRot>0</xRot>
+          <yRot>0</yRot>
+        </BoxEntry>
+      </ArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+    <ArrayOfArrayOfBoxEntry>
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+      <ArrayOfBoxEntry />
+    </ArrayOfArrayOfBoxEntry>
+  </list>
+</BoxHolder>
