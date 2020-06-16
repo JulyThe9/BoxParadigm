@@ -46,9 +46,6 @@ public class CharCtrl : MonoBehaviour {
             transform.position = initialPosition;
         }
 
-        // source tree test
-        // source tree test again
-
 		//Debug.Log (speed);
 	}
 }
