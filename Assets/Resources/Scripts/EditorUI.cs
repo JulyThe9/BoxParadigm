@@ -32,10 +32,6 @@ public class EditorUI : MonoBehaviour {
 
         gridGenerated = true;
     }
-		
-	/*private float maxVal(float a, float b){
-		return a > b ? a : b;
-	}*/
 
 	public GameObject setUpPlane(float length, float width, string surfNamePar)
     {
