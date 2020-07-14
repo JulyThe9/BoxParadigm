@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommonStuff /*: MonoBehaviour*/{
+public class MapPlacements /*: MonoBehaviour*/{
 
 	private BoxPicking boxPicking;
 
-	public CommonStuff(){}
+	public MapPlacements(){}
 
 	public GameObject placeBox(BoxEntry boxEntry, float xPos, float yPos, float zPos, float yMargin){ //make pos dep on indices
 

@@ -7,7 +7,7 @@ public class BoxRayCast : MonoBehaviour {
 	private Ray ray;
 	private RaycastHit hit;
 	private EditorUI editorUI;
-	private CommonStuff commonStuff = new CommonStuff ();
+	private MapPlacements mapPlacements = new MapPlacements();
 
 	void Start(){
 		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();
@@ -55,8 +55,8 @@ public class BoxRayCast : MonoBehaviour {
 
 						Destroy (hit.transform.gameObject);
 
-						GameObject box = commonStuff.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
-						commonStuff.placeCell (curType,indices [0],indices [2],indices [1],0.51f,refPos).transform.parent = box.transform;
+						GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
+						mapPlacements.placeCell (curType,indices [0],indices [2],indices [1],0.51f,refPos).transform.parent = box.transform;
 					}
 				}
 				

@@ -9,7 +9,7 @@ public class InitPosBeh : MonoBehaviour {
 	private Vector3 refPos;
 	private GameObject holder;
 	private BoxPicking boxPicking;
-	private CommonStuff commonStuff= new CommonStuff();
+	private MapPlacements mapPlacements= new MapPlacements();
 
 	// FINALLY START USING PROPERTIES WITH GET AND SET
 	public int xInd;
@@ -56,8 +56,8 @@ public class InitPosBeh : MonoBehaviour {
 				else 
 					editorUI.bHolder.list [xInd] [zInd].Add (boxEntry); 
 				
-				GameObject box = commonStuff.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0.5f);
-				commonStuff.placeCell (curType,xInd,yInd+1,zInd,1.01f,refPos).transform.parent = box.transform;
+				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0.5f);
+				mapPlacements.placeCell (curType,xInd,yInd+1,zInd,1.01f,refPos).transform.parent = box.transform;
 			}
 		}
 
