@@ -16,17 +16,19 @@ public class BoxRayCast : MonoBehaviour {
 	void Update()
 	{
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		if(Physics.Raycast(ray, out hit)){
-
-			if (editorUI.buildingEnabled && hit.transform.gameObject.tag.Equals ("Box")) {				
+		if(Physics.Raycast(ray, out hit))
+        {
+			if (editorUI.buildingEnabled && hit.transform.gameObject.tag.Equals ("Box"))
+            {				
 				GameObject holder = GameObject.Find ("Canvas");
 				BoxPicking boxPicking = holder.GetComponent<BoxPicking> ();
-				string curType = boxPicking.boxType;
-
+				ObjectTypes.BoxTypes curType = boxPicking.boxType;
 
 					//if (hit.transform.gameObject.name.Split ('_') [0].Equals (curType)) {
-				if (hit.transform.gameObject.name.Equals (curType)) {
-					if (Input.GetMouseButtonDown (0)) {
+				if (hit.transform.gameObject.name.Equals (ObjectTypes.boxTypesToNames[curType])) // TODO: simplify
+                {
+					if (Input.GetMouseButtonDown (0))
+                    {
 						Debug.Log ("HIT!");
 						hit.transform.Rotate (0f, 90f, 0f);
 					
@@ -34,29 +36,36 @@ public class BoxRayCast : MonoBehaviour {
 						editorUI.bHolder.list [indices [0]] [indices [1]] [indices [2]].yRot += 90f;
 
 					}
-				} else if (string.IsNullOrEmpty (curType)) {
-					if (Input.GetMouseButtonDown (0)) {
+				}
+                else if (curType == ObjectTypes.BoxTypes.Undetermined)
+                {
+					if (Input.GetMouseButtonDown (0))
+                    {
 						Destroy (hit.transform.gameObject);
 						int[] indices = getBoxEntryIndices (hit.transform.gameObject);
 						int listSize = editorUI.bHolder.list [indices [0]] [indices [1]].Count;
-						if (indices [2] >= listSize-1) {
+						if (indices [2] >= listSize-1)
+                        {
 							editorUI.bHolder.list [indices [0]] [indices [1]].RemoveAt (listSize - 1);
 						}
 						else editorUI.bHolder.list [indices [0]] [indices [1]] [indices [2]] = null;
 					}
 				}
-				else {
-					if (Input.GetMouseButtonDown (0)) {
+				else
+                {
+					if (Input.GetMouseButtonDown (0))
+                    {
 						Vector3 refPos = hit.transform.position;
+                        string curTypeToName = ObjectTypes.boxTypesToNames[curType];
 
-						int[] indices = getBoxEntryIndices (hit.transform.gameObject);
-						BoxEntry boxEntry = new BoxEntry (curType, "", indices [0], indices [2], indices [1]);
+                        int[] indices = getBoxEntryIndices (hit.transform.gameObject);
+						BoxEntry boxEntry = new BoxEntry (curTypeToName, "", indices [0], indices [2], indices [1]);
 						editorUI.bHolder.list [indices [0]] [indices [1]] [indices [2]] = boxEntry;
 
 						Destroy (hit.transform.gameObject);
 
 						GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
-						mapPlacements.placeCell (curType,indices [0],indices [2],indices [1],0.51f,refPos).transform.parent = box.transform;
+						mapPlacements.placeCell (curTypeToName, indices [0], indices [2], indices [1], 0.51f, refPos).transform.parent = box.transform;
 					}
 				}
 				

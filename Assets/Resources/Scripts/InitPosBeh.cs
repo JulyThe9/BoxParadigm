@@ -42,22 +42,26 @@ public class InitPosBeh : MonoBehaviour {
 		//Material origMat = Resources.Load("Materials/InitCell", typeof(Material)) as Material;
 		//gameObject.GetComponent<Renderer>().material = origMat;
 		Debug.Log (editorUI.buildingEnabled);
-		if(editorUI.buildingEnabled){
-			
-			string curType = boxPicking.boxType;
-			if (!string.IsNullOrEmpty(curType)) {
+		if(editorUI.buildingEnabled)
+        {		
+			ObjectTypes.BoxTypes curType = boxPicking.boxType;
+			if (curType != ObjectTypes.BoxTypes.Undetermined)
+            {
 
-				//caption parameter to be implemented
+                // TODO: caption parameter to be implemented
 
-				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd);
-				if (yInd + 1 < editorUI.bHolder.list [xInd] [zInd].Count) {
+                string curTypeToName = ObjectTypes.boxTypesToNames[curType];
+
+				BoxEntry boxEntry = new BoxEntry (curTypeToName, "", xInd, yInd + 1, zInd);
+				if (yInd + 1 < editorUI.bHolder.list [xInd] [zInd].Count)
+                {
 					editorUI.bHolder.list [xInd] [zInd] [yInd + 1] = boxEntry;
 				}
 				else 
 					editorUI.bHolder.list [xInd] [zInd].Add (boxEntry); 
 				
 				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0.5f);
-				mapPlacements.placeCell (curType,xInd,yInd+1,zInd,1.01f,refPos).transform.parent = box.transform;
+				mapPlacements.placeCell (curTypeToName, xInd, yInd+1, zInd, 1.01f, refPos).transform.parent = box.transform;
 			}
 		}
 
