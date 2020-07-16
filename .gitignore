@@ -2,6 +2,7 @@
 # Unity folders and files
 ###
 [Aa]ssets/AssetStoreTools*
+[Aa]ssets/Resources/StreamingFiles*
 [Bb]uild/
 [Ll]ibrary/
 [Ll]ocal[Cc]ache/
@@ -26,6 +27,7 @@ sysinfo.txt
 *.user
 *.userprefs
 *.pidb
+*.meta
 .DS_Store
 .vs/
 
