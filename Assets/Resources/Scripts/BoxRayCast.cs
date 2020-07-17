@@ -24,7 +24,6 @@ public class BoxRayCast : MonoBehaviour {
 				BoxPicking boxPicking = holder.GetComponent<BoxPicking> ();
 				ObjectTypes.BoxTypes curType = boxPicking.boxType;
 
-					//if (hit.transform.gameObject.name.Split ('_') [0].Equals (curType)) {
 				if (hit.transform.gameObject.name.Equals (ObjectTypes.boxTypesToNames[curType])) // TODO: simplify
                 {
 					if (Input.GetMouseButtonDown (0))
