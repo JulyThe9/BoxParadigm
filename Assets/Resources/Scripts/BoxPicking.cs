@@ -6,19 +6,21 @@ public class BoxPicking : MonoBehaviour {
 
 	//potentially: move the method to EditorUI class
 	//edit: forget about that, EditorUI is growing large
-	public ObjectTypes.BoxTypes boxType;
-	private string activeSlot;
+	public ObjectTypes.BoxTypes selBoxType;
 	public void pickBox(GameObject slot){
-		if (!slot.activeSelf) {
-			if (!string.IsNullOrEmpty (activeSlot))
-				GameObject.Find (activeSlot).SetActive (false);
+		if (!slot.activeSelf)
+        {
+            if (selBoxType != ObjectTypes.BoxTypes.Undetermined)
+            {
+                GameObject.Find(ObjectTypes.boxTypesToSlotNames[selBoxType]).SetActive(false);
+            }
 			slot.SetActive (true);
-            boxType = slot.GetComponent<SlotData>().slotBoxType;
-			activeSlot = slot.name;
-		} else {
+            selBoxType = slot.GetComponent<SlotData>().slotBoxType;
+		}
+        else
+        {
 			slot.SetActive (false);
-            boxType = ObjectTypes.BoxTypes.Undetermined;
-            activeSlot = string.Empty;
+            selBoxType = ObjectTypes.BoxTypes.Undetermined;
 		}
 	}
 

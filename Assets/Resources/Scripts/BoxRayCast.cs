@@ -22,7 +22,7 @@ public class BoxRayCast : MonoBehaviour {
             {				
 				GameObject holder = GameObject.Find ("Canvas");
 				BoxPicking boxPicking = holder.GetComponent<BoxPicking> ();
-				ObjectTypes.BoxTypes curType = boxPicking.boxType;
+				ObjectTypes.BoxTypes curType = boxPicking.selBoxType;
 
                 BoxData boxData = hit.transform.gameObject.GetComponent<BoxData>();
                 int xInd = boxData.xInd;

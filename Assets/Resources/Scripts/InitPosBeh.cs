@@ -44,7 +44,7 @@ public class InitPosBeh : MonoBehaviour {
 		Debug.Log (editorUI.buildingEnabled);
 		if(editorUI.buildingEnabled)
         {		
-			ObjectTypes.BoxTypes curType = boxPicking.boxType;
+			ObjectTypes.BoxTypes curType = boxPicking.selBoxType;
 			if (curType != ObjectTypes.BoxTypes.Undetermined)
             {
 

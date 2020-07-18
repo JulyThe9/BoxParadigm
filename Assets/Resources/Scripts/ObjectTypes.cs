@@ -22,4 +22,12 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Mirror, "Mirror_Box" }
     };
 
+    static public Dictionary<BoxTypes, string> boxTypesToSlotNames = new Dictionary<BoxTypes, string>
+    {
+        { BoxTypes.Wood, "Wood_Slot" },
+        { BoxTypes.Stone, "Stone_Slot" },
+        { BoxTypes.Turret, "Turret_Slot" },
+        { BoxTypes.Mirror, "Mirror_Slot" }
+    };
+
 }
