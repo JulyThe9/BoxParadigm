@@ -34,11 +34,10 @@ public class CharCtrl : MonoBehaviour {
 
 		transform.Translate (turn, -1f*zoom, move);
         //Debug.Log(GameObject.Find(surfName));
-        if (transform.position.y < (GameObject.Find(editorUI.surfName).transform.position.y + yLowBound))
+        
+        if (editorUI.floor != null && transform.position.y < editorUI.floor.transform.position.y + yLowBound)
         {
-			transform.position = new Vector3 (transform.position.x, 
-				GameObject.Find (editorUI.surfName).transform.position.y + yLowBound,
-				transform.position.z);
+			transform.position = new Vector3 (transform.position.x, editorUI.floor.transform.position.y + yLowBound, transform.position.z);
 		}
 
         if (Input.GetKey(KeyCode.R))

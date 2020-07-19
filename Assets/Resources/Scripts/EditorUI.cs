@@ -8,21 +8,22 @@ using System.IO;
 
 public class EditorUI : MonoBehaviour {
 
-	public string surfName; 
-	public bool buildingEnabled;
+    //public string surfName; 
+    public GameObject floor;
+    public bool buildingEnabled;
     
 	public BoxHolder bHolder = new BoxHolder();
 
     private bool gridGenerated = false;
 
-	public void createGrid(string surfNamePar) {
+	public void createGrid() {
 		InputField LBox = GameObject.Find ("LBox").GetComponent<InputField>();
 		InputField WBox = GameObject.Find ("WBox").GetComponent<InputField>();
 		float length = float.Parse(LBox.text);
 		float width = float.Parse(WBox.text);
 
-		surfName = surfNamePar+"(Clone)";
-		GameObject floor = setUpPlane (length, width, surfNamePar);
+		//surfName = surfNamePar+"(Clone)";
+		floor = setUpPlane (length, width, "Floor");
 		setUpCells (length, width, floor);
 
 		fillList((int) length, (int) width);
@@ -35,16 +36,16 @@ public class EditorUI : MonoBehaviour {
 
 	public GameObject setUpPlane(float length, float width, string surfNamePar)
     {
-		GameObject floor = null;
-		if (GameObject.Find (surfNamePar+"(Clone)") == null) {
+		if (floor == null)
+        {
 			floor = Instantiate (Resources.Load (surfNamePar)) as GameObject;
 			Vector3 refPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
 			floor.transform.position = new Vector3 (refPos.x - 2.39f, refPos.y - 4.7f, refPos.z + 4f); 
 			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
 			GameObject.FindGameObjectWithTag ("Player").AddComponent<CharCtrl>();
 		} 
-		else {
-			floor = GameObject.Find (surfNamePar+"(Clone)");
+		else
+        {
 			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
 		}
 		CharCtrl charController = GameObject.FindWithTag ("Player").GetComponent<CharCtrl>();
