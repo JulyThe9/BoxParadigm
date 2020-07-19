@@ -6,9 +6,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 
-public class EditorUI : MonoBehaviour {
-
-    //public string surfName; 
+public class EditorUI : MonoBehaviour
+{
     public GameObject floor;
     public bool buildingEnabled;
     
