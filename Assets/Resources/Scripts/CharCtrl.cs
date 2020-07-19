@@ -6,7 +6,6 @@ public class CharCtrl : MonoBehaviour {
 	
 	public float speed = 7f;  // use getcomponent instead of static! 
 	public float yLowBound = 2f;
-	//private string surfName;
     private EditorUI editorUI;
 
     private Vector3 initialPosition;
@@ -33,7 +32,6 @@ public class CharCtrl : MonoBehaviour {
 		zoom *= Time.deltaTime;
 
 		transform.Translate (turn, -1f*zoom, move);
-        //Debug.Log(GameObject.Find(surfName));
         
         if (editorUI.floor != null && transform.position.y < editorUI.floor.transform.position.y + yLowBound)
         {
