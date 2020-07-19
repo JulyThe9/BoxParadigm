@@ -21,7 +21,6 @@ public class EditorUI : MonoBehaviour
 		float length = float.Parse(LBox.text);
 		float width = float.Parse(WBox.text);
 
-		//surfName = surfNamePar+"(Clone)";
 		floor = setUpPlane (length, width, "Floor");
 		setUpCells (length, width, floor);
 
