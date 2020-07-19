@@ -26,11 +26,11 @@ public class MapPlacements /*: MonoBehaviour*/{
 		return box;
 	}
 
-	public GameObject placeCell(string type, int xInd, int yInd, int zInd, float yMargin, Vector3 refPos)
+	public GameObject placeCell(ObjectTypes.BoxTypes type, int xInd, int yInd, int zInd, float yMargin, Vector3 refPos)
     {
 		GameObject nextCell = GameObject.Instantiate (Resources.Load ("InitCell")) as GameObject;
 		InitPosBeh initPosBeh = nextCell.GetComponent<InitPosBeh> ();
-		initPosBeh.origMatName = type;
+		initPosBeh.origMatType = type;
 
 		initPosBeh.xInd = xInd;
 		initPosBeh.yInd = yInd;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InitPosBeh : MonoBehaviour {
 
-	public string origMatName;
+	public ObjectTypes.BoxTypes origMatType;
 	private EditorUI editorUI;
 	private Vector3 refPos;
 	private GameObject holder;
@@ -16,8 +16,10 @@ public class InitPosBeh : MonoBehaviour {
 	public int yInd;
 	public int zInd; 
 
-	void Start(){
-		gameObject.GetComponent<Renderer>().material =  Resources.Load("Materials/"+origMatName, typeof(Material)) as Material;
+	void Start()
+    {
+		gameObject.GetComponent<Renderer>().material =  Resources.Load("Materials/" + ObjectTypes.boxTypesToMaterialNames[origMatType], 
+            typeof(Material)) as Material;
 		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();
 
 		refPos = transform.position;
@@ -29,12 +31,12 @@ public class InitPosBeh : MonoBehaviour {
 	}
 	void OnMouseEnter()
 	{
-		Material selectedMat = Resources.Load("Materials/"+origMatName+"_Sel", typeof(Material)) as Material;
+		Material selectedMat = Resources.Load("Materials/" + ObjectTypes.boxTypesToSelMaterialNames[origMatType], typeof(Material)) as Material;
 		gameObject.GetComponent<Renderer>().material = selectedMat;
 	}
 	void OnMouseExit()
 	{
-		Material origMat = Resources.Load("Materials/"+origMatName, typeof(Material)) as Material;
+		Material origMat = Resources.Load("Materials/"+ ObjectTypes.boxTypesToMaterialNames[origMatType], typeof(Material)) as Material;
 		gameObject.GetComponent<Renderer>().material = origMat;
 	}
 	void OnMouseUp()
@@ -61,7 +63,7 @@ public class InitPosBeh : MonoBehaviour {
 					editorUI.bHolder.list [xInd] [zInd].Add (boxEntry); 
 				
 				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0.5f);
-				mapPlacements.placeCell (curTypeToName, xInd, yInd+1, zInd, 1.01f, refPos).transform.parent = box.transform;
+				mapPlacements.placeCell (curType, xInd, yInd+1, zInd, 1.01f, refPos).transform.parent = box.transform;
 			}
 		}
 

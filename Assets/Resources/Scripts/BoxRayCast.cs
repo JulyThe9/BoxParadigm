@@ -66,7 +66,7 @@ public class BoxRayCast : MonoBehaviour {
 						Destroy (hit.transform.gameObject);
 
 						GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
-						mapPlacements.placeCell (curTypeToName, xInd, yInd, zInd, 0.51f, refPos).transform.parent = box.transform;
+						mapPlacements.placeCell (curType, xInd, yInd, zInd, 0.51f, refPos).transform.parent = box.transform;
 					}
 				}
 				

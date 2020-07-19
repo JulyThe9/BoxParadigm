@@ -30,4 +30,22 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Mirror, "Mirror_Slot" }
     };
 
+    static public Dictionary<BoxTypes, string> boxTypesToMaterialNames = new Dictionary<BoxTypes, string>
+    {
+        { BoxTypes.Undetermined, "InitCell" },
+        { BoxTypes.Wood, "Wood_Box" },
+        { BoxTypes.Stone, "Stone_Box" },
+        { BoxTypes.Turret, "Turret_Box" },
+        { BoxTypes.Mirror, "Mirror_Box" }
+    };
+
+    static public Dictionary<BoxTypes, string> boxTypesToSelMaterialNames = new Dictionary<BoxTypes, string>
+    {
+        { BoxTypes.Undetermined, "InitCell_Sel" },
+        { BoxTypes.Wood, "Wood_Box_Sel" },
+        { BoxTypes.Stone, "Stone_Box_Sel" },
+        { BoxTypes.Turret, "Turret_Box_Sel" },
+        { BoxTypes.Mirror, "Mirror_Box_Sel" }
+    };
+
 }
