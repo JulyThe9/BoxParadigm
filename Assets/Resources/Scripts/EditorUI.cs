@@ -15,7 +15,15 @@ public class EditorUI : MonoBehaviour
 
     private bool gridGenerated = false;
 
-	public void createGrid() {
+    private GameObject player = null;
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    public void createGrid()
+    {
 		InputField LBox = GameObject.Find ("LBox").GetComponent<InputField>();
 		InputField WBox = GameObject.Find ("WBox").GetComponent<InputField>();
 		float length = float.Parse(LBox.text);
@@ -37,16 +45,16 @@ public class EditorUI : MonoBehaviour
 		if (floor == null)
         {
 			floor = Instantiate (Resources.Load (surfNamePar)) as GameObject;
-			Vector3 refPos = GameObject.FindGameObjectWithTag ("Player").transform.position;
+			Vector3 refPos = player.transform.position;
 			floor.transform.position = new Vector3 (refPos.x - 2.39f, refPos.y - 4.7f, refPos.z + 4f); 
 			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
-			GameObject.FindGameObjectWithTag ("Player").AddComponent<CharCtrl>();
+            player.AddComponent<CharCtrl>();
 		} 
 		else
         {
 			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
 		}
-		CharCtrl charController = GameObject.FindWithTag ("Player").GetComponent<CharCtrl>();
+		CharCtrl charController = player.GetComponent<CharCtrl>();
 		charController.speed =  (length + width)/2f * 0.25f * 7f;   //ideally make speed a setting for a user 
 		Debug.Log (charController.speed); 
 		return floor;
@@ -103,14 +111,14 @@ public class EditorUI : MonoBehaviour
 
 	public void preAction(GameObject panel)
     {
-		GameObject.FindGameObjectWithTag ("Player").GetComponent<CharCtrl>().enabled = false;
+        player.GetComponent<CharCtrl>().enabled = false;
 		panel.SetActive (true);
 	}
 
 	public void cancelAction(GameObject panel)
     {
-		GameObject.FindGameObjectWithTag ("Player").GetComponent<CharCtrl>().enabled = true;
-		panel.SetActive (false);
+        player.GetComponent<CharCtrl>().enabled = true;
+        panel.SetActive (false);
 	}
 
     public bool GetGridGenerated()
