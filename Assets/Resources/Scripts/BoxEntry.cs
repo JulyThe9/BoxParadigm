@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoxEntry {
 
-	public string name;
+	public ObjectTypes.BoxTypes type;
 	private float _xRot = 0f;
 	private float _yRot = 0f;
 
@@ -31,8 +31,8 @@ public class BoxEntry {
 	public int yInd;
 	public int zInd;
 
-	public BoxEntry(string namePar, string captionPar, int xIndPar, int yIndPar, int zIndPar){
-		name = namePar;
+	public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar){
+		type = typePar;
 		caption = captionPar;
 		xInd = xIndPar;
 		yInd = yIndPar;

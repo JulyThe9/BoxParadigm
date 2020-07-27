@@ -51,10 +51,7 @@ public class InitPosBeh : MonoBehaviour {
             {
 
                 // TODO: caption parameter to be implemented
-
-                string curTypeToName = ObjectTypes.boxTypesToNames[curType];
-
-				BoxEntry boxEntry = new BoxEntry (curTypeToName, "", xInd, yInd + 1, zInd);
+				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd);
 				if (yInd + 1 < editorUI.bHolder.list [xInd] [zInd].Count)
                 {
 					editorUI.bHolder.list [xInd] [zInd] [yInd + 1] = boxEntry;

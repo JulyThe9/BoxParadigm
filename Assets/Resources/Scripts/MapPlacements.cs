@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class MapPlacements /*: MonoBehaviour*/{
 
-	private BoxPicking boxPicking;
+	private BoxPicking boxPicking; // TODO: needed?
 
 	public MapPlacements(){}
 
     //make pos dep on indices
     public GameObject placeBox(BoxEntry boxEntry, float xPos, float yPos, float zPos, float yMargin)
     {
-
-		GameObject box = GameObject.Instantiate (Resources.Load (boxEntry.name)) as GameObject;
+        string boxName = ObjectTypes.boxTypesToNames[boxEntry.type];
+        GameObject box = GameObject.Instantiate (Resources.Load (boxName)) as GameObject;
 		box.transform.position = new Vector3 (xPos, yPos + yMargin, zPos);       //0.5f for yMargin
 		box.transform.Rotate(boxEntry.xRot, boxEntry.yRot, 0f);
 
@@ -21,8 +21,8 @@ public class MapPlacements /*: MonoBehaviour*/{
         boxData.yInd = boxEntry.yInd;
         boxData.zInd = boxEntry.zInd;
 
-        box.name = boxEntry.name;
-		box.tag = "Box";
+        box.name = boxName;
+        box.tag = "Box";
 		return box;
 	}
 

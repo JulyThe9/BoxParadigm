@@ -22,17 +22,21 @@ public class EditorUI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    public void parseAndCreateGrid()
+    {
+        InputField LBox = GameObject.Find("LBox").GetComponent<InputField>();
+        InputField WBox = GameObject.Find("WBox").GetComponent<InputField>();
+        bHolder.length = int.Parse(LBox.text);
+        bHolder.width = int.Parse(WBox.text);
+        createGrid();
+    }
+
     public void createGrid()
     {
-		InputField LBox = GameObject.Find ("LBox").GetComponent<InputField>();
-		InputField WBox = GameObject.Find ("WBox").GetComponent<InputField>();
-		float length = float.Parse(LBox.text);
-		float width = float.Parse(WBox.text);
+        floor = setUpPlane (bHolder.length, bHolder.width, "Floor");
+		setUpCells (bHolder.length, bHolder.width, floor);
 
-		floor = setUpPlane (length, width, "Floor");
-		setUpCells (length, width, floor);
-
-		fillList((int) length, (int) width);
+		fillList(bHolder.length, bHolder.width);
 		Debug.Log (bHolder.list.Count);
 		Debug.Log (bHolder.list[0].Count);
 		Debug.Log (bHolder.list[0][0].Count);
@@ -109,6 +113,36 @@ public class EditorUI : MonoBehaviour
 		stream.Close ();
 	}
 
+    public void loadMap()
+    {
+        if (bHolder.list.Count != 0)
+        {
+            // TODO: warn the user, prompt for a decision
+            // TODO: remove all created game objects
+        }
+        // TODO: path hardcoded, ask the user
+        XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
+        FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
+        bHolder = serializer.Deserialize(stream) as BoxHolder;
+        stream.Close();
+
+        createGrid();
+        foreach (List<List<BoxEntry>> column in bHolder.list) // x
+        {
+            foreach (List<BoxEntry> pillar in column) // z
+            {
+                foreach (BoxEntry boxEntry in pillar) // y
+                {
+                    //BoxEntry boxEntry = new BoxEntry(curTypeToName, "", xInd, yInd + 1, zInd);
+                    MapPlacements mapPlacements = new MapPlacements();
+                    // START FROM HERE NEXT TIME!
+                    //GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.x, refPos.y, refPos.z, 0.5f);
+                    //mapPlacements.placeCell(boxEntry.type, xInd, yInd + 1, zInd, 1.01f, refPos).transform.parent = box.transform;
+                }
+            }
+        }
+    }
+
 	public void preAction(GameObject panel)
     {
         player.GetComponent<CharCtrl>().enabled = false;
@@ -142,6 +176,8 @@ public class EditorUI : MonoBehaviour
 
 public class BoxHolder
 {
+    public int length = 0;
+    public int width = 0;
 	public List<List<List<BoxEntry>>> list = new List<List<List<BoxEntry>>>();
 }
 

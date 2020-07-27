@@ -58,9 +58,8 @@ public class BoxRayCast : MonoBehaviour {
 					if (Input.GetMouseButtonDown (0))
                     {
 						Vector3 refPos = hit.transform.position;
-                        string curTypeToName = ObjectTypes.boxTypesToNames[curType];
 
-						BoxEntry boxEntry = new BoxEntry (curTypeToName, "", xInd, yInd, zInd);
+						BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd, zInd);
 						editorUI.bHolder.list[xInd][zInd][yInd] = boxEntry;
 
 						Destroy (hit.transform.gameObject);
