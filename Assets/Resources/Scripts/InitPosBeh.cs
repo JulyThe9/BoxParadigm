@@ -60,7 +60,8 @@ public class InitPosBeh : MonoBehaviour {
 					editorUI.bHolder.list [xInd] [zInd].Add (boxEntry); 
 				
 				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0.5f);
-				mapPlacements.placeCell (curType, xInd, yInd+1, zInd, 1.01f, refPos).transform.parent = box.transform;
+                boxEntry.SetBoxGameObj(box);
+                mapPlacements.placeCell (curType, xInd, yInd+1, zInd, 1.01f, refPos).transform.parent = box.transform;
 			}
 		}
 

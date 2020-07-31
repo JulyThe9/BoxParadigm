@@ -31,7 +31,10 @@ public class BoxEntry {
 	public int yInd;
 	public int zInd;
 
-	public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar){
+    private GameObject boxGameObj;
+
+	public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar)
+    {
 		type = typePar;
 		caption = captionPar;
 		xInd = xIndPar;
@@ -45,4 +48,14 @@ public class BoxEntry {
 		if (xRot % 90f != 0 || yRot % 90f != 0) return false;
 		return true;
 	}
+
+    public GameObject GetBoxGameObj()
+    {
+        return boxGameObj;
+    }
+
+    public void SetBoxGameObj(GameObject boxGameObjPar)
+    {
+        boxGameObj = boxGameObjPar;
+    }
 }

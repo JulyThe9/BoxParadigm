@@ -20,6 +20,7 @@ public class EditorUI : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        player.AddComponent<CharCtrl>();
     }
 
     public void parseAndCreateGrid()
@@ -37,11 +38,12 @@ public class EditorUI : MonoBehaviour
 		setUpCells (bHolder.length, bHolder.width, floor);
 
 		fillList(bHolder.length, bHolder.width);
-		Debug.Log (bHolder.list.Count);
-		Debug.Log (bHolder.list[0].Count);
-		Debug.Log (bHolder.list[0][0].Count);
 
         gridGenerated = true;
+
+        Debug.Log (bHolder.list.Count);
+		Debug.Log (bHolder.list[0].Count);
+		Debug.Log (bHolder.list[0][0].Count);
     }
 
 	public GameObject setUpPlane(float length, float width, string surfNamePar)
@@ -52,15 +54,15 @@ public class EditorUI : MonoBehaviour
 			Vector3 refPos = player.transform.position;
 			floor.transform.position = new Vector3 (refPos.x - 2.39f, refPos.y - 4.7f, refPos.z + 4f); 
 			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
-            player.AddComponent<CharCtrl>();
 		} 
 		else
         {
-			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
+            // TODO: resizes, but boxes remain, prompt / clear
+            floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
 		}
-		CharCtrl charController = player.GetComponent<CharCtrl>();
-		charController.speed =  (length + width)/2f * 0.25f * 7f;   //ideally make speed a setting for a user 
-		Debug.Log (charController.speed); 
+        float speed = (length + width) / 2f * 0.25f * 7f;
+        player.GetComponent<CharCtrl>().speed = speed;   //ideally make speed a setting for a user 
+		Debug.Log (speed); 
 		return floor;
 	}
 
@@ -80,7 +82,8 @@ public class EditorUI : MonoBehaviour
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < width; j++) {
 				GameObject cell = Instantiate (Resources.Load ("InitCell")) as GameObject;
-				cell.transform.position = new Vector3 (orix, floor.transform.position.y + 0.01f, oriz);
+                cell.transform.parent = floor.transform;
+                cell.transform.position = new Vector3 (orix, floor.transform.position.y + 0.01f, oriz);
 				oriz += 2f;
 				cell.tag = "Cell";
 
@@ -118,7 +121,7 @@ public class EditorUI : MonoBehaviour
         if (bHolder.list.Count != 0)
         {
             // TODO: warn the user, prompt for a decision
-            // TODO: remove all created game objects
+            clearUserCreatedObjects();
         }
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
@@ -141,6 +144,27 @@ public class EditorUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void clearUserCreatedObjects()
+    {
+        // removing the all boxes
+        foreach (List<List<BoxEntry>> column in bHolder.list)
+        {
+            foreach (List<BoxEntry> pillar in column)
+            {
+                foreach (BoxEntry boxEntry in pillar) 
+                {
+                    if (boxEntry != null)
+                    {
+                        Destroy(boxEntry.GetBoxGameObj());
+                    }
+                }
+            }
+        }
+
+        Destroy(floor);
+        floor = null;
     }
 
 	public void preAction(GameObject panel)
@@ -171,7 +195,6 @@ public class EditorUI : MonoBehaviour
             }
         }
     }
-
 }
 
 public class BoxHolder
