@@ -28,15 +28,15 @@ public class BoxRayCast : MonoBehaviour {
                 int xInd = boxData.xInd;
                 int yInd = boxData.yInd;
                 int zInd = boxData.zInd;
+                List<BoxEntry> boxEntryColumn = editorUI.bHolder.list[xInd][zInd];
 
-                if (hit.transform.gameObject.name.Equals (ObjectTypes.boxTypesToNames[curType])) // TODO: simplify
+                if (boxEntryColumn[yInd].type == curType)
                 {
 					if (Input.GetMouseButtonDown (0))
                     {
 						Debug.Log ("HIT!");
                         hit.transform.Rotate (0f, 90f, 0f);
-						editorUI.bHolder.list [xInd] [zInd] [yInd].yRot += 90f;
-
+                        boxEntryColumn[yInd].yRot += 90f;
 					}
 				}
                 else if (curType == ObjectTypes.BoxTypes.Undetermined)
@@ -44,14 +44,14 @@ public class BoxRayCast : MonoBehaviour {
 					if (Input.GetMouseButtonDown (0))
                     {
 						Destroy (hit.transform.gameObject);					
-						int listSize = editorUI.bHolder.list[xInd][zInd].Count;
-                        if (yInd >= listSize - 1)
+						int columnSize = boxEntryColumn.Count;
+                        if (yInd >= columnSize - 1)
                         {
-                            editorUI.bHolder.list[xInd][zInd].RemoveAt(listSize - 1);
+                            boxEntryColumn.RemoveAt(columnSize - 1);
                         }
                         else
                         {
-                            editorUI.bHolder.list[xInd][zInd][yInd].type = ObjectTypes.BoxTypes.Undetermined;
+                            boxEntryColumn[yInd].type = ObjectTypes.BoxTypes.Undetermined;
                         }
 					}
 				}
@@ -62,7 +62,7 @@ public class BoxRayCast : MonoBehaviour {
 						Vector3 refPos = hit.transform.position;
 
 						BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd, zInd, refPos.x, refPos.y, refPos.z);
-						editorUI.bHolder.list[xInd][zInd][yInd] = boxEntry;
+                        boxEntryColumn[yInd] = boxEntry;
 
 						Destroy (hit.transform.gameObject);
 
