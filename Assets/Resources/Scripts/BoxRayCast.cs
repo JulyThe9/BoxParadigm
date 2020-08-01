@@ -43,14 +43,16 @@ public class BoxRayCast : MonoBehaviour {
                 {
 					if (Input.GetMouseButtonDown (0))
                     {
-						Destroy (hit.transform.gameObject);
-						
+						Destroy (hit.transform.gameObject);					
 						int listSize = editorUI.bHolder.list[xInd][zInd].Count;
-						if (yInd >= listSize-1)
+                        if (yInd >= listSize - 1)
                         {
-							editorUI.bHolder.list[xInd][zInd].RemoveAt (listSize - 1);
-						}
-						else editorUI.bHolder.list[xInd][zInd][yInd] = null;
+                            editorUI.bHolder.list[xInd][zInd].RemoveAt(listSize - 1);
+                        }
+                        else
+                        {
+                            editorUI.bHolder.list[xInd][zInd][yInd].type = ObjectTypes.BoxTypes.Undetermined;
+                        }
 					}
 				}
 				else

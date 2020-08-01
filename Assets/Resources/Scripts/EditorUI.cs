@@ -137,7 +137,7 @@ public class EditorUI : MonoBehaviour
             {
                 foreach (BoxEntry boxEntry in pillar) // y
                 {
-                    if (boxEntry != null) // TODO: proper solution with ghost-box (think design)
+                    if (boxEntry.type != ObjectTypes.BoxTypes.Undetermined)
                     {
                         MapPlacements mapPlacements = new MapPlacements();
                         GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0.5f); // TODO: unify margins
