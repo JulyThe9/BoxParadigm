@@ -59,7 +59,7 @@ public class BoxRayCast : MonoBehaviour {
                     {
 						Vector3 refPos = hit.transform.position;
 
-						BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd, zInd);
+						BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd, zInd, refPos.x, refPos.y, refPos.z);
 						editorUI.bHolder.list[xInd][zInd][yInd] = boxEntry;
 
 						Destroy (hit.transform.gameObject);

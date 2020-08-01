@@ -51,9 +51,10 @@ public class EditorUI : MonoBehaviour
 		if (floor == null)
         {
 			floor = Instantiate (Resources.Load (surfNamePar)) as GameObject;
-			Vector3 refPos = player.transform.position;
-			floor.transform.position = new Vector3 (refPos.x - 2.39f, refPos.y - 4.7f, refPos.z + 4f); 
-			floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
+			//Vector3 refPos = player.transform.position;
+			//floor.transform.position = new Vector3 (refPos.x - 2.39f, refPos.y - 4.7f, refPos.z + 4f);
+            floor.transform.position = new Vector3(0f, 0f, 0f);
+            floor.transform.localScale = new Vector3 (length * 0.25f, 1f, width * 0.25f);
 		} 
 		else
         {
@@ -137,10 +138,10 @@ public class EditorUI : MonoBehaviour
                 foreach (BoxEntry boxEntry in pillar) // y
                 {
                     //BoxEntry boxEntry = new BoxEntry(curTypeToName, "", xInd, yInd + 1, zInd);
-                    MapPlacements mapPlacements = new MapPlacements();
-                    // START FROM HERE NEXT TIME!
-                    //GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.x, refPos.y, refPos.z, 0.5f);
-                    //mapPlacements.placeCell(boxEntry.type, xInd, yInd + 1, zInd, 1.01f, refPos).transform.parent = box.transform;
+                   // MapPlacements mapPlacements = new MapPlacements();
+                   // GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0.5f); // TODO: unify margins
+                  //  boxEntry.SetBoxGameObj(box);
+                  //  mapPlacements.placeCell(boxEntry.type, boxEntry.xInd, boxEntry.yInd, boxEntry.zInd, 0.51f, box.transform.position).transform.parent = box.transform;
                 }
             }
         }

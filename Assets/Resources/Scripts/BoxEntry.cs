@@ -31,16 +31,24 @@ public class BoxEntry {
 	public int yInd;
 	public int zInd;
 
+    public float xPos;
+    public float yPos;
+    public float zPos;
+
     private GameObject boxGameObj;
 
-	public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar)
+	public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar,
+        float xPosPar, float yPosPar, float zPosPar)
     {
 		type = typePar;
 		caption = captionPar;
 		xInd = xIndPar;
 		yInd = yIndPar;
 		zInd = zIndPar;
-	}
+        xPos = xPosPar;
+        yPos = yPosPar;
+        zPos = zPosPar;
+    }
 
 	private BoxEntry(){}
 
