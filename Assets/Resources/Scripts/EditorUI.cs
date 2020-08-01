@@ -137,11 +137,14 @@ public class EditorUI : MonoBehaviour
             {
                 foreach (BoxEntry boxEntry in pillar) // y
                 {
-                    //BoxEntry boxEntry = new BoxEntry(curTypeToName, "", xInd, yInd + 1, zInd);
-                   // MapPlacements mapPlacements = new MapPlacements();
-                   // GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0.5f); // TODO: unify margins
-                  //  boxEntry.SetBoxGameObj(box);
-                  //  mapPlacements.placeCell(boxEntry.type, boxEntry.xInd, boxEntry.yInd, boxEntry.zInd, 0.51f, box.transform.position).transform.parent = box.transform;
+                    if (boxEntry != null) // TODO: proper solution with ghost-box (think design)
+                    {
+                        MapPlacements mapPlacements = new MapPlacements();
+                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0.5f); // TODO: unify margins
+                        boxEntry.SetBoxGameObj(box);
+                        mapPlacements.placeCell(boxEntry.type, boxEntry.xInd, boxEntry.yInd, boxEntry.zInd, 0.51f, box.transform.position).transform.parent
+                            = box.transform;
+                    }
                 }
             }
         }
