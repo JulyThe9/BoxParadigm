@@ -37,7 +37,8 @@ public class BoxEntry {
 
     private GameObject boxGameObj;
 
-	public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar,
+    // TODO: caption parameter to be implemented
+    public BoxEntry(ObjectTypes.BoxTypes typePar, string captionPar, int xIndPar, int yIndPar, int zIndPar,
         float xPosPar, float yPosPar, float zPosPar)
     {
 		type = typePar;
