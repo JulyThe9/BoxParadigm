@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class MenuBehaviour : MonoBehaviour {
 
-	public void newGame(){
-	}
+	public void newGame()
+    {
+        SceneManager.LoadScene("PlayLevels");
+    }
 
-	public void mapEditor(){
-		SceneManager.LoadScene(1);
+	public void mapEditor()
+    {
+		SceneManager.LoadScene("MapEditor");
 	}
 
 	public void settings(){
@@ -21,12 +24,14 @@ public class MenuBehaviour : MonoBehaviour {
 		Application.Quit();
 	}
 
-	public void mark(string objName){
+	public void mark(string objName)
+    {
 		Text value = GameObject.Find(objName).GetComponent<Text>();
 		value.alignment = TextAnchor.UpperCenter;
 	}
 
-	public void unmark(string objName){
+	public void unmark(string objName)
+    {
 		Text value = GameObject.Find(objName).GetComponent<Text>();
 		value.alignment = TextAnchor.MiddleCenter;
 	}
