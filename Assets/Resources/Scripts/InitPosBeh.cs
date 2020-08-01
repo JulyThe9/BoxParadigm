@@ -49,17 +49,18 @@ public class InitPosBeh : MonoBehaviour {
 			ObjectTypes.BoxTypes curType = boxPicking.selBoxType;
 			if (curType != ObjectTypes.BoxTypes.Undetermined)
             {
-
-                // TODO: caption parameter to be implemented
-				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd, refPos.x, refPos.y, refPos.z);
-				if (yInd + 1 < editorUI.bHolder.list [xInd] [zInd].Count)
+                float halfMargin = 0.5f;
+				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd, refPos.x, refPos.y + halfMargin, refPos.z);
+                if (yInd + 1 < editorUI.bHolder.list[xInd][zInd].Count)
                 {
-					editorUI.bHolder.list [xInd] [zInd] [yInd + 1] = boxEntry;
-				}
-				else 
-					editorUI.bHolder.list [xInd] [zInd].Add (boxEntry); 
+                    editorUI.bHolder.list[xInd][zInd][yInd + 1] = boxEntry;
+                }
+                else
+                {
+                    editorUI.bHolder.list[xInd][zInd].Add(boxEntry);
+                }
 				
-				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0.5f);
+				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, halfMargin);
                 boxEntry.SetBoxGameObj(box);
                 mapPlacements.placeCell (curType, xInd, yInd+1, zInd, 1.01f, refPos).transform.parent = box.transform;
 			}

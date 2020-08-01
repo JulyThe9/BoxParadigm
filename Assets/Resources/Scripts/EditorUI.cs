@@ -140,7 +140,7 @@ public class EditorUI : MonoBehaviour
                     if (boxEntry.type != ObjectTypes.BoxTypes.Undetermined)
                     {
                         MapPlacements mapPlacements = new MapPlacements();
-                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0.5f); // TODO: unify margins
+                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f); // TODO: unify margins
                         boxEntry.SetBoxGameObj(box);
                         mapPlacements.placeCell(boxEntry.type, boxEntry.xInd, boxEntry.yInd, boxEntry.zInd, 0.51f, box.transform.position).transform.parent
                             = box.transform;
