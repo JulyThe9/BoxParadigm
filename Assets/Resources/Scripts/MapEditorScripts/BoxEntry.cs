@@ -53,11 +53,6 @@ public class BoxEntry {
 
 	private BoxEntry(){}
 
-	public bool validate(){
-		if (xRot % 90f != 0 || yRot % 90f != 0) return false;
-		return true;
-	}
-
     public GameObject GetBoxGameObj()
     {
         return boxGameObj;
