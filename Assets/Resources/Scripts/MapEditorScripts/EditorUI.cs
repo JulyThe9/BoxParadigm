@@ -30,12 +30,15 @@ public class EditorUI : MonoBehaviour
         createGrid();
     }
 
-    public void createGrid()
+    public void createGrid(bool fillBoxList = true)
     {
         floor = setUpPlane (BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width, "Floor");
 		setUpCells (BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width, floor);
 
-		fillList(BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width);
+        if (fillBoxList)
+        {
+            fillList(BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width);
+        }
 
         gridGenerated = true;
 
@@ -128,7 +131,8 @@ public class EditorUI : MonoBehaviour
         BoxHolderWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 
-        createGrid();
+        createGrid(false);
+
         foreach (List<List<BoxEntry>> column in BoxHolderWrapper.bHolder.list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
