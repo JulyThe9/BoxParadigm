@@ -10,8 +10,6 @@ public class EditorUI : MonoBehaviour
 {
     public GameObject floor;
     public bool buildingEnabled;
-    
-	public BoxHolder bHolder = new BoxHolder();
 
     private bool gridGenerated = false;
 
@@ -27,23 +25,23 @@ public class EditorUI : MonoBehaviour
     {
         InputField LBox = GameObject.Find("LBox").GetComponent<InputField>();
         InputField WBox = GameObject.Find("WBox").GetComponent<InputField>();
-        bHolder.length = int.Parse(LBox.text);
-        bHolder.width = int.Parse(WBox.text);
+        BoxHolderWrapper.bHolder.length = int.Parse(LBox.text);
+        BoxHolderWrapper.bHolder.width = int.Parse(WBox.text);
         createGrid();
     }
 
     public void createGrid()
     {
-        floor = setUpPlane (bHolder.length, bHolder.width, "Floor");
-		setUpCells (bHolder.length, bHolder.width, floor);
+        floor = setUpPlane (BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width, "Floor");
+		setUpCells (BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width, floor);
 
-		fillList(bHolder.length, bHolder.width);
+		fillList(BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width);
 
         gridGenerated = true;
 
-        Debug.Log (bHolder.list.Count);
-		Debug.Log (bHolder.list[0].Count);
-		Debug.Log (bHolder.list[0][0].Count);
+        Debug.Log (BoxHolderWrapper.bHolder.list.Count);
+		Debug.Log (BoxHolderWrapper.bHolder.list[0].Count);
+		Debug.Log (BoxHolderWrapper.bHolder.list[0][0].Count);
     }
 
 	public GameObject setUpPlane(float length, float width, string surfNamePar)
@@ -113,13 +111,13 @@ public class EditorUI : MonoBehaviour
     {
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
 		FileStream stream = new FileStream (Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Create);
-		serializer.Serialize (stream, bHolder);
+		serializer.Serialize (stream, BoxHolderWrapper.bHolder);
 		stream.Close ();
 	}
 
     public void loadMap()
     {
-        if (bHolder.list.Count != 0)
+        if (BoxHolderWrapper.bHolder.list.Count != 0)
         {
             // TODO: warn the user, prompt for a decision
             clearUserCreatedObjects();
@@ -127,11 +125,11 @@ public class EditorUI : MonoBehaviour
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
-        bHolder = serializer.Deserialize(stream) as BoxHolder;
+        BoxHolderWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 
         createGrid();
-        foreach (List<List<BoxEntry>> column in bHolder.list) // x
+        foreach (List<List<BoxEntry>> column in BoxHolderWrapper.bHolder.list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
@@ -153,7 +151,7 @@ public class EditorUI : MonoBehaviour
     private void clearUserCreatedObjects()
     {
         // removing the all boxes
-        foreach (List<List<BoxEntry>> column in bHolder.list)
+        foreach (List<List<BoxEntry>> column in BoxHolderWrapper.bHolder.list)
         {
             foreach (List<BoxEntry> pillar in column)
             {
@@ -192,19 +190,12 @@ public class EditorUI : MonoBehaviour
     {
         for (int i = 0; i < length; i++)
         {
-            bHolder.list.Add(new List<List<BoxEntry>>());
+            BoxHolderWrapper.bHolder.list.Add(new List<List<BoxEntry>>());
             for (int j = 0; j < width; j++)
             {
-                bHolder.list[i].Add(new List<BoxEntry>());
+                BoxHolderWrapper.bHolder.list[i].Add(new List<BoxEntry>());
             }
         }
     }
-}
-
-public class BoxHolder
-{
-    public int length = 0;
-    public int width = 0;
-	public List<List<List<BoxEntry>>> list = new List<List<List<BoxEntry>>>();
 }
 

@@ -51,13 +51,13 @@ public class InitPosBeh : MonoBehaviour {
             {
                 float halfMargin = 0.5f;
 				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd, refPos.x, refPos.y + halfMargin, refPos.z);
-                if (yInd + 1 < editorUI.bHolder.list[xInd][zInd].Count)
+                if (yInd + 1 < BoxHolderWrapper.bHolder.list[xInd][zInd].Count)
                 {
-                    editorUI.bHolder.list[xInd][zInd][yInd + 1] = boxEntry;
+                    BoxHolderWrapper.bHolder.list[xInd][zInd][yInd + 1] = boxEntry;
                 }
                 else
                 {
-                    editorUI.bHolder.list[xInd][zInd].Add(boxEntry);
+                    BoxHolderWrapper.bHolder.list[xInd][zInd].Add(boxEntry);
                 }
 				
 				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, halfMargin);
