@@ -68,7 +68,8 @@ public class BoxRayCast : MonoBehaviour {
 
 						GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
                         boxEntry.SetBoxGameObj(box);
-                        mapPlacements.placeCell (curType, xInd, yInd, zInd, 0.51f, refPos).transform.parent = box.transform;
+                        mapPlacements.placeCell (curType, xInd, yInd, zInd, 
+                            GlobalDimensions.halfMargin_ + GlobalDimensions.minDifDistance_, refPos).transform.parent = box.transform;
 					}
 				}
 				
