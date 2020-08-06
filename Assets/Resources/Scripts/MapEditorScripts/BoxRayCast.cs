@@ -28,7 +28,7 @@ public class BoxRayCast : MonoBehaviour {
                 int xInd = boxData.xInd;
                 int yInd = boxData.yInd;
                 int zInd = boxData.zInd;
-                List<BoxEntry> boxEntryColumn = BoxHolderWrapper.bHolder.list[xInd][zInd];
+                List<BoxEntry> boxEntryColumn = BHWrapper.bHolder.list[xInd][zInd];
 
                 if (boxEntryColumn[yInd].type == curType)
                 {

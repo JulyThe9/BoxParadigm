@@ -6,19 +6,23 @@ using System.IO;
 
 public class LevelLoader : MonoBehaviour
 {
+
+    private GameObject player = null;
+
     void Start()
     {
         loadMap();
+        loadPlayer();
     }
 
     private void loadMap()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
-        BoxHolderWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
+        BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 
-        foreach (List<List<BoxEntry>> column in BoxHolderWrapper.bHolder.list) // x
+        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
@@ -28,10 +32,46 @@ public class LevelLoader : MonoBehaviour
                     {
                         MapPlacements mapPlacements = new MapPlacements();
                         GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f);
+                        box.layer = LayerMask.NameToLayer("Ground");
                         boxEntry.SetBoxGameObj(box);
                     }
                 }
             }
         }
+    }
+
+    private void loadPlayer()
+    {
+        if (!BHWrapper.bHolder.startGiven)
+        {
+            findHighestBox();
+        }
+        GameObject startBox =
+            BHWrapper.bHolder.list[BHWrapper.bHolder.startXInd][BHWrapper.bHolder.startZInd][BHWrapper.bHolder.startYInd].GetBoxGameObj();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = new Vector3(startBox.transform.position.x, 
+            startBox.transform.position.y + GlobalDimensions.margin_ + GlobalDimensions.minDifDistance_, startBox.transform.position.z);
+    }
+    private void findHighestBox()
+    {
+        int xInd = 0;
+        int zInd = 0;
+        int maxPillarHeight = 0;
+        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list) // x
+        {
+            foreach (List<BoxEntry> pillar in column) // z
+            {
+                if (pillar.Count > maxPillarHeight)
+                {
+                    maxPillarHeight = pillar.Count;
+                    xInd = pillar[0].xInd;
+                    zInd = pillar[0].zInd;
+                }
+            }
+        }
+        BHWrapper.bHolder.startXInd = xInd;
+        BHWrapper.bHolder.startZInd = zInd;
+        BHWrapper.bHolder.startYInd = maxPillarHeight - 1;
     }
 }

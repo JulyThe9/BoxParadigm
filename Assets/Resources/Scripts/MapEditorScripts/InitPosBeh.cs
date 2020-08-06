@@ -50,13 +50,13 @@ public class InitPosBeh : MonoBehaviour {
 			if (curType != ObjectTypes.BoxTypes.Undetermined)
             {
 				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd, refPos.x, refPos.y + GlobalDimensions.halfMargin_, refPos.z);
-                if (yInd + 1 < BoxHolderWrapper.bHolder.list[xInd][zInd].Count)
+                if (yInd + 1 < BHWrapper.bHolder.list[xInd][zInd].Count)
                 {
-                    BoxHolderWrapper.bHolder.list[xInd][zInd][yInd + 1] = boxEntry;
+                    BHWrapper.bHolder.list[xInd][zInd][yInd + 1] = boxEntry;
                 }
                 else
                 {
-                    BoxHolderWrapper.bHolder.list[xInd][zInd].Add(boxEntry);
+                    BHWrapper.bHolder.list[xInd][zInd].Add(boxEntry);
                 }
 				
 				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, GlobalDimensions.halfMargin_);

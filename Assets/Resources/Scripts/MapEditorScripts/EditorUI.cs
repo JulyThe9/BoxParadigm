@@ -25,26 +25,26 @@ public class EditorUI : MonoBehaviour
     {
         InputField LBox = GameObject.Find("LBox").GetComponent<InputField>();
         InputField WBox = GameObject.Find("WBox").GetComponent<InputField>();
-        BoxHolderWrapper.bHolder.length = int.Parse(LBox.text);
-        BoxHolderWrapper.bHolder.width = int.Parse(WBox.text);
+        BHWrapper.bHolder.length = int.Parse(LBox.text);
+        BHWrapper.bHolder.width = int.Parse(WBox.text);
         createGrid();
     }
 
     public void createGrid(bool fillBoxList = true)
     {
-        floor = setUpPlane (BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width, "Floor");
-		setUpCells (BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width, floor);
+        floor = setUpPlane (BHWrapper.bHolder.length, BHWrapper.bHolder.width, "Floor");
+		setUpCells (BHWrapper.bHolder.length, BHWrapper.bHolder.width, floor);
 
         if (fillBoxList)
         {
-            fillList(BoxHolderWrapper.bHolder.length, BoxHolderWrapper.bHolder.width);
+            fillList(BHWrapper.bHolder.length, BHWrapper.bHolder.width);
         }
 
         gridGenerated = true;
 
-        Debug.Log (BoxHolderWrapper.bHolder.list.Count);
-		Debug.Log (BoxHolderWrapper.bHolder.list[0].Count);
-		Debug.Log (BoxHolderWrapper.bHolder.list[0][0].Count);
+        Debug.Log (BHWrapper.bHolder.list.Count);
+		Debug.Log (BHWrapper.bHolder.list[0].Count);
+		Debug.Log (BHWrapper.bHolder.list[0][0].Count);
     }
 
 	public GameObject setUpPlane(float length, float width, string surfNamePar)
@@ -114,13 +114,13 @@ public class EditorUI : MonoBehaviour
     {
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
 		FileStream stream = new FileStream (Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Create);
-		serializer.Serialize (stream, BoxHolderWrapper.bHolder);
+		serializer.Serialize (stream, BHWrapper.bHolder);
 		stream.Close ();
 	}
 
     public void loadMap()
     {
-        if (BoxHolderWrapper.bHolder.list.Count != 0)
+        if (BHWrapper.bHolder.list.Count != 0)
         {
             // TODO: warn the user, prompt for a decision
             clearUserCreatedObjects();
@@ -128,12 +128,12 @@ public class EditorUI : MonoBehaviour
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
-        BoxHolderWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
+        BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 
         createGrid(false);
 
-        foreach (List<List<BoxEntry>> column in BoxHolderWrapper.bHolder.list) // x
+        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
@@ -155,7 +155,7 @@ public class EditorUI : MonoBehaviour
     private void clearUserCreatedObjects()
     {
         // removing the all boxes
-        foreach (List<List<BoxEntry>> column in BoxHolderWrapper.bHolder.list)
+        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list)
         {
             foreach (List<BoxEntry> pillar in column)
             {
@@ -185,6 +185,12 @@ public class EditorUI : MonoBehaviour
         panel.SetActive (false);
 	}
 
+    public void setStartBox() // to be invoked when marking start box is set/pressed
+    {
+        // TODO: implement
+        BHWrapper.bHolder.startGiven = true;
+    }
+
     public bool GetGridGenerated()
     {
         return gridGenerated;
@@ -194,10 +200,10 @@ public class EditorUI : MonoBehaviour
     {
         for (int i = 0; i < length; i++)
         {
-            BoxHolderWrapper.bHolder.list.Add(new List<List<BoxEntry>>());
+            BHWrapper.bHolder.list.Add(new List<List<BoxEntry>>());
             for (int j = 0; j < width; j++)
             {
-                BoxHolderWrapper.bHolder.list[i].Add(new List<BoxEntry>());
+                BHWrapper.bHolder.list[i].Add(new List<BoxEntry>());
             }
         }
     }
