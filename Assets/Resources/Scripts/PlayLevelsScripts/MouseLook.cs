@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSpeed = 100f;
     public Transform playerBody;
-    float xRotation = 0f;
+    public float sens = 5.0f;
+    public float sming = 2.0f;
+
+    private Vector2 mouseLook;
+    private Vector2 smooth;
 
     void Start()
     {
@@ -15,14 +18,17 @@ public class MouseLook : MonoBehaviour
     }
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+        Vector2 mouseData = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        mouseData = Vector2.Scale(mouseData,
+            new Vector2(sens * sming, sens * sming));
 
+        smooth.x = Mathf.Lerp(smooth.x, mouseData.x, 1f / sming);
+        smooth.y = Mathf.Lerp(smooth.y, mouseData.y, 1f / sming);
+        mouseLook += smooth;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+        transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
+        playerBody.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, playerBody.transform.up);
     }
 }
