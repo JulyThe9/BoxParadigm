@@ -26,14 +26,26 @@ public class LevelLoader : MonoBehaviour
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
-                foreach (BoxEntry boxEntry in pillar) // y
+                //  foreach (BoxEntry boxEntry in pillar) // y
+                for (int i = 0; i < pillar.Count; ++i)
                 {
+                    BoxEntry boxEntry = pillar[i];
                     if (boxEntry.type != ObjectTypes.BoxTypes.Undetermined)
                     {
                         MapPlacements mapPlacements = new MapPlacements();
                         GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f);
                         box.layer = LayerMask.NameToLayer("Ground");
                         boxEntry.SetBoxGameObj(box);
+
+                        if (i + 1 >= pillar.Count || pillar[i+1].type == ObjectTypes.BoxTypes.Undetermined)
+                        {
+                            GameObject ledgeToGrab = GameObject.Instantiate(Resources.Load(ObjectTypes.ledgeToGrabName)) as GameObject;
+                            ledgeToGrab.transform.position = new Vector3(boxEntry.xPos, boxEntry.yPos + GlobalDimensions.marginToLedge_, boxEntry.zPos); 
+                            ledgeToGrab.transform.Rotate(boxEntry.xRot, boxEntry.yRot, 0f);
+                            ledgeToGrab.transform.parent = box.transform;
+                            ledgeToGrab.name = ObjectTypes.ledgeToGrabName;
+                        }
+
                     }
                 }
             }

@@ -48,4 +48,5 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Mirror, "Mirror_Box_Sel" }
     };
 
+    static public string ledgeToGrabName = "LedgeToGrab";
 }
