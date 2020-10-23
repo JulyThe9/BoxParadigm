@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TriggerChecker : MonoBehaviour
 {
-    public bool entered = false;
+    public bool grabbed = false;
     private void OnTriggerEnter(Collider other)
     {
-        entered = true;
+        grabbed = true;
     }
     private void OnTriggerExit(Collider other)
     {
-        entered = false;
+        grabbed = false;
     }
 }

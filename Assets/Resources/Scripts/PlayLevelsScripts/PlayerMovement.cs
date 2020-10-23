@@ -13,7 +13,15 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask;
 
     public Vector3 velocity;
-    public bool isGrounded;
+    public bool isGrounded = true;
+    public bool isHanging = false;
+
+    private TriggerChecker triggerChecker = null;
+
+    void Start()
+    {
+        triggerChecker = transform.Find(ObjectTypes.ledgeGrabber).GetComponent<TriggerChecker>();
+    }
 
     void Update()
     {
@@ -23,24 +31,54 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
+        else if (/*Input.GetButtonDown("Jump") &&*/ triggerChecker.grabbed)
+        {
+            if (velocity.y < -2f)
+            {
+                velocity.y = -2f;
+                isHanging = true;
+            }
+        }
+        else if (isHanging)
+        {
+            isHanging = false;
+        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-
         Vector3 move = transform.right * x + transform.forward * z;
-
         controller.Move(move * speed * Time.deltaTime);
 
-        if (Input.GetButton("Jump") && isGrounded)
+        if (Input.GetButton("Jump"))
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            isGrounded = false;
+            if (isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                isGrounded = false;
+            }
+            else if (isHanging)
+            {
+                if (Input.GetKey(KeyCode.W))
+                {
+                   // TODO: implement climbing
+                }
+                else
+                {
+                    velocity.y = -2f;
+                    isHanging = false;
+                }
+            }
         }
-        else if (!isGrounded)
+        if (!isGrounded && !isHanging)
         {
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
         }
 
+    }
+
+    private void PremadeMove_Climb()
+    {
+        
     }
 }

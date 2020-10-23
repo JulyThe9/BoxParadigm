@@ -49,4 +49,5 @@ public class ObjectTypes : MonoBehaviour
     };
 
     static public string ledgeToGrabName = "LedgeToGrab";
+    static public string ledgeGrabber = "LedgeGrabber";
 }
