@@ -10,6 +10,7 @@ public class EditorUI : MonoBehaviour
 {
     public GameObject floor;
     public bool buildingEnabled;
+    public bool finishBoxPlaced;
 
     private bool gridGenerated = false;
 

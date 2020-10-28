@@ -10,7 +10,8 @@ public class ObjectTypes : MonoBehaviour
         Wood,
         Stone,
         Turret,
-        Mirror
+        Mirror,
+        Finish
     }
 
     static public Dictionary<BoxTypes, string> boxTypesToNames = new Dictionary<BoxTypes, string>
@@ -19,7 +20,8 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Wood, "Wood_Box" },
         { BoxTypes.Stone, "Stone_Box" },
         { BoxTypes.Turret, "Turret_Box" },
-        { BoxTypes.Mirror, "Mirror_Box" }
+        { BoxTypes.Mirror, "Mirror_Box" },
+        { BoxTypes.Finish, "Finish_Box" }
     };
 
     static public Dictionary<BoxTypes, string> boxTypesToSlotNames = new Dictionary<BoxTypes, string>
@@ -27,7 +29,8 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Wood, "Wood_Slot" },
         { BoxTypes.Stone, "Stone_Slot" },
         { BoxTypes.Turret, "Turret_Slot" },
-        { BoxTypes.Mirror, "Mirror_Slot" }
+        { BoxTypes.Mirror, "Mirror_Slot" },
+        { BoxTypes.Finish, "Finish_Slot" }
     };
 
     static public Dictionary<BoxTypes, string> boxTypesToMaterialNames = new Dictionary<BoxTypes, string>
@@ -36,7 +39,8 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Wood, "Wood_Box" },
         { BoxTypes.Stone, "Stone_Box" },
         { BoxTypes.Turret, "Turret_Box" },
-        { BoxTypes.Mirror, "Mirror_Box" }
+        { BoxTypes.Mirror, "Mirror_Box" },
+        { BoxTypes.Finish, "Finish_Box" }
     };
 
     static public Dictionary<BoxTypes, string> boxTypesToSelMaterialNames = new Dictionary<BoxTypes, string>
@@ -45,7 +49,8 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Wood, "Wood_Box_Sel" },
         { BoxTypes.Stone, "Stone_Box_Sel" },
         { BoxTypes.Turret, "Turret_Box_Sel" },
-        { BoxTypes.Mirror, "Mirror_Box_Sel" }
+        { BoxTypes.Mirror, "Mirror_Box_Sel" },
+        { BoxTypes.Finish, "Finish_Box_Sel" }
     };
 
     static public string ledgeToGrabName = "LedgeToGrab";

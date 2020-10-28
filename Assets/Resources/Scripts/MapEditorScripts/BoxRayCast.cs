@@ -43,7 +43,12 @@ public class BoxRayCast : MonoBehaviour {
                 {
 					if (Input.GetMouseButtonDown (0))
                     {
-						Destroy (hit.transform.gameObject);					
+						Destroy (hit.transform.gameObject);		               
+                        if (boxEntryColumn[yInd].type == ObjectTypes.BoxTypes.Finish)
+                        {
+                            editorUI.finishBoxPlaced = false;
+                        }
+
 						int columnSize = boxEntryColumn.Count;
                         if (yInd >= columnSize - 1)
                         {
@@ -59,14 +64,18 @@ public class BoxRayCast : MonoBehaviour {
                 {
 					if (Input.GetMouseButtonDown (0))
                     {
-						Vector3 refPos = hit.transform.position;
+                        Destroy(hit.transform.gameObject);
+                        if (boxEntryColumn[yInd].type == ObjectTypes.BoxTypes.Finish)
+                        {
+                            editorUI.finishBoxPlaced = false;
+                        }
+
+                        Vector3 refPos = hit.transform.position;
 
 						BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd, zInd, refPos.x, refPos.y, refPos.z);
                         boxEntryColumn[yInd] = boxEntry;
 
-						Destroy (hit.transform.gameObject);
-
-						GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
+                        GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, 0f);
                         boxEntry.SetBoxGameObj(box);
                         mapPlacements.placeCell (curType, xInd, yInd, zInd, 
                             GlobalDimensions.halfMargin_ + GlobalDimensions.minDifDistance_, refPos).transform.parent = box.transform;

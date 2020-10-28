@@ -60,7 +60,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                   // TODO: implement climbing
+                    // TODO: start from here
+                    velocity.y = Mathf.Sqrt((jumpHeight + 0.5f) * -2f * gravity);
+                    isHanging = false;
                 }
                 else
                 {
@@ -74,11 +76,5 @@ public class PlayerMovement : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
         }
-
-    }
-
-    private void PremadeMove_Climb()
-    {
-        
     }
 }
