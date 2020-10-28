@@ -43,7 +43,9 @@ public class BoxRayCast : MonoBehaviour {
                 {
 					if (Input.GetMouseButtonDown (0))
                     {
-						Destroy (hit.transform.gameObject);		               
+						Destroy (hit.transform.gameObject);
+                        // TODO: a better solution is to create Destroy method in BoxEntry
+                        // to do game object destruction and this
                         if (boxEntryColumn[yInd].type == ObjectTypes.BoxTypes.Finish)
                         {
                             editorUI.finishBoxPlaced = false;
@@ -65,6 +67,7 @@ public class BoxRayCast : MonoBehaviour {
 					if (Input.GetMouseButtonDown (0))
                     {
                         Destroy(hit.transform.gameObject);
+                        // TODO: the same as above
                         if (boxEntryColumn[yInd].type == ObjectTypes.BoxTypes.Finish)
                         {
                             editorUI.finishBoxPlaced = false;
