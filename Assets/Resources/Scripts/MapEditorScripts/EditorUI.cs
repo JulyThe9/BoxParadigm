@@ -11,6 +11,9 @@ public class EditorUI : MonoBehaviour
     public GameObject floor;
     public bool buildingEnabled;
     public bool finishBoxPlaced;
+    public int finishBoxXInd;
+    public int finishBoxYInd;
+    public int finishBoxZInd;
 
     private bool gridGenerated = false;
 
@@ -113,6 +116,15 @@ public class EditorUI : MonoBehaviour
 
 	public void saveBoxes()
     {
+        // TODO: maybe create a method PreCalculations or TransferData
+        if (finishBoxPlaced)
+        {
+            BHWrapper.bHolder.finishGiven = true;
+            BHWrapper.bHolder.finishXInd = finishBoxXInd;
+            BHWrapper.bHolder.finishYInd = finishBoxYInd;
+            BHWrapper.bHolder.finishZInd = finishBoxZInd;
+        }
+
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
 		FileStream stream = new FileStream (Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Create);
 		serializer.Serialize (stream, BHWrapper.bHolder);
@@ -172,6 +184,7 @@ public class EditorUI : MonoBehaviour
 
         Destroy(floor);
         floor = null;
+        finishBoxPlaced = false;
     }
 
 	public void preAction(GameObject panel)

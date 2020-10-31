@@ -17,5 +17,10 @@ public class BoxHolder
     public int startZInd = 0;
     public bool startGiven = false;
 
+    public int finishXInd = 0;
+    public int finishYInd = 0;
+    public int finishZInd = 0;
+    public bool finishGiven = false;
+
     public List<List<List<BoxEntry>>> list = new List<List<List<BoxEntry>>>();
 }
