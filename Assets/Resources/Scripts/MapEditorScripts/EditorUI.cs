@@ -155,7 +155,7 @@ public class EditorUI : MonoBehaviour
                     if (boxEntry.type != ObjectTypes.BoxTypes.Undetermined)
                     {
                         MapPlacements mapPlacements = new MapPlacements();
-                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f);
+                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f, GlobalVariables.mapEditorBoxesName);
                         boxEntry.SetBoxGameObj(box);
                         mapPlacements.placeCell(boxEntry.type, boxEntry.xInd, boxEntry.yInd, boxEntry.zInd,
                            GlobalDimensions.halfMargin_ + GlobalDimensions.minDifDistance_, box.transform.position).transform.parent = box.transform;

@@ -18,6 +18,7 @@ public class LevelLoader : MonoBehaviour
     private void loadMap()
     {
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
+        // TODO: parametrize
         FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
         BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
@@ -33,7 +34,7 @@ public class LevelLoader : MonoBehaviour
                     if (boxEntry.type != ObjectTypes.BoxTypes.Undetermined)
                     {
                         MapPlacements mapPlacements = new MapPlacements();
-                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f);
+                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f, GlobalVariables.levelLoaderBoxesName);
                         box.layer = LayerMask.NameToLayer("Ground");
                         boxEntry.SetBoxGameObj(box);
 

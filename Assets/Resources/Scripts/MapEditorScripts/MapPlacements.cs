@@ -9,10 +9,10 @@ public class MapPlacements /*: MonoBehaviour*/{
 	public MapPlacements(){}
 
     //make pos dep on indices
-    public GameObject placeBox(BoxEntry boxEntry, float xPos, float yPos, float zPos, float yMargin)
+    public GameObject placeBox(BoxEntry boxEntry, float xPos, float yPos, float zPos, float yMargin, string resPath)
     {
         string boxName = ObjectTypes.boxTypesToNames[boxEntry.type];
-        GameObject box = GameObject.Instantiate (Resources.Load (boxName)) as GameObject;
+        GameObject box = GameObject.Instantiate (Resources.Load (resPath + "/" + boxName)) as GameObject;
 		box.transform.position = new Vector3 (xPos, yPos + yMargin, zPos);       //0.5f for yMargin
 		box.transform.Rotate(boxEntry.xRot, boxEntry.yRot, 0f);
 
