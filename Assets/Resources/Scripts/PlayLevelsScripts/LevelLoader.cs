@@ -34,7 +34,7 @@ public class LevelLoader : MonoBehaviour
                     if (boxEntry.type != ObjectTypes.BoxTypes.Undetermined)
                     {
                         MapPlacements mapPlacements = new MapPlacements();
-                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f, GlobalVariables.levelLoaderBoxesName);
+                        GameObject box = mapPlacements.placeBox(boxEntry, boxEntry.xPos, boxEntry.yPos, boxEntry.zPos, 0f, GlobalVariables.playLevelsBoxesName);
                         box.layer = LayerMask.NameToLayer("Ground");
                         boxEntry.SetBoxGameObj(box);
 
