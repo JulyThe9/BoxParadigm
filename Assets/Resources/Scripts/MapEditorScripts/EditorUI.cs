@@ -89,7 +89,7 @@ public class EditorUI : MonoBehaviour
 			for (int j = 0; j < width; j++) {
 				GameObject cell = Instantiate (Resources.Load ("InitCell")) as GameObject;
                 cell.transform.parent = floor.transform;
-                cell.transform.position = new Vector3 (orix, floor.transform.position.y + 0.01f, oriz);
+                cell.transform.position = new Vector3 (orix, floor.transform.position.y + GlobalDimensions.minDifDistance_, oriz);
 				oriz += 2f;
 				cell.tag = "Cell";
 

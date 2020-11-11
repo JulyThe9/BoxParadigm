@@ -59,9 +59,9 @@ public class InitPosBeh : MonoBehaviour {
                     BHWrapper.bHolder.list[xInd][zInd].Add(boxEntry);
                 }
 				
-				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y, refPos.z, GlobalDimensions.halfMargin_, GlobalVariables.mapEditorBoxesName);
+				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y - GlobalDimensions.minDifDistance_, refPos.z, GlobalDimensions.halfMargin_, GlobalVariables.mapEditorBoxesName);
                 boxEntry.SetBoxGameObj(box);
-                mapPlacements.placeCell (curType, xInd, yInd+1, zInd, GlobalDimensions.margin_ + GlobalDimensions.minDifDistance_, refPos).transform.parent = box.transform;
+                mapPlacements.placeCell (curType, xInd, yInd+1, zInd, GlobalDimensions.margin_, refPos).transform.parent = box.transform;
 			}
 		}
 
