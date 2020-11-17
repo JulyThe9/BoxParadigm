@@ -10,7 +10,6 @@ public class BoxBehavior : MonoBehaviour
 
     private bool wasFalling = false;
 
-    public bool allowFalling = false;
     private BoxGroundedChecker groundedChecker = null;
     private BoxConstraints boxConstraints = null;
     private BoxTraits boxTraits = null;
@@ -76,36 +75,33 @@ public class BoxBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (allowFalling)
+        if (groundedChecker.grounded || boxTraits.levitating)
         {
-            if (groundedChecker.grounded)
+            if (wasFalling)
             {
-                if (wasFalling)
-                {
-                    float additDist = 0f;
-                    if (groundedChecker.hitBoxGameObject.tag == ObjectTypes.floorTagName)
-                    {                 
-                        additDist = GlobalDimensions.minDifDistance_;
-                    }
-                    transform.position = Vector3.MoveTowards(transform.position,
-                        new Vector3(transform.position.x,
-                                    groundedChecker.hitBoxGameObject.transform.position.y + GlobalDimensions.margin_ + additDist,
-                                    transform.position.z),
-                        0.5f);
+                float additDist = 0f;
+                if (groundedChecker.hitBoxGameObject.tag == ObjectTypes.floorTagName)
+                {                 
+                    additDist = GlobalDimensions.minDifDistance_;
+                }
+                transform.position = Vector3.MoveTowards(transform.position,
+                    new Vector3(transform.position.x,
+                                groundedChecker.hitBoxGameObject.transform.position.y + GlobalDimensions.margin_ + additDist,
+                                transform.position.z),
+                    0.5f);
 
-                    wasFalling = false;
-                }
-                if (velocity.y < -2f)
-                {
-                    velocity.y = -2f;
-                }
+                wasFalling = false;
             }
-            else
+            if (velocity.y < -2f)
             {
-                velocity.y += gravity * Time.deltaTime;
-                transform.Translate(velocity * Time.deltaTime, Space.World);
-                wasFalling = true;
+                velocity.y = -2f;
             }
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+            transform.Translate(velocity * Time.deltaTime, Space.World);
+            wasFalling = true;
         }
     }
 }
