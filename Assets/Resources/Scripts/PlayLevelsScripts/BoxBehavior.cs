@@ -16,6 +16,46 @@ public class BoxBehavior : MonoBehaviour
     private void Start()
     {
         groundedChecker = transform.Find(ObjectTypes.bottomJoint).GetComponent<BoxGroundedChecker>();
+
+        // constraint initialization
+        BoxConstraints boxConstraints = transform.GetComponent<BoxConstraints>();
+        BoxData boxData = transform.GetComponent<BoxData>();
+        BoxEntry boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+        switch (boxEntry.type)
+        {
+            case ObjectTypes.BoxTypes.Wood:
+                boxConstraints.swappable = true;
+                boxConstraints.quantumConnectable = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                break;
+            case ObjectTypes.BoxTypes.Stone:
+                boxConstraints.swappable = true;
+                boxConstraints.quantumConnectable = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                break;
+            case ObjectTypes.BoxTypes.Mirror:
+                boxConstraints.swappable = true;
+                boxConstraints.quantumConnectable = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                break;
+            case ObjectTypes.BoxTypes.Turret:
+                boxConstraints.swappable = true;
+                boxConstraints.quantumConnectable = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                break;
+            case ObjectTypes.BoxTypes.Finish:
+                boxConstraints.swappable = false;
+                boxConstraints.quantumConnectable = false;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = false;
+                break;
+            default:
+                break;
+        }
     }
 
     void FixedUpdate()

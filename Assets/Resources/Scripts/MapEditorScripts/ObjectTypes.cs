@@ -53,6 +53,12 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Finish, "Finish_Box_Sel" }
     };
 
+    public enum AttackTypes : uint
+    {
+        AnalysisAttack,
+        TurretAttack
+    }
+
     static public string ledgeToGrabName = "LedgeToGrab";
     static public string ledgeGrabber = "LedgeGrabber";
     static public string bottomJoint = "BottomJoint";
