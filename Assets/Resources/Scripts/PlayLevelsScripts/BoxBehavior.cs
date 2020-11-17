@@ -12,15 +12,21 @@ public class BoxBehavior : MonoBehaviour
 
     public bool allowFalling = false;
     private BoxGroundedChecker groundedChecker = null;
+    private BoxConstraints boxConstraints = null;
+    private BoxTraits boxTraits = null;
+    private BoxData boxData = null;
+    private BoxEntry boxEntry = null;
 
     private void Start()
     {
         groundedChecker = transform.Find(ObjectTypes.bottomJoint).GetComponent<BoxGroundedChecker>();
 
         // constraint initialization
-        BoxConstraints boxConstraints = transform.GetComponent<BoxConstraints>();
-        BoxData boxData = transform.GetComponent<BoxData>();
-        BoxEntry boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+        boxConstraints = transform.GetComponent<BoxConstraints>();
+        boxTraits = transform.GetComponent<BoxTraits>();
+        boxData = transform.GetComponent<BoxData>();
+        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+
         switch (boxEntry.type)
         {
             case ObjectTypes.BoxTypes.Wood:
@@ -55,6 +61,16 @@ public class BoxBehavior : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        // trait initialization
+        if (boxData.yInd > 0)
+        {
+            if (BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd - 1].type == ObjectTypes.BoxTypes.Undetermined)
+            {
+                // TODO: also add an option to editor to make a box levitating (with visual effects)
+                boxTraits.levitating = true;
+            }
         }
     }
 
