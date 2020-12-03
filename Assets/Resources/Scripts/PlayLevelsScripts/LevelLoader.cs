@@ -6,7 +6,6 @@ using System.IO;
 
 public class LevelLoader : MonoBehaviour
 {
-
     private GameObject player = null;
 
     void Start()
