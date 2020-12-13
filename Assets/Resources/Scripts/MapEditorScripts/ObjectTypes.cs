@@ -59,6 +59,15 @@ public class ObjectTypes : MonoBehaviour
         TurretAttack
     }
 
+    public enum ToolTypes : uint
+    {
+        Undetermined,
+        Analysis,
+        Synthesis,
+        SpaceWarp,
+        Levitator
+    }
+
     static public string ledgeToGrabName = "LedgeToGrab";
     static public string ledgeGrabber = "LedgeGrabber";
     static public string bottomJoint = "BottomJoint";

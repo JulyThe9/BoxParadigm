@@ -17,16 +17,18 @@ public class PlayerMovement : MonoBehaviour
     public bool isHanging = false;
 
     private TriggerChecker triggerChecker = null;
+    private ToolControl toolControl = null;
 
     void Start()
     {
         triggerChecker = transform.Find(ObjectTypes.ledgeGrabber).GetComponent<TriggerChecker>();
+        toolControl = transform.GetComponent<ToolControl>();
     }
 
     void Update()
     {
+        // Grounding and movements
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
         if (isGrounded && velocity.y < -2f)
         {
             velocity.y = -2f;
@@ -37,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 velocity.y = -2f;
                 isHanging = true;
+                toolControl.Unquip();
             }
         }
         else if (isHanging)
@@ -75,6 +78,17 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+        }
+
+        // Tool controlling // TODO: mayve it's better to do this in a separate script
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            toolControl.Equip(0);
+        }
+
+        if (Input.GetKey(KeyCode.T))
+        {
+            toolControl.Unquip();
         }
     }
 }

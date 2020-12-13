@@ -21,6 +21,7 @@ public class ToolSway : MonoBehaviour
 
     private void UpdateSway()
     {
+        // TODO: have input readings in one place - MouseLook or ideally a separate class
         float t_x_mouse = Input.GetAxis("Mouse X");
         float t_y_mouse = Input.GetAxis("Mouse Y");
          
