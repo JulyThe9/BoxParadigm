@@ -81,11 +81,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Tool controlling // TODO: mayve it's better to do this in a separate script
+        // TODO: binding
         if (Input.GetKey(KeyCode.Alpha1))
         {
             toolControl.Equip(0);
         }
-
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            toolControl.Equip(1);
+        }
         if (Input.GetKey(KeyCode.T))
         {
             toolControl.Unquip();
