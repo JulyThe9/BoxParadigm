@@ -5,6 +5,16 @@ using UnityEngine;
 public static class BHWrapper
 {
     public static BoxHolder bHolder = new BoxHolder();
+
+    public static void ClearBoxEntry(int xInd, int zInd, int yInd)
+    {
+        bHolder.list[xInd][zInd][yInd].Clear();
+    }
+
+    public static void UpdateBoxEntry(int xInd, int zInd, int yInd, BoxEntry boxEntry)
+    {
+        bHolder.list[xInd][zInd][yInd].Update(boxEntry);
+    }
 }
 
 public class BoxHolder

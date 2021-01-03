@@ -16,6 +16,8 @@ public class BoxBehavior : MonoBehaviour
     private BoxData boxData = null;
     private BoxEntry boxEntry = null;
 
+    private BoxEntry tempBoxEntry = null;
+
     private void Start()
     {
         groundedChecker = transform.Find(ObjectTypes.bottomJoint).GetComponent<BoxGroundedChecker>();
@@ -91,6 +93,9 @@ public class BoxBehavior : MonoBehaviour
                     0.5f);
 
                 wasFalling = false;
+
+                // update indices
+                UpdateStructure();
             }
             if (velocity.y < -2f)
             {
@@ -99,9 +104,38 @@ public class BoxBehavior : MonoBehaviour
         }
         else
         {
+            if (!wasFalling)
+            {
+                tempBoxEntry = boxEntry.ShallowCopy();
+                BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);            
+            }
             velocity.y += gravity * Time.deltaTime;
             transform.Translate(velocity * Time.deltaTime, Space.World);
             wasFalling = true;
         }
+    }
+
+    void UpdateStructure()
+    {
+        if (groundedChecker.hitBoxGameObject.tag == ObjectTypes.boxTagName)
+        {
+            boxData.yInd = groundedChecker.hitBoxGameObject.GetComponent<BoxData>().yInd + 1;
+        }
+        else if (groundedChecker.hitBoxGameObject.tag == ObjectTypes.floorTagName)
+        {
+            boxData.yInd = 0;
+        }
+
+        if (tempBoxEntry != null)
+        {
+            BHWrapper.UpdateBoxEntry(boxData.xInd, boxData.zInd, boxData.yInd, tempBoxEntry);
+        }
+        else
+        {
+            Debug.Log("tempBoxEntry is NULL, backend error");
+        }
+        tempBoxEntry = null;
+
+        DebugMethods.PrintPillar(boxEntry.xInd, boxEntry.zInd);
     }
 }

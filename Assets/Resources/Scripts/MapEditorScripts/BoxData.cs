@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class BoxData : MonoBehaviour
 {
-    private int _xInd = 0;
-    private int _yInd = 0;
-    private int _zInd = 0;
+    // TODO: make private back once stable
+    public int _xInd = 0;
+    public int _yInd = 0;
+    public int _zInd = 0;
 
     public int xInd
     {
