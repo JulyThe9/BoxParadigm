@@ -35,6 +35,8 @@ public class BoxEntry {
     public float yPos = 0f;
     public float zPos = 0f;
 
+    public bool topInPillar = false;
+
     private GameObject boxGameObj = null;
 
     // TODO: caption parameter to be implemented
@@ -70,6 +72,7 @@ public class BoxEntry {
         boxEntry.xRot = xRot;
         boxEntry.yRot = yRot;
         boxEntry.caption = caption;
+        boxEntry.topInPillar = topInPillar;
         boxEntry.boxGameObj = boxGameObj;
         return boxEntry;
     }
@@ -80,6 +83,7 @@ public class BoxEntry {
         xRot = otherBoxEntry.xRot;
         yRot = otherBoxEntry.yRot;
         caption = otherBoxEntry.caption;
+        topInPillar = otherBoxEntry.topInPillar;
         boxGameObj = otherBoxEntry.boxGameObj;
     }
 

@@ -134,7 +134,16 @@ public class BoxBehavior : MonoBehaviour
         {
             Debug.Log("tempBoxEntry is NULL, backend error");
         }
+        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
+
+        if (boxEntry.topInPillar)
+        {
+            for (int i = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].Count - 1; i > boxEntry.yInd; --i)
+            {
+                BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].RemoveAt(i);
+            }
+        }
 
         DebugMethods.PrintPillar(boxEntry.xInd, boxEntry.zInd);
     }

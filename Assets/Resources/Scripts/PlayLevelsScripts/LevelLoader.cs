@@ -80,6 +80,7 @@ public class LevelLoader : MonoBehaviour
                     xInd = pillar[0].xInd;
                     zInd = pillar[0].zInd;
                 }
+                pillar[pillar.Count - 1].topInPillar = true;
             }
         }
         BHWrapper.bHolder.startXInd = xInd;
