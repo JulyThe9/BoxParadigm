@@ -8,4 +8,5 @@ public class Tool : ScriptableObject
     public string name_;
     public ObjectTypes.ToolTypes type_;
     public GameObject prefab_;
+    public GameObject projectilePrefab_;
 }

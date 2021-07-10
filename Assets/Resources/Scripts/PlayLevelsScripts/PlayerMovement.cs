@@ -94,5 +94,9 @@ public class PlayerMovement : MonoBehaviour
         {
             toolControl.Unquip();
         }
+        if (Input.GetButtonDown(ObjectTypes.fire1Name))
+        {
+            toolControl.LaunchProjectile();
+        }
     }
 }
