@@ -10,15 +10,15 @@ public class BoxRayCast : MonoBehaviour {
 	private MapPlacements mapPlacements = new MapPlacements();
 
 	void Start(){
-		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();
-	}
+		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();  // TODO: use const vars
+    }
 
 	void Update()
 	{
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		if(Physics.Raycast(ray, out hit))
         {
-			if (editorUI.buildingEnabled && hit.transform.gameObject.tag.Equals ("Box"))
+			if (editorUI.buildingEnabled && hit.transform.gameObject.tag.Equals (ObjectTypes.boxTagName))
             {				
 				GameObject holder = GameObject.Find ("Canvas");
 				BoxPicking boxPicking = holder.GetComponent<BoxPicking> ();

@@ -74,6 +74,7 @@ public class ObjectTypes : MonoBehaviour
 
     static public string floorTagName = "Floor";
     static public string boxTagName = "Box";
+    static public string projectileTagName = "Projectile";
 
     static public string fire1Name = "Fire1";
 }

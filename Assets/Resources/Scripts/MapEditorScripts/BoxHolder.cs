@@ -15,6 +15,12 @@ public static class BHWrapper
     {
         bHolder.list[xInd][zInd][yInd].Update(boxEntry);
     }
+
+    // TODO: see where else can be used
+    public static void RemoveFromPillar(int xInd, int zInd, int yIndToRemove)
+    {
+        bHolder.list[xInd][zInd].RemoveAt(yIndToRemove);
+    }
 }
 
 public class BoxHolder

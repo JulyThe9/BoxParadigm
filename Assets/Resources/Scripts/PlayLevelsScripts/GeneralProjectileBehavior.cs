@@ -4,7 +4,7 @@ public class GeneralProjectileBehavior : MonoBehaviour
 {
     private bool collided_ = false;
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (!collided_)
         {

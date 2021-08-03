@@ -39,7 +39,8 @@ public class BoxBehavior : MonoBehaviour
             case ObjectTypes.BoxTypes.Stone:
                 boxConstraints.swappable = true;
                 boxConstraints.quantumConnectable = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
+                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true; // TODO: temp
+                //boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
                 boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Mirror:
@@ -137,7 +138,7 @@ public class BoxBehavior : MonoBehaviour
         boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
 
-        if (boxEntry.topInPillar)
+        if (boxEntry.topInPillar) // TODO: why is this never updated?
         {
             for (int i = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].Count - 1; i > boxEntry.yInd; --i)
             {
@@ -146,5 +147,48 @@ public class BoxBehavior : MonoBehaviour
         }
 
         DebugMethods.PrintPillar(boxEntry.xInd, boxEntry.zInd);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals(ObjectTypes.projectileTagName))
+        {
+            List<BoxEntry> boxEntryColumn = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd];
+
+            GeneralProjectileConstraints prjctlConstraints = collision.gameObject.GetComponent<GeneralProjectileConstraints>();
+            if (boxConstraints.attackSusceptible[prjctlConstraints.attackType])
+            {
+                if (!IsTopInPillar())
+                {
+                    BoxEntry upperBoxEntry = GetUpperBoxEntry();
+                    upperBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().SetGrounded(false);
+
+                    BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);           
+                }
+                else
+                {
+                    BHWrapper.RemoveFromPillar(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
+                }
+
+                // TODO: delay not too big?
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private bool IsTopInPillar()
+    {
+        // TODO: return topInPillar
+        return boxData.yInd == BHWrapper.bHolder.list[boxData.xInd][boxData.zInd].Count - 1;
+    }
+
+    private BoxEntry GetUpperBoxEntry()
+    {
+        return BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd + 1];
+    }
+
+    private void SetGrounded(bool grounded)
+    {
+        groundedChecker.grounded = grounded;
     }
 }
