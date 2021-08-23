@@ -167,8 +167,10 @@ public class BoxBehavior : MonoBehaviour
         if (!IsTopInPillar())
         {
             BoxEntry upperBoxEntry = GetUpperBoxEntry();
-            upperBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().SetGrounded(false);
-
+            if (upperBoxEntry.type != ObjectTypes.BoxTypes.Undetermined)
+            {
+                upperBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().SetGrounded(false);
+            }
             BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
         }
         else
