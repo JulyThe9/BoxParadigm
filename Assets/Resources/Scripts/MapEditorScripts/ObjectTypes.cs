@@ -53,10 +53,12 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Finish, "Finish_Box_Sel" }
     };
 
-    public enum AttackTypes : uint
+    public enum EffectTypes : uint
     {
         AnalysisAttack,
-        TurretAttack
+        TurretAttack,
+        Swapping,
+        QuantumConnect
     }
 
     public enum ToolTypes : uint

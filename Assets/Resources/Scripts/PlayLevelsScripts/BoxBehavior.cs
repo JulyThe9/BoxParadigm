@@ -30,36 +30,36 @@ public class BoxBehavior : MonoBehaviour
 
         switch (boxEntry.type)
         {
-            case ObjectTypes.BoxTypes.Wood:
-                boxConstraints.swappable = true;
-                boxConstraints.quantumConnectable = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+            case ObjectTypes.BoxTypes.Wood:  
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Stone:
-                boxConstraints.swappable = true;
-                boxConstraints.quantumConnectable = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true; // TODO: temp
-                //boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true; // TODO: temp
+                //boxConstraints.attackSueffectSusceptiblesceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Mirror:
-                boxConstraints.swappable = true;
-                boxConstraints.quantumConnectable = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Turret:
-                boxConstraints.swappable = true;
-                boxConstraints.quantumConnectable = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = true;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Finish:
-                boxConstraints.swappable = false;
-                boxConstraints.quantumConnectable = false;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
-                boxConstraints.attackSusceptible[ObjectTypes.AttackTypes.TurretAttack] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = false;
                 break;
             default:
                 break;
@@ -84,7 +84,7 @@ public class BoxBehavior : MonoBehaviour
             {
                 float additDist = 0f;
                 if (groundedChecker.hitBoxGameObject.tag == ObjectTypes.floorTagName)
-                {                 
+                {
                     additDist = GlobalDimensions.minDifDistance_;
                 }
                 transform.position = Vector3.MoveTowards(transform.position,
@@ -108,7 +108,7 @@ public class BoxBehavior : MonoBehaviour
             if (!wasFalling)
             {
                 tempBoxEntry = boxEntry.ShallowCopy();
-                BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);            
+                BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
             }
             velocity.y += gravity * Time.deltaTime;
             transform.Translate(velocity * Time.deltaTime, Space.World);
@@ -153,27 +153,31 @@ public class BoxBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals(ObjectTypes.projectileTagName))
         {
-            List<BoxEntry> boxEntryColumn = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd];
-
-            GeneralProjectileConstraints prjctlConstraints = collision.gameObject.GetComponent<GeneralProjectileConstraints>();
-            if (boxConstraints.attackSusceptible[prjctlConstraints.attackType])
-            {
-                if (!IsTopInPillar())
-                {
-                    BoxEntry upperBoxEntry = GetUpperBoxEntry();
-                    upperBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().SetGrounded(false);
-
-                    BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);           
-                }
-                else
-                {
-                    BHWrapper.RemoveFromPillar(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
-                }
-
-                // TODO: delay not too big?
-                Destroy(gameObject);
-            }
+            ProjectileBoxInteraction(collision.gameObject.GetComponent<GeneralProjectileConstraints>());
         }
+    }
+
+    private void ProjectileBoxInteraction(GeneralProjectileConstraints prjctlConstraints)
+    {
+        if (!boxConstraints.effectSusceptible[prjctlConstraints.effectType])
+        {
+            return;
+        }
+
+        if (!IsTopInPillar())
+        {
+            BoxEntry upperBoxEntry = GetUpperBoxEntry();
+            upperBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().SetGrounded(false);
+
+            BHWrapper.ClearBoxEntry(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
+        }
+        else
+        {
+            BHWrapper.RemoveFromPillar(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
+        }
+
+        // TODO: delay not too big?
+        Destroy(gameObject);
     }
 
     private bool IsTopInPillar()
