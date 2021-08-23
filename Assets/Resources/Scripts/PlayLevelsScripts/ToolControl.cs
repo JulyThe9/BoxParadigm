@@ -9,13 +9,15 @@ public class ToolControl : MonoBehaviour
     private Tool curTool_;
     private ObjectTypes.ToolTypes curToolType_;
     private GameObject currentToolObj_;
-    private Transform curToolFirePoint_;
+    private Transform curToolLeftFirePoint_;
+    private Transform curToolRightFirePoint_;
 
     private Camera playerCam_;
     private Vector3 projTravelDest_;
-    private float projectileSpeed_ = 10f;
 
     private int layerMask_;
+
+    private bool dHandedToolLeftUsed_ = false;
 
     public void Start()
     {
@@ -62,7 +64,8 @@ public class ToolControl : MonoBehaviour
         newTool.transform.localPosition = Vector3.zero;
         newTool.transform.localEulerAngles = Vector3.zero;
         currentToolObj_ = newTool;
-        curToolFirePoint_ = currentToolObj_.transform.Find("Anchor").Find("Effects").Find("FirePoint"); // TODO: consts
+        curToolLeftFirePoint_ = currentToolObj_.transform.Find("Anchor").Find("Effects").Find("LeftFirePoint");
+        curToolRightFirePoint_ = currentToolObj_.transform.Find("Anchor").Find("Effects").Find("RightFirePoint"); // TODO: consts
     }
 
     // TODO: create consts
@@ -72,6 +75,23 @@ public class ToolControl : MonoBehaviour
         {
             return false;
         }
+
+        GameObject projectilePrefab = curTool_.rightProjectilePrefab_;
+        Transform curToolFirePoint = curToolRightFirePoint_;
+        if (curTool_.doubleHanded_)
+        {
+            if (dHandedToolLeftUsed_) // TODO: make it SATISFYING - using tool (left mb and right mb)
+            {
+                dHandedToolLeftUsed_ = false;
+            }
+            else
+            {
+                curToolFirePoint = curToolLeftFirePoint_;
+                projectilePrefab = curTool_.leftProjectilePrefab_;
+                dHandedToolLeftUsed_ = true;
+            }
+        }
+        
 
         Ray ray = playerCam_.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -83,12 +103,12 @@ public class ToolControl : MonoBehaviour
             {
                 Debug.Log(hit.transform.gameObject.tag);
             }
-            InstantiateProjectile(curTool_.projectilePrefab_, curToolFirePoint_);
+            InstantiateProjectile(projectilePrefab, curToolFirePoint);
         }
         else
         {
             projTravelDest_ = ray.GetPoint(rayCastDist);
-            GameObject projectileObj = InstantiateProjectile(curTool_.projectilePrefab_, curToolFirePoint_);
+            GameObject projectileObj = InstantiateProjectile(projectilePrefab, curToolFirePoint);
             // TODO: temp, level will be enclosed (hits everywhere, otherwise could scale t with level size - glob var)
             Destroy(projectileObj, 15.0f);
         }
@@ -99,9 +119,7 @@ public class ToolControl : MonoBehaviour
     private GameObject InstantiateProjectile(GameObject projectile, Transform firePoint) // maybe the second parameter is not needed
     {
         GameObject projectileObj = Instantiate(projectile, firePoint.position,  playerCam_.transform.rotation) as GameObject;
-        //projectileObj.transform.localPosition = Vector3.zero;
-        //projectileObj.transform.localEulerAngles = Vector3.zero;
-        projectileObj.GetComponent<Rigidbody>().velocity = (projTravelDest_ - firePoint.position).normalized * projectileSpeed_;
+        projectileObj.GetComponent<Rigidbody>().velocity = (projTravelDest_ - firePoint.position).normalized * GlobalVariables.prjctlSpeed;
         return projectileObj;
     }
 }

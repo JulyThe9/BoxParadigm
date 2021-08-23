@@ -7,6 +7,8 @@ public class Tool : ScriptableObject
 {
     public string name_;
     public ObjectTypes.ToolTypes type_;
+    public bool doubleHanded_;
     public GameObject prefab_;
-    public GameObject projectilePrefab_;
+    public GameObject leftProjectilePrefab_;
+    public GameObject rightProjectilePrefab_;
 }
