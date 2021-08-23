@@ -8,7 +8,7 @@ public class GlobalVariables : MonoBehaviour
     public static string groundLayerName = "Ground";
 
     // TODO: maybe a separate utility script
-    public static float prjctlSpeed = 1f;
+    public static float prjctlSpeed = 2f;
     public static float maxPrjctlSpeedPercent = 10f;
     public static float prjctlSpeedChangePercent = 0.1f;
 }
