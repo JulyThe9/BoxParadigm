@@ -29,6 +29,7 @@ public class InitPosBeh : MonoBehaviour {
 
 		transform.name = "cell_" + xInd + ":" + zInd + ":" + yInd;
 	}
+    // TODO: no need to create a variable, load directly
 	void OnMouseEnter()
 	{
 		Material selectedMat = Resources.Load("Materials/" + ObjectTypes.boxTypesToSelMaterialNames[origMatType], typeof(Material)) as Material;
