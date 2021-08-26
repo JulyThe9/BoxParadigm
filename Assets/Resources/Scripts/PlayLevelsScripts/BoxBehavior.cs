@@ -15,11 +15,17 @@ public class BoxBehavior : MonoBehaviour
     private BoxTraits boxTraits = null;
     private BoxData boxData = null;
     private BoxEntry boxEntry = null;
-
     private BoxEntry tempBoxEntry = null;
+
+    private SimpleEmergence simpleEmergence;
+    public Material origMaterial;
 
     private void Start()
     {
+        origMaterial = GetComponent<Renderer>().material;
+
+        simpleEmergence = GameObject.Find(ObjectTypes.simpleEmergenceName).GetComponent<SimpleEmergence>();
+
         groundedChecker = transform.Find(ObjectTypes.bottomJoint).GetComponent<BoxGroundedChecker>();
 
         // constraint initialization
@@ -30,33 +36,43 @@ public class BoxBehavior : MonoBehaviour
 
         switch (boxEntry.type)
         {
-            case ObjectTypes.BoxTypes.Wood:  
+            case ObjectTypes.BoxTypes.Wood:
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Stone:
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true; // TODO: temp
                 //boxConstraints.attackSueffectSusceptiblesceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Mirror:
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Turret:
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumSelect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
                 break;
             case ObjectTypes.BoxTypes.Finish:
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.Swapping] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumSelect] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = false;
@@ -159,11 +175,89 @@ public class BoxBehavior : MonoBehaviour
 
     private void ProjectileBoxInteraction(GeneralProjectileConstraints prjctlConstraints)
     {
-        if (!boxConstraints.effectSusceptible[prjctlConstraints.effectType])
+        switch(prjctlConstraints.effectType)
         {
-            return;
-        }
+            case ObjectTypes.EffectTypes.AnalysisAttack:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                {
+                    OnAttack();
+                }
+                else
+                {
 
+                }
+                break;
+            case ObjectTypes.EffectTypes.TurretAttack:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                {
+                    OnAttack();
+                }
+                else
+                {
+
+                }
+                break;
+            case ObjectTypes.EffectTypes.SwapSelect:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                {
+                    OnSwapSelect();
+                }
+                else
+                {
+
+                }
+                break;
+            case ObjectTypes.EffectTypes.Swapping:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                {
+                    OnSwapping();
+                }
+                else
+                {
+
+                }
+                break;
+            case ObjectTypes.EffectTypes.QuantumSelect:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                {
+                    OnQuantumSelect();
+                }
+                else
+                {
+
+                }
+                break;
+            case ObjectTypes.EffectTypes.QuantumConnect:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                {
+                    if (simpleEmergence.effectInProgress)
+                    {
+                        OnQuantumConnect();
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+                    // TODO: potentially OnQuantumConnectFailed();
+                    // visual 
+
+                    // structural
+                    simpleEmergence.CleanUpUnfinishedEffects();
+                }
+                break;
+        }
+        simpleEmergence.latestAction = ObjectTypes.effectTypesToBoxActions[prjctlConstraints.effectType];
+        if (simpleEmergence.latestAction != ObjectTypes.BoxActions.Irrelevant)
+        {
+            ReplayActionsOnConnected(boxTraits);
+        }
+    }
+
+    private void OnAttack()
+    {
         if (!IsTopInPillar())
         {
             BoxEntry upperBoxEntry = GetUpperBoxEntry();
@@ -177,9 +271,82 @@ public class BoxBehavior : MonoBehaviour
         {
             BHWrapper.RemoveFromPillar(boxEntry.xInd, boxEntry.zInd, boxEntry.yInd);
         }
-
         // TODO: delay not too big?
+        boxEntry.Clear();
         Destroy(gameObject);
+    }
+
+    private void OnSwapSelect()
+    {
+
+    }
+
+    private void OnSwapping()
+    {
+
+    }
+
+    private void OnQuantumSelect()
+    {
+        // TODO: parametrize potentially
+        // TODO: consts for "Materials/" and "_"
+        // visual
+        GetComponent<Renderer>().material = Resources.Load("Materials/" + 
+            ObjectTypes.boxTypesToMaterialNames[boxEntry.type] + "_" + ObjectTypes.effectTypesToSelMaterialNames[ObjectTypes.EffectTypes.QuantumSelect],
+            typeof(Material)) as Material;
+
+        // structural
+        boxTraits.selectionMade[ObjectTypes.EffectTypes.QuantumConnect] = true;
+        simpleEmergence.effectInProgress = true;
+        simpleEmergence.selBoxData = boxData;
+    }
+
+    private void OnQuantumConnect()
+    {
+        // visual
+        GetComponent<Renderer>().material = Resources.Load("Materials/" +
+           ObjectTypes.boxTypesToMaterialNames[boxEntry.type] + "_" + ObjectTypes.effectTypesToSelMaterialNames[ObjectTypes.EffectTypes.QuantumConnect],
+           typeof(Material)) as Material;
+
+        // structural
+        BoxEntry selBoxEntry = BHWrapper.bHolder.list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
+        BoxBehavior selBoxBehavior = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>();
+
+        boxTraits.connectedTo.Add(selBoxBehavior.boxData);
+        selBoxBehavior.boxTraits.connectedTo.Add(boxData);
+
+        simpleEmergence.effectInProgress = false;
+        simpleEmergence.selBoxData = null;
+    }
+
+    private void ReplayActionsOnConnected(BoxTraits curBoxTraits)
+    {
+        foreach (BoxData curBoxData in curBoxTraits.connectedTo)
+        {
+            if (!BHWrapper.BoxExists(curBoxData.xInd, curBoxData.zInd, curBoxData.yInd))
+            {
+                continue;
+            }
+
+            BoxBehavior connectBoxBeh = BHWrapper.GetBoxEntry(curBoxData.xInd, curBoxData.zInd, curBoxData.yInd).GetBoxGameObj().GetComponent<BoxBehavior>();
+            if (!connectBoxBeh.boxTraits.traversed)
+            {
+                // TODO: possibly arguments related to boxAction (by how many spaces to move)
+                connectBoxBeh.boxTraits.traversed = true; // TODO: temp
+                ReplayActionsOnConnected(connectBoxBeh.boxTraits);
+                ReplayAction(connectBoxBeh, simpleEmergence.latestAction);
+            }
+        }
+    }
+
+    private void ReplayAction(BoxBehavior boxBehavior, ObjectTypes.BoxActions boxAction)
+    {
+        switch (boxAction)
+        {
+            case ObjectTypes.BoxActions.Destroyed:
+                boxBehavior.OnAttack();
+                break;
+        }
     }
 
     private bool IsTopInPillar()

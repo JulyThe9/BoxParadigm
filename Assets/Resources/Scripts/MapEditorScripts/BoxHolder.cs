@@ -6,6 +6,22 @@ public static class BHWrapper
 {
     public static BoxHolder bHolder = new BoxHolder();
 
+    // TODO: find out how refs work
+    public static BoxEntry GetBoxEntry(int xInd, int zInd, int yInd)
+    {
+        return bHolder.list[xInd][zInd][yInd];
+    }
+
+    // TODO: see where else this can be used
+    public static bool BoxExists(int xInd, int zInd, int yInd)
+    {
+        if (bHolder.list[xInd][zInd].Count - 1 < yInd || bHolder.list[xInd][zInd][yInd].type == ObjectTypes.BoxTypes.Undetermined)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public static void ClearBoxEntry(int xInd, int zInd, int yInd)
     {
         bHolder.list[xInd][zInd][yInd].Clear();

@@ -13,6 +13,7 @@ public class ToolControl : MonoBehaviour
     private Transform curToolRightFirePoint_;
 
     private Camera playerCam_;
+    private SimpleEmergence simpleEmergence_;
     private Vector3 projTravelDest_;
 
     private int layerMask_;
@@ -22,12 +23,15 @@ public class ToolControl : MonoBehaviour
     public void Start()
     {
         playerCam_ = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        simpleEmergence_ = GameObject.Find(ObjectTypes.simpleEmergenceName).GetComponent<SimpleEmergence>();
         // MAKE SURE it corresponds to colliding map (otherwise we will have undestroyed objects)
         layerMask_ = LayerMask.GetMask(GlobalVariables.groundLayerName); 
      }
 
     public void Equip(int toolIdx)
     {
+        simpleEmergence_.CleanUpUnfinishedEffects();
+
         if (curToolType_ != ObjectTypes.ToolTypes.Undetermined)
         {
             if (curToolType_ != loadout_[toolIdx].type_)

@@ -53,11 +53,20 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Finish, "Finish_Box_Sel" }
     };
 
+    static public Dictionary<EffectTypes, string> effectTypesToSelMaterialNames = new Dictionary<EffectTypes, string>
+    {
+        { EffectTypes.SwapSelect, "SwapSelect" },
+        { EffectTypes.QuantumSelect, "QuantumSelect" },
+        { EffectTypes.QuantumConnect, "QuantumConnect" }
+    };
+
     public enum EffectTypes : uint
     {
         AnalysisAttack,
         TurretAttack,
+        SwapSelect, // quasi-type
         Swapping,
+        QuantumSelect, // quasi-type
         QuantumConnect
     }
 
@@ -70,6 +79,22 @@ public class ObjectTypes : MonoBehaviour
         Levitator
     }
 
+    public enum BoxActions : uint // Kind of relates to EffectTypes
+    {
+        Destroyed,
+        Irrelevant
+    }
+
+    static public Dictionary<EffectTypes, BoxActions> effectTypesToBoxActions = new Dictionary<EffectTypes, BoxActions>
+    {
+        { EffectTypes.AnalysisAttack, BoxActions.Destroyed },
+        { EffectTypes.TurretAttack, BoxActions.Destroyed },
+        { EffectTypes.SwapSelect, BoxActions.Irrelevant },
+        { EffectTypes.Swapping, BoxActions.Irrelevant },
+        { EffectTypes.QuantumSelect, BoxActions.Irrelevant },
+        { EffectTypes.QuantumConnect, BoxActions.Irrelevant }
+    };
+
     static public string ledgeToGrabName = "LedgeToGrab";
     static public string ledgeGrabber = "LedgeGrabber";
     static public string bottomJoint = "BottomJoint";
@@ -79,4 +104,6 @@ public class ObjectTypes : MonoBehaviour
     static public string projectileTagName = "Projectile";
 
     static public string fire1Name = "Fire1";
+
+    static public string simpleEmergenceName = "SimpleEmergence";
 }

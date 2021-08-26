@@ -7,7 +7,9 @@ public class BoxConstraints : MonoBehaviour
     {
         { ObjectTypes.EffectTypes.AnalysisAttack, false },
         { ObjectTypes.EffectTypes.TurretAttack, false },
+        { ObjectTypes.EffectTypes.SwapSelect, false },
         { ObjectTypes.EffectTypes.Swapping, false },
+        { ObjectTypes.EffectTypes.QuantumSelect, false },
         { ObjectTypes.EffectTypes.QuantumConnect, false }
     };
 }
