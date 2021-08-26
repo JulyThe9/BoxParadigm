@@ -169,7 +169,11 @@ public class BoxBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals(ObjectTypes.projectileTagName))
         {
-            ProjectileBoxInteraction(collision.gameObject.GetComponent<GeneralProjectileConstraints>());
+            if (!collision.gameObject.GetComponent<GeneralProjectileBehavior>().markedABox_)
+            {
+                collision.gameObject.GetComponent<GeneralProjectileBehavior>().markedABox_ = true;
+                ProjectileBoxInteraction(collision.gameObject.GetComponent<GeneralProjectileConstraints>());
+            }
         }
     }
 

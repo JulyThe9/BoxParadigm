@@ -4,8 +4,7 @@ using UnityEngine;
 public class BoxTraits : MonoBehaviour
 {
     public bool levitating = false;
-
-    public bool traversed; // TODO: probably reset if setting traversed to true doesn't lead to GameObject destruction
+    public bool traversed = false; // TODO: probably reset if setting traversed to true doesn't lead to GameObject destruction
     public List<BoxData> connectedTo;
 
     // right hand effects of double handed tools only

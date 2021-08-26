@@ -9,6 +9,8 @@ public class GeneralProjectileBehavior : MonoBehaviour
     private float prjctlMult_;
     private bool changingVelocity_;
 
+    public bool markedABox_;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!collided_)
@@ -24,6 +26,7 @@ public class GeneralProjectileBehavior : MonoBehaviour
         initVelocity_ = prjctlRigidbody_.velocity;
         prjctlMult_ = 0f;
         changingVelocity_ = true;
+        markedABox_ = false;
     }
 
     public void Update()
