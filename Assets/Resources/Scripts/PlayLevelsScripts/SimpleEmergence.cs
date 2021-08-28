@@ -19,7 +19,7 @@ public class SimpleEmergence : MonoBehaviour
         if (selBoxData != null)
         {
             BoxEntry selBoxEntry = BHWrapper.bHolder.list[selBoxData.xInd][selBoxData.zInd][selBoxData.yInd];
-            selBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().origMaterial;
+            selBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().curMaterial;
         }
     }
 }

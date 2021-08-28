@@ -18,11 +18,11 @@ public class BoxBehavior : MonoBehaviour
     private BoxEntry tempBoxEntry = null;
 
     private SimpleEmergence simpleEmergence;
-    public Material origMaterial;
+    public Material curMaterial;
 
     private void Start()
     {
-        origMaterial = GetComponent<Renderer>().material;
+        curMaterial = GetComponent<Renderer>().material;
 
         simpleEmergence = GameObject.Find(ObjectTypes.simpleEmergenceName).GetComponent<SimpleEmergence>();
 
@@ -312,10 +312,13 @@ public class BoxBehavior : MonoBehaviour
            ObjectTypes.boxTypesToMaterialNames[boxEntry.type] + "_" + ObjectTypes.effectTypesToSelMaterialNames[ObjectTypes.EffectTypes.QuantumConnect],
            typeof(Material)) as Material;
 
-        // structural
         BoxEntry selBoxEntry = BHWrapper.bHolder.list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
         BoxBehavior selBoxBehavior = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>();
 
+        curMaterial = GetComponent<Renderer>().material;
+        selBoxBehavior.curMaterial = selBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material;
+
+        // structural
         boxTraits.connectedTo.Add(selBoxBehavior.boxData);
         selBoxBehavior.boxTraits.connectedTo.Add(boxData);
 
