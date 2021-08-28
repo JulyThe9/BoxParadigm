@@ -30,7 +30,10 @@ public class ToolControl : MonoBehaviour
 
     public void Equip(int toolIdx)
     {
-        simpleEmergence_.CleanUpUnfinishedEffects();
+        if (simpleEmergence_.dHandedToolRightUsed == 0)
+        {
+            simpleEmergence_.CleanUpUnfinishedEffects();
+        }
 
         if (curToolType_ != ObjectTypes.ToolTypes.Undetermined)
         {
@@ -107,11 +110,13 @@ public class ToolControl : MonoBehaviour
             {
                 Debug.Log(hit.transform.gameObject.tag);
             }
+            ++simpleEmergence_.dHandedToolRightUsed;
             InstantiateProjectile(projectilePrefab, curToolFirePoint);
         }
         else
         {
             projTravelDest_ = ray.GetPoint(rayCastDist);
+            ++simpleEmergence_.dHandedToolRightUsed;
             GameObject projectileObj = InstantiateProjectile(projectilePrefab, curToolFirePoint);
             // TODO: temp, level will be enclosed (hits everywhere, otherwise could scale t with level size - glob var)
             Destroy(projectileObj, 15.0f);
@@ -124,6 +129,7 @@ public class ToolControl : MonoBehaviour
     {
         GameObject projectileObj = Instantiate(projectile, firePoint.position,  playerCam_.transform.rotation) as GameObject;
         projectileObj.GetComponent<Rigidbody>().velocity = (projTravelDest_ - firePoint.position).normalized * GlobalVariables.prjctlSpeed;
+        projectileObj.GetComponent<GeneralProjectileBehavior>().simplEmergence_ = simpleEmergence_;
         return projectileObj;
     }
 }

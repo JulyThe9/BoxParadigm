@@ -11,6 +11,8 @@ public class GeneralProjectileBehavior : MonoBehaviour
 
     public bool markedABox_;
 
+    public SimpleEmergence simplEmergence_;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!collided_)
@@ -43,5 +45,15 @@ public class GeneralProjectileBehavior : MonoBehaviour
                 changingVelocity_ = false;
             }    
         }
+    }
+
+    public void OnDestroy()
+    {
+        if (!markedABox_)
+        {
+            simplEmergence_.CleanUpUnfinishedEffects();
+        }
+        --simplEmergence_.dHandedToolRightUsed;
+        Debug.Assert(simplEmergence_.dHandedToolRightUsed >= 0);
     }
 }
