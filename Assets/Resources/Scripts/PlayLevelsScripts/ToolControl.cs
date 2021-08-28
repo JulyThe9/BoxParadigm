@@ -35,6 +35,8 @@ public class ToolControl : MonoBehaviour
             simpleEmergence_.CleanUpUnfinishedEffects();
         }
 
+        dHandedToolLeftUsed_ = false;
+
         if (curToolType_ != ObjectTypes.ToolTypes.Undetermined)
         {
             if (curToolType_ != loadout_[toolIdx].type_)
@@ -119,7 +121,7 @@ public class ToolControl : MonoBehaviour
             ++simpleEmergence_.dHandedToolRightUsed;
             GameObject projectileObj = InstantiateProjectile(projectilePrefab, curToolFirePoint);
             // TODO: temp, level will be enclosed (hits everywhere, otherwise could scale t with level size - glob var)
-            Destroy(projectileObj, 15.0f);
+            Destroy(projectileObj, 3.0f);
         }
 
         return true;
