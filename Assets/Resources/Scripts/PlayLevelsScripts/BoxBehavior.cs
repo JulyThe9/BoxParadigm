@@ -312,10 +312,25 @@ public class BoxBehavior : MonoBehaviour
         rightHalo.transform.localPosition = new Vector3(0, 0, 0);
         secondaryEffect = rightHalo;
 
-        BoxEntry selBoxEntry = BHWrapper.bHolder.list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
-        BoxBehavior selBoxBehavior = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>();
-
         // structural
+        BoxEntry selBoxEntry = BHWrapper.bHolder.list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
+        GameObject selBoxGameObject = selBoxEntry.GetBoxGameObj();
+        BoxBehavior selBoxBehavior = selBoxGameObject.GetComponent<BoxBehavior>();
+
+        Vector3 tempPosition = transform.position;
+        transform.position = selBoxGameObject.transform.position;
+        selBoxGameObject.transform.position = tempPosition;
+
+        BoxData tempBoxData = boxData.ShallowCopy();
+        boxData.UpdateBoxData(selBoxBehavior.boxData);
+        selBoxBehavior.boxData.UpdateBoxData(tempBoxData);
+
+        BHWrapper.UpdateBoxEntry(boxData.xInd, boxData.zInd, boxData.yInd, boxEntry);
+        BHWrapper.UpdateBoxEntry(selBoxBehavior.boxData.xInd, selBoxBehavior.boxData.zInd, selBoxBehavior.boxData.yInd, selBoxEntry);
+
+        // clean-up
+        Destroy(secondaryEffect);
+        Destroy(selBoxBehavior.secondaryEffect);
 
         simpleEmergence.effectInProgress = false;
         simpleEmergence.selBoxData = null;
@@ -353,6 +368,7 @@ public class BoxBehavior : MonoBehaviour
         boxTraits.connectedTo.Add(selBoxBehavior.boxData);
         selBoxBehavior.boxTraits.connectedTo.Add(boxData);
 
+        // clean-up
         simpleEmergence.effectInProgress = false;
         simpleEmergence.selBoxData = null;
     }

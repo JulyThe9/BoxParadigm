@@ -25,4 +25,19 @@ public class BoxData : MonoBehaviour
         set { _zInd = value; }
     }
 
+    public BoxData ShallowCopy()
+    {
+        BoxData boxData = new BoxData();
+        boxData.xInd = xInd;
+        boxData.yInd = yInd;
+        boxData.zInd = zInd;
+        return boxData;
+    }
+
+    public void UpdateBoxData(BoxData otherBoxData)
+    {
+        xInd = otherBoxData.xInd;
+        yInd = otherBoxData.yInd;
+        zInd = otherBoxData.zInd;
+    }
 }
