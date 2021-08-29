@@ -8,7 +8,7 @@ public class BoxTraits : MonoBehaviour
     public List<BoxData> connectedTo;
 
     // right hand effects of double handed tools only
-    public Dictionary<ObjectTypes.EffectTypes, bool> selectionMade = new Dictionary<ObjectTypes.EffectTypes, bool>
+    public Dictionary<ObjectTypes.EffectTypes, bool> selectionMade = new Dictionary<ObjectTypes.EffectTypes, bool> // TODO: ņot used at the moment
     {
         { ObjectTypes.EffectTypes.Swapping, false },
         { ObjectTypes.EffectTypes.QuantumConnect, false }

@@ -7,6 +7,9 @@ public class GlobalVariables : MonoBehaviour
 
     public static string groundLayerName = "Ground";
 
+    public static string leftHaloPath = "_Tools and projectiles/LeftHalo";
+    public static string rightHaloPath = "_Tools and projectiles/RightHalo";
+
     // TODO: maybe a separate utility script
     public static float prjctlSpeed = 2f;
     public static float maxPrjctlSpeedPercent = 10f;

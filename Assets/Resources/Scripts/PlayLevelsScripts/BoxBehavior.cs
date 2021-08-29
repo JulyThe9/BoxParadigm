@@ -19,6 +19,7 @@ public class BoxBehavior : MonoBehaviour
 
     private SimpleEmergence simpleEmergence;
     public Material curMaterial;
+    public GameObject secondaryEffect;
 
     private void Start()
     {
@@ -214,11 +215,21 @@ public class BoxBehavior : MonoBehaviour
             case ObjectTypes.EffectTypes.Swapping:
                 if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
                 {
-                    OnSwapping();
+                    if (simpleEmergence.effectInProgress)
+                    {
+                        OnSwapping();
+                    }
+                    else
+                    {
+
+                    }
                 }
                 else
                 {
+                    // visual 
 
+                    // structural
+                    simpleEmergence.CleanUpUnfinishedEffects();
                 }
                 break;
             case ObjectTypes.EffectTypes.QuantumSelect:
@@ -282,12 +293,32 @@ public class BoxBehavior : MonoBehaviour
 
     private void OnSwapSelect()
     {
+        // visual
+        GameObject leftHalo = Instantiate(Resources.Load(GlobalVariables.leftHaloPath), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        leftHalo.transform.parent = gameObject.transform;
+        leftHalo.transform.localPosition = new Vector3(0, 0, 0);
+        secondaryEffect = leftHalo;
 
+        // structural
+        simpleEmergence.effectInProgress = true;
+        simpleEmergence.selBoxData = boxData;
     }
 
     private void OnSwapping()
     {
+        // visual
+        GameObject rightHalo = Instantiate(Resources.Load(GlobalVariables.rightHaloPath), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        rightHalo.transform.parent = gameObject.transform;
+        rightHalo.transform.localPosition = new Vector3(0, 0, 0);
+        secondaryEffect = rightHalo;
 
+        BoxEntry selBoxEntry = BHWrapper.bHolder.list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
+        BoxBehavior selBoxBehavior = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>();
+
+        // structural
+
+        simpleEmergence.effectInProgress = false;
+        simpleEmergence.selBoxData = null;
     }
 
     private void OnQuantumSelect()
