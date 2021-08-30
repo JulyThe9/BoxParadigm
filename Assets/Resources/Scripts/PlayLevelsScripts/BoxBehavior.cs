@@ -155,7 +155,7 @@ public class BoxBehavior : MonoBehaviour
         boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
 
-        if (boxEntry.topInPillar) // TODO: why is this never updated?
+        if (IsTopInPillar())
         {
             for (int i = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].Count - 1; i > boxEntry.yInd; --i)
             {
@@ -321,12 +321,17 @@ public class BoxBehavior : MonoBehaviour
         transform.position = selBoxGameObject.transform.position;
         selBoxGameObject.transform.position = tempPosition;
 
+
+        BoxEntry tempBoxEntry = boxEntry.ShallowCopy();
+        BHWrapper.UpdateBoxEntry(boxData.xInd, boxData.zInd, boxData.yInd, selBoxEntry);
+        BHWrapper.UpdateBoxEntry(selBoxBehavior.boxData.xInd, selBoxBehavior.boxData.zInd, selBoxBehavior.boxData.yInd, tempBoxEntry);
+
         BoxData tempBoxData = boxData.ShallowCopy();
         boxData.UpdateBoxData(selBoxBehavior.boxData);
         selBoxBehavior.boxData.UpdateBoxData(tempBoxData);
 
-        BHWrapper.UpdateBoxEntry(boxData.xInd, boxData.zInd, boxData.yInd, boxEntry);
-        BHWrapper.UpdateBoxEntry(selBoxBehavior.boxData.xInd, selBoxBehavior.boxData.zInd, selBoxBehavior.boxData.yInd, selBoxEntry);
+        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+        selBoxBehavior.boxEntry = BHWrapper.bHolder.list[selBoxBehavior.boxData.xInd][selBoxBehavior.boxData.zInd][selBoxBehavior.boxData.yInd];
 
         // clean-up
         Destroy(secondaryEffect);
