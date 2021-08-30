@@ -29,6 +29,19 @@ public static class BHWrapper
 
     public static void UpdateBoxEntry(int xInd, int zInd, int yInd, BoxEntry boxEntry)
     {
+        // NOTE: temporary for debugging
+        if (xInd > bHolder.list.Count - 1)
+        {
+            return;
+        }
+        if (zInd > bHolder.list[xInd].Count - 1)
+        {
+            return; 
+        }
+        if (yInd > bHolder.list[xInd][zInd].Count - 1)
+        {
+            return;
+        }
         bHolder.list[xInd][zInd][yInd].Update(boxEntry);
     }
 

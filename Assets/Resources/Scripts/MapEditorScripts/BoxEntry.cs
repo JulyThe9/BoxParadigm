@@ -35,6 +35,7 @@ public class BoxEntry {
     public float yPos = 0f;
     public float zPos = 0f;
 
+    // TODO: why is this never updated?
     public bool topInPillar = false;
 
     private GameObject boxGameObj = null;
