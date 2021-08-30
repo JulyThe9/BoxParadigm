@@ -50,6 +50,40 @@ public static class BHWrapper
     {
         bHolder.list[xInd][zInd].RemoveAt(yIndToRemove);
     }
+
+    public static bool CheckIntegrity()
+    {
+        bool res = true;
+        for (int i = 0; i < bHolder.list.Count; ++i) // x
+        {
+            for (int j = 0; j < bHolder.list[i].Count; ++j) // z
+            {
+                for (int k = 0; k < bHolder.list[i][j].Count; ++k) // y
+                {
+                    BoxEntry boxEntry = bHolder.list[i][j][k];
+                    if (boxEntry.xInd != i || boxEntry.zInd != j || boxEntry.yInd != k)
+                    {
+                        Debug.Log("INTEGRITY CHECK FAILED: BoxEntry index mismatch: " + boxEntry.xInd + i + " " + boxEntry.zInd + j + " " + boxEntry.yInd + k);
+                        res = false;
+                    }
+                    GameObject boxGameObject = boxEntry.GetBoxGameObj();
+                    if (boxGameObject != null)
+                    {
+                        BoxData boxData = boxGameObject.GetComponent<BoxData>();
+                        if (boxData.xInd != i || boxData.zInd != j || boxData.yInd != k)
+                        {
+                            Debug.Log("INTEGRITY CHECK FAILED: BoxData index mismatch: " + boxData.xInd + i + " " + boxData.zInd + j + " " + boxData.yInd + k);
+                            res = false;
+                        }
+                    }
+                    // TODO: boxEntry from list compare to boxEntry from BoxBehavior of boxGameObject
+                    // TODO: boxData as boxGameObject.GetComponent<BoxData>() compare to boxData from BoxBehavior of boxGameObject 
+                }
+            }
+        }
+        Debug.Log("INTEGRITY CHECK SUCCEEDED");
+        return res;
+    }
 }
 
 public class BoxHolder
