@@ -40,4 +40,11 @@ public class BoxData : MonoBehaviour
         yInd = otherBoxData.yInd;
         zInd = otherBoxData.zInd;
     }
+
+    public void UpdateBoxDataIndexByIndex(int otherXInd, int otherYInd, int otherZInd)
+    {
+        xInd = otherXInd;
+        yInd = otherYInd;
+        zInd = otherZInd;
+    }
 }

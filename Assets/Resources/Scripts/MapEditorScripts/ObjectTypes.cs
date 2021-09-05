@@ -81,16 +81,17 @@ public class ObjectTypes : MonoBehaviour
 
     public enum BoxActions : uint // Kind of relates to EffectTypes
     {
+        Irrelevant,
         Destroyed,
-        Irrelevant
+        SwappedBySpace
     }
 
     static public Dictionary<EffectTypes, BoxActions> effectTypesToBoxActions = new Dictionary<EffectTypes, BoxActions>
     {
         { EffectTypes.AnalysisAttack, BoxActions.Destroyed },
         { EffectTypes.TurretAttack, BoxActions.Destroyed },
-        { EffectTypes.SwapSelect, BoxActions.Irrelevant },
-        { EffectTypes.Swapping, BoxActions.Irrelevant },
+        { EffectTypes.SwapSelect, BoxActions.Irrelevant }, // NOTE: maybe !Irrelevant, but then only partial application (say, visual)
+        { EffectTypes.Swapping, BoxActions.SwappedBySpace }, // 
         { EffectTypes.QuantumSelect, BoxActions.Irrelevant },
         { EffectTypes.QuantumConnect, BoxActions.Irrelevant }
     };

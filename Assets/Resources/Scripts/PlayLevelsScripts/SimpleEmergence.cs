@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SimpleEmergence : MonoBehaviour
 {
@@ -7,7 +8,16 @@ public class SimpleEmergence : MonoBehaviour
     public ObjectTypes.BoxActions latestAction;
     // TODO: the fact it's int seems super sketchy, 
     // CHECK how simultaneous projectiles get resolved
-    public int dHandedToolRightUsed; 
+    public int dHandedToolRightUsed;
+
+    public GameObject replayBoxObj;
+    public BoxTraits replayBoxTraits;
+
+    public List<GameObject> boxesToCleanUp;
+
+    public int swapXIndDiff;
+    public int swapZIndDiff;
+    public int swapYIndDiff;
 
     public void Start()
     {
@@ -15,6 +25,9 @@ public class SimpleEmergence : MonoBehaviour
         selBoxData = null;
         latestAction = ObjectTypes.BoxActions.Irrelevant;
         dHandedToolRightUsed = 0;
+        swapXIndDiff = 0;
+        swapZIndDiff = 0;
+        swapYIndDiff = 0;
     }
 
     public void CleanUpUnfinishedEffects()
@@ -31,5 +44,18 @@ public class SimpleEmergence : MonoBehaviour
                 Destroy(selBoxBehavior.secondaryEffect);
             }
         }
+    }
+
+    public void CleanUpFinishedEffects()
+    {
+        for (int i = boxesToCleanUp.Count - 1; i >= 0; i--)
+        {
+            boxesToCleanUp[i].GetComponent<BoxTraits>().traversed = false;
+            boxesToCleanUp.RemoveAt(i);
+        }
+
+        swapXIndDiff = 0;
+        swapZIndDiff = 0;
+        swapYIndDiff = 0;
     }
 }
