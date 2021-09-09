@@ -155,7 +155,9 @@ public class BoxBehavior : MonoBehaviour
         boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
 
-        if (IsTopInPillar()) // TODO: this is probably never triggered
+        // NOTE: this is probably never triggered
+        // TODO: PLEASE rewrite
+        if (IsTopInPillar())
         {
             for (int i = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].Count - 1; i > boxEntry.yInd; --i)
             {
