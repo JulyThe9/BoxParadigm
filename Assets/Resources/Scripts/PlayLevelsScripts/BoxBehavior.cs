@@ -155,7 +155,7 @@ public class BoxBehavior : MonoBehaviour
         boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
 
-        if (IsTopInPillar())
+        if (IsTopInPillar()) // TODO: this is probably never triggered
         {
             for (int i = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].Count - 1; i > boxEntry.yInd; --i)
             {
@@ -340,9 +340,16 @@ public class BoxBehavior : MonoBehaviour
         int toSwapBoxXInd = ((boxData.xInd + mult * simpleEmergence.swapXIndDiff) % rowCount  + rowCount) % rowCount;
         int toSwapBoxZInd = ((boxData.zInd + mult * simpleEmergence.swapZIndDiff) % columnCount + columnCount) % columnCount;
         int toSwapBoxYInd = ((boxData.yInd + mult * simpleEmergence.swapYIndDiff) % layerCount + layerCount) % layerCount;
-       
+
         // next two checks - for replaying
-        BoxEntry swapBoxEntry = BHWrapper.bHolder.list[toSwapBoxXInd][toSwapBoxZInd][toSwapBoxYInd];
+        List<BoxEntry> swapPillar = BHWrapper.bHolder.list[toSwapBoxXInd][toSwapBoxZInd];
+
+        if (toSwapBoxYInd > swapPillar.Count - 1)
+        {
+            BHWrapper.FillWithEmpty(toSwapBoxXInd, toSwapBoxZInd, toSwapBoxYInd);
+        }
+
+        BoxEntry swapBoxEntry = swapPillar[toSwapBoxYInd];
         if (swapBoxEntry.type == ObjectTypes.BoxTypes.Undetermined)
         {
             // NOTE: assuming corresponding pillars have the same height

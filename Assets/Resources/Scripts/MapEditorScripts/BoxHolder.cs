@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
+// TODO: might want to add range changes for all methods
 public static class BHWrapper
 {
     public static BoxHolder bHolder = new BoxHolder();
@@ -49,6 +50,32 @@ public static class BHWrapper
     public static void RemoveFromPillar(int xInd, int zInd, int yIndToRemove)
     {
         bHolder.list[xInd][zInd].RemoveAt(yIndToRemove);
+    }
+
+    public static void FillWithEmpty(int xInd, int zInd, int yIndFinal) // yIndFinal is inclusive
+    {
+        Vector3 refPos = new Vector3(0, 0, 0);
+        List<BoxEntry> pillar = bHolder.list[xInd][zInd];
+
+        if (pillar.Count > 0)
+        {
+            BoxEntry topBox = pillar.Last();
+            refPos.x = topBox.xPos;
+            refPos.y = topBox.yPos;
+            refPos.z = topBox.zPos;
+        }
+        else
+        {
+            // TODO: tackle this
+        }
+
+        while (pillar.Count <= yIndFinal)
+        {
+            BoxEntry boxEntry = new BoxEntry(ObjectTypes.BoxTypes.Undetermined, "", xInd, pillar.Count, zInd, 
+                refPos.x, refPos.y + GlobalDimensions.margin_, refPos.z);
+            pillar.Add(boxEntry);
+            refPos.y = boxEntry.yPos;
+        }
     }
 
     public static bool CheckIntegrity()
