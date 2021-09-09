@@ -6,8 +6,22 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 
+
 public class EditorUI : MonoBehaviour
 {
+    private class XZCoords
+    {
+        public float XPos_ { get; } = 0.0f;
+        public float ZPos_ { get; } = 0.0f;
+
+
+        public XZCoords(float xPos, float zPos)
+        {
+            XPos_ = xPos;
+            ZPos_ = zPos;
+        }
+    }
+
     public GameObject floor;
     public bool buildingEnabled;
     public bool finishBoxPlaced;
@@ -18,6 +32,8 @@ public class EditorUI : MonoBehaviour
     private bool gridGenerated = false;
 
     private GameObject player = null;
+
+    List<List<XZCoords>> cellXZCoordsByIndices = new List<List<XZCoords>>();
 
     void Start()
     {
@@ -86,7 +102,8 @@ public class EditorUI : MonoBehaviour
 		float oriz = floor.transform.position.z - (width-1);
 		float tempOriz = oriz;
 		for (int i = 0; i < length; i++) {
-			for (int j = 0; j < width; j++) {
+            cellXZCoordsByIndices.Add(new List<XZCoords>());
+            for (int j = 0; j < width; j++) {
 				GameObject cell = Instantiate (Resources.Load ("InitCell")) as GameObject;
                 cell.transform.parent = floor.transform;
                 cell.transform.position = new Vector3 (orix, floor.transform.position.y + GlobalDimensions.minDifDistance_, oriz);
@@ -98,7 +115,8 @@ public class EditorUI : MonoBehaviour
 				initPosBeh.zInd = j;
 				initPosBeh.yInd = -1;
 
-			}
+                cellXZCoordsByIndices[i].Add(new XZCoords(cell.transform.position.x, cell.transform.position.z));
+            }
 			oriz = tempOriz;
 			orix += 2f;
 		}
@@ -116,6 +134,8 @@ public class EditorUI : MonoBehaviour
 
 	public void saveBoxes()
     {
+        AddFundamentToEmptyPillars();
+
         // TODO: maybe create a method PreCalculations or TransferData
         if (finishBoxPlaced)
         {
@@ -130,6 +150,23 @@ public class EditorUI : MonoBehaviour
 		serializer.Serialize (stream, BHWrapper.bHolder);
 		stream.Close ();
 	}
+
+    private void AddFundamentToEmptyPillars()
+    {
+        for (int i = 0; i < BHWrapper.bHolder.length; ++i) // x
+        {
+            for (int j = 0; j < BHWrapper.bHolder.width; ++j) // z
+            {
+                if (BHWrapper.bHolder.list[i][j].Count == 0)
+                {
+                    // placing an empty box
+                    BoxEntry emptyBoxEntry = new BoxEntry(ObjectTypes.BoxTypes.Undetermined, "", i, 0, j,
+                        cellXZCoordsByIndices[i][j].XPos_, floor.transform.position.y + GlobalDimensions.halfMargin_, cellXZCoordsByIndices[i][j].ZPos_);
+                    BHWrapper.bHolder.list[i][j].Add(emptyBoxEntry);
+                }
+            }
+        }
+    }
 
     public void loadMap()
     {

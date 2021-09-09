@@ -46,10 +46,17 @@ public static class BHWrapper
         bHolder.list[xInd][zInd][yInd].Update(boxEntry);
     }
 
-    // TODO: see where else can be used
+    // TODO: see where else can be used; ALWAYS USE THIS TO REMOVE to preserve the logic with never having an empty pillar
     public static void RemoveFromPillar(int xInd, int zInd, int yIndToRemove)
     {
-        bHolder.list[xInd][zInd].RemoveAt(yIndToRemove);
+        if (yIndToRemove > 0)
+        {
+            bHolder.list[xInd][zInd].RemoveAt(yIndToRemove);
+        }
+        else
+        {
+            bHolder.list[xInd][zInd][yIndToRemove].Clear();
+        }
     }
 
     public static void FillWithEmpty(int xInd, int zInd, int yIndFinal) // yIndFinal is inclusive
@@ -57,16 +64,13 @@ public static class BHWrapper
         Vector3 refPos = new Vector3(0, 0, 0);
         List<BoxEntry> pillar = bHolder.list[xInd][zInd];
 
+        Debug.Assert(pillar.Count > 0);
         if (pillar.Count > 0)
         {
             BoxEntry topBox = pillar.Last();
             refPos.x = topBox.xPos;
             refPos.y = topBox.yPos;
             refPos.z = topBox.zPos;
-        }
-        else
-        {
-            // TODO: tackle this
         }
 
         while (pillar.Count <= yIndFinal)
