@@ -10,7 +10,7 @@ public class BoxRayCast : MonoBehaviour {
 	private MapPlacements mapPlacements = new MapPlacements();
 
 	void Start(){
-		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();  // TODO: use const vars
+		editorUI = GameObject.Find (GlobalVariables.canvasName).GetComponent<EditorUI> ();
     }
 
 	void Update()
@@ -20,7 +20,7 @@ public class BoxRayCast : MonoBehaviour {
         {
 			if (editorUI.buildingEnabled && hit.transform.gameObject.tag.Equals (ObjectTypes.boxTagName))
             {				
-				GameObject holder = GameObject.Find ("Canvas");
+				GameObject holder = GameObject.Find (GlobalVariables.canvasName); // TODO: move to Start
 				BoxPicking boxPicking = holder.GetComponent<BoxPicking> ();
 				ObjectTypes.BoxTypes curType = boxPicking.selBoxType;
 

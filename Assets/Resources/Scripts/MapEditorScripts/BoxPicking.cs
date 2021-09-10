@@ -12,7 +12,7 @@ public class BoxPicking : MonoBehaviour {
 
     void Start()
     {
-        editorUI = GameObject.Find("Canvas").GetComponent<EditorUI>();
+        editorUI = GameObject.Find(GlobalVariables.canvasName).GetComponent<EditorUI>();
     }
 
     public void pickBox(GameObject slot)

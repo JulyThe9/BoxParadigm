@@ -20,10 +20,11 @@ public class InitPosBeh : MonoBehaviour {
     {
 		gameObject.GetComponent<Renderer>().material =  Resources.Load("Materials/" + ObjectTypes.boxTypesToMaterialNames[origMatType], 
             typeof(Material)) as Material;
-		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();
+
+        holder = GameObject.Find(GlobalVariables.canvasName);
+        editorUI = holder.GetComponent<EditorUI> ();
 
 		refPos = transform.position;
-		holder = GameObject.Find ("Canvas");
 		boxPicking = holder.GetComponent<BoxPicking> ();
 		gameObject.GetComponent<Renderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 

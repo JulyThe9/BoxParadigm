@@ -10,9 +10,10 @@ public class CharCtrl : MonoBehaviour {
 
     private Vector3 initialPosition;
 
-    void Start () {
+    void Start ()
+    {
         // what is it needed for?
-		editorUI = GameObject.Find ("Canvas").GetComponent<EditorUI> ();
+		editorUI = GameObject.Find (GlobalVariables.canvasName).GetComponent<EditorUI> ();
         initialPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
     }
 

@@ -3,6 +3,8 @@
 public class GlobalVariables : MonoBehaviour
 {
     // Map editor names
+    public static string canvasName = "Canvas";
+
     public static string XIdxBoxInputFieldName = "XIdxBox";
     public static string ZIdxBoxInputFieldName = "ZIdxBox";
     public static string YIdxBoxInputFieldName = "YIdxBox";

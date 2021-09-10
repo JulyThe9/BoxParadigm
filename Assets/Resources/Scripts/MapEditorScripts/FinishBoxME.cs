@@ -8,8 +8,8 @@ public class FinishBoxME : MonoBehaviour
     private BoxPicking boxPicking;
     void Start()
     {
-        editorUI = GameObject.Find("Canvas").GetComponent<EditorUI>();
-        boxPicking = GameObject.Find("Canvas").GetComponent<BoxPicking>();
+        editorUI = GameObject.Find(GlobalVariables.canvasName).GetComponent<EditorUI>();
+        boxPicking = GameObject.Find(GlobalVariables.canvasName).GetComponent<BoxPicking>();
 
         editorUI.finishBoxPlaced = true;
         BoxData boxData = gameObject.GetComponent<BoxData>();

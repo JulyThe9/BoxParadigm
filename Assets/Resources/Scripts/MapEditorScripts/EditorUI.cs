@@ -55,7 +55,7 @@ public class EditorUI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         player.AddComponent<CharCtrl>();
 
-        boxPicking = GameObject.Find("Canvas").GetComponent<BoxPicking>();
+        boxPicking = GameObject.Find(GlobalVariables.canvasName).GetComponent<BoxPicking>();
 
         XIdxBox_ = GameObject.Find(GlobalVariables.XIdxBoxInputFieldName).GetComponent<InputField>();
         ZIdxBox_ = GameObject.Find(GlobalVariables.ZIdxBoxInputFieldName).GetComponent<InputField>();
