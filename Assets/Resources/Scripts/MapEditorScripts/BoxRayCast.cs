@@ -6,11 +6,16 @@ public class BoxRayCast : MonoBehaviour {
 
 	private Ray ray;
 	private RaycastHit hit;
+    private GameObject holder;
 	private EditorUI editorUI;
+    private BoxPicking boxPicking;
 	private MapPlacements mapPlacements = new MapPlacements();
 
-	void Start(){
-		editorUI = GameObject.Find (GlobalVariables.canvasName).GetComponent<EditorUI> ();
+	void Start()
+    {
+        holder = GameObject.Find(GlobalVariables.canvasName);
+        editorUI = holder.GetComponent<EditorUI> ();
+        boxPicking = holder.GetComponent<BoxPicking>();
     }
 
 	void Update()
@@ -19,9 +24,7 @@ public class BoxRayCast : MonoBehaviour {
 		if(Physics.Raycast(ray, out hit))
         {
 			if (editorUI.buildingEnabled && hit.transform.gameObject.tag.Equals (ObjectTypes.boxTagName))
-            {				
-				GameObject holder = GameObject.Find (GlobalVariables.canvasName); // TODO: move to Start
-				BoxPicking boxPicking = holder.GetComponent<BoxPicking> ();
+            {				 
 				ObjectTypes.BoxTypes curType = boxPicking.selBoxType;
 
                 BoxData boxData = hit.transform.gameObject.GetComponent<BoxData>();
