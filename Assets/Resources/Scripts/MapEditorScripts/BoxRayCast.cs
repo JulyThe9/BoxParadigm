@@ -72,6 +72,10 @@ public class BoxRayCast : MonoBehaviour {
                         {
                             editorUI.finishBoxPlaced = false;
                         }
+                        else if (xInd == editorUI.startBoxXInd && zInd == editorUI.startBoxZInd && yInd == editorUI.startBoxYInd)
+                        {
+                            editorUI.startBoxChosen = false;
+                        }
 
                         Vector3 refPos = hit.transform.position;
 

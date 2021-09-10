@@ -2,6 +2,12 @@
 
 public class GlobalVariables : MonoBehaviour
 {
+    // Map editor names
+    public static string XIdxBoxInputFieldName = "XIdxBox";
+    public static string ZIdxBoxInputFieldName = "ZIdxBox";
+    public static string YIdxBoxInputFieldName = "YIdxBox";
+
+    // Play levels names
     public static string mapEditorBoxesName = "MapEditorBoxes";
     public static string playLevelsBoxesName = "PlayLevelsBoxes";
 

@@ -24,28 +24,42 @@ public class EditorUI : MonoBehaviour
 
     public GameObject floor;
     public bool buildingEnabled;
+
     public bool finishBoxPlaced;
     public int finishBoxXInd;
     public int finishBoxYInd;
     public int finishBoxZInd;
 
+    public bool startBoxChosen;
+    public int startBoxXInd;
+    public int startBoxYInd;
+    public int startBoxZInd;
+
     private bool gridGenerated = false;
 
     private GameObject player = null;
 
-    List<List<XZCoords>> cellXZCoordsByIndices = new List<List<XZCoords>>();
+    private List<List<XZCoords>> cellXZCoordsByIndices = new List<List<XZCoords>>();
+
+    private InputField XIdxBox_;
+    private InputField ZIdxBox_;
+    private InputField YIdxBox_;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         player.AddComponent<CharCtrl>();
+
+        XIdxBox_ = GameObject.Find(GlobalVariables.XIdxBoxInputFieldName).GetComponent<InputField>();
+        ZIdxBox_ = GameObject.Find(GlobalVariables.ZIdxBoxInputFieldName).GetComponent<InputField>();
+        YIdxBox_ = GameObject.Find(GlobalVariables.YIdxBoxInputFieldName).GetComponent<InputField>();
     }
 
     public void parseAndCreateGrid()
     {
         InputField LBox = GameObject.Find("LBox").GetComponent<InputField>();
         InputField WBox = GameObject.Find("WBox").GetComponent<InputField>();
-        BHWrapper.bHolder.length = int.Parse(LBox.text);
+        BHWrapper.bHolder.length = int.Parse(LBox.text); // TODO: input format check/sanitization needed
         BHWrapper.bHolder.width = int.Parse(WBox.text);
         createGrid();
     }
@@ -136,14 +150,7 @@ public class EditorUI : MonoBehaviour
     {
         AddFundamentToEmptyPillars();
 
-        // TODO: maybe create a method PreCalculations or TransferData
-        if (finishBoxPlaced)
-        {
-            BHWrapper.bHolder.finishGiven = true;
-            BHWrapper.bHolder.finishXInd = finishBoxXInd;
-            BHWrapper.bHolder.finishYInd = finishBoxYInd;
-            BHWrapper.bHolder.finishZInd = finishBoxZInd;
-        }
+        ValidateAndTransferLevelData();
 
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
 		FileStream stream = new FileStream (Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Create);
@@ -164,6 +171,33 @@ public class EditorUI : MonoBehaviour
                         cellXZCoordsByIndices[i][j].XPos_, floor.transform.position.y + GlobalDimensions.halfMargin_, cellXZCoordsByIndices[i][j].ZPos_);
                     BHWrapper.bHolder.list[i][j].Add(emptyBoxEntry);
                 }
+            }
+        }
+    }
+
+    private void ValidateAndTransferLevelData()
+    {
+        if (finishBoxPlaced)
+        {
+            BHWrapper.bHolder.finishGiven = true;
+            BHWrapper.bHolder.finishXInd = finishBoxXInd;
+            BHWrapper.bHolder.finishYInd = finishBoxYInd;
+            BHWrapper.bHolder.finishZInd = finishBoxZInd;
+        }
+
+        if (startBoxChosen)
+        {
+            List<BoxEntry> pillar = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd];
+
+            // NOTE: BoxBehavior's IsTopInPillar and GetUpperBoxEntry might come in handy here
+            // TODO: need to change the first condition if the concept of ceiling is introduced
+            // this check is for making sure there is space for player to be placed on the box marked as start
+            if (startBoxYInd == pillar.Count - 1 || pillar[startBoxYInd].type == ObjectTypes.BoxTypes.Undetermined)
+            {
+                BHWrapper.bHolder.startGiven = true;
+                BHWrapper.bHolder.startXInd = startBoxXInd;
+                BHWrapper.bHolder.startYInd = startBoxYInd;
+                BHWrapper.bHolder.startZInd = startBoxZInd;
             }
         }
     }
@@ -236,10 +270,52 @@ public class EditorUI : MonoBehaviour
         panel.SetActive (false);
 	}
 
-    public void setStartBox() // to be invoked when marking start box is set/pressed
+    public void SetStartBox()
     {
-        // TODO: implement
-        BHWrapper.bHolder.startGiven = true;
+        int startBoxXIndBuff = int.Parse(XIdxBox_.text);
+        int startBoxZIndBuff = int.Parse(ZIdxBox_.text);
+        int startBoxYIndBuff = int.Parse(YIdxBox_.text);
+
+        bool startBoxApproved = false;
+
+        if  (startBoxXIndBuff <= BHWrapper.bHolder.list.Count - 1)
+        {
+            if (startBoxZIndBuff <= BHWrapper.bHolder.list[startBoxXIndBuff].Count - 1)
+            {
+                if (startBoxYIndBuff <= BHWrapper.bHolder.list[startBoxXIndBuff][startBoxZIndBuff].Count - 1)
+                {
+                    if (startBoxXIndBuff != finishBoxXInd || startBoxZIndBuff != finishBoxZInd || startBoxYIndBuff != finishBoxYInd)
+                    {
+                        startBoxApproved = true;
+                    }
+                }
+            }
+        }
+
+        if (startBoxApproved)
+        {
+            if (startBoxChosen)
+            {
+                BoxEntry curStartBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+                curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
+                    Resources.Load("Materials/" + ObjectTypes.boxTypesToMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
+            }
+
+            startBoxXInd = startBoxXIndBuff;
+            startBoxYInd = startBoxYIndBuff;
+            startBoxZInd = startBoxZIndBuff;
+
+            BoxEntry startBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+            startBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material = 
+                Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[startBoxEntry.type], typeof(Material)) as Material;
+
+            startBoxChosen = true;
+        }
+    }
+
+    public void SelectStartBox()
+    {
+
     }
 
     public bool GetGridGenerated()

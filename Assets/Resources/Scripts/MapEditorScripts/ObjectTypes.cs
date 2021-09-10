@@ -53,6 +53,14 @@ public class ObjectTypes : MonoBehaviour
         { BoxTypes.Finish, "Finish_Box_Sel" }
     };
 
+    static public Dictionary<BoxTypes, string> boxTypesToStartMaterialNames = new Dictionary<BoxTypes, string>
+    {
+        { BoxTypes.Wood, "Wood_Box_Start" },
+        { BoxTypes.Stone, "Stone_Box_Start" },
+        { BoxTypes.Turret, "Turret_Box_Start" },
+        { BoxTypes.Mirror, "Mirror_Box_Start" }
+    };
+
     static public Dictionary<EffectTypes, string> effectTypesToSelMaterialNames = new Dictionary<EffectTypes, string>
     {
         { EffectTypes.SwapSelect, "SwapSelect" },
