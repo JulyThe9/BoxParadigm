@@ -177,28 +177,48 @@ public class EditorUI : MonoBehaviour
 
     private void ValidateAndTransferLevelData()
     {
-        if (finishBoxPlaced)
-        {
-            BHWrapper.bHolder.finishGiven = true;
-            BHWrapper.bHolder.finishXInd = finishBoxXInd;
-            BHWrapper.bHolder.finishYInd = finishBoxYInd;
-            BHWrapper.bHolder.finishZInd = finishBoxZInd;
-        }
+        BHWrapper.bHolder.finishGiven = finishBoxPlaced;
+        BHWrapper.bHolder.finishXInd = finishBoxXInd;
+        BHWrapper.bHolder.finishYInd = finishBoxYInd;
+        BHWrapper.bHolder.finishZInd = finishBoxZInd;
 
         if (startBoxChosen)
         {
             List<BoxEntry> pillar = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd];
-
             // NOTE: BoxBehavior's IsTopInPillar and GetUpperBoxEntry might come in handy here
             // TODO: need to change the first condition if the concept of ceiling is introduced
             // this check is for making sure there is space for player to be placed on the box marked as start
-            if (startBoxYInd == pillar.Count - 1 || pillar[startBoxYInd].type == ObjectTypes.BoxTypes.Undetermined)
+            if (startBoxYInd < pillar.Count - 1 && pillar[startBoxYInd + 1].type != ObjectTypes.BoxTypes.Undetermined)
             {
-                BHWrapper.bHolder.startGiven = true;
-                BHWrapper.bHolder.startXInd = startBoxXInd;
-                BHWrapper.bHolder.startYInd = startBoxYInd;
-                BHWrapper.bHolder.startZInd = startBoxZInd;
+                startBoxChosen = false;
             }
+        }
+        BHWrapper.bHolder.startGiven = startBoxChosen;
+        BHWrapper.bHolder.startXInd = startBoxXInd;
+        BHWrapper.bHolder.startYInd = startBoxYInd;
+        BHWrapper.bHolder.startZInd = startBoxZInd;
+    }
+
+    private void TransferLevelDataBack()
+    {
+        finishBoxPlaced = BHWrapper.bHolder.finishGiven;
+        if (finishBoxPlaced)
+        {
+            finishBoxXInd = BHWrapper.bHolder.finishXInd;
+            finishBoxYInd = BHWrapper.bHolder.finishYInd;
+            finishBoxZInd = BHWrapper.bHolder.finishZInd;
+        }
+
+        startBoxChosen = BHWrapper.bHolder.startGiven;
+        if (startBoxChosen)
+        {
+            startBoxXInd = BHWrapper.bHolder.startXInd;
+            startBoxYInd = BHWrapper.bHolder.startYInd;
+            startBoxZInd = BHWrapper.bHolder.startZInd;
+
+            BoxEntry curStartBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+            curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
+                Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
         }
     }
 
@@ -234,6 +254,8 @@ public class EditorUI : MonoBehaviour
                 }
             }
         }
+
+        TransferLevelDataBack();
     }
 
     private void clearUserCreatedObjects()
