@@ -10,6 +10,7 @@ public class BoxConstraints : MonoBehaviour
         { ObjectTypes.EffectTypes.SwapSelect, false },
         { ObjectTypes.EffectTypes.Swapping, false },
         { ObjectTypes.EffectTypes.QuantumSelect, false },
-        { ObjectTypes.EffectTypes.QuantumConnect, false }
+        { ObjectTypes.EffectTypes.QuantumConnect, false },
+        { ObjectTypes.EffectTypes.GravityArgument, false }
     };
 }

@@ -67,7 +67,8 @@ public class ObjectTypes : MonoBehaviour
         SwapSelect, // quasi-type
         Swapping,
         QuantumSelect, // quasi-type
-        QuantumConnect
+        QuantumConnect,
+        GravityArgument
     }
 
     public enum ToolTypes : uint
@@ -83,7 +84,8 @@ public class ObjectTypes : MonoBehaviour
     {
         Irrelevant,
         Destroyed,
-        SwappedBySpace
+        SwappedBySpace,
+        Levitating
     }
 
     static public Dictionary<EffectTypes, BoxActions> effectTypesToBoxActions = new Dictionary<EffectTypes, BoxActions>
@@ -93,7 +95,8 @@ public class ObjectTypes : MonoBehaviour
         { EffectTypes.SwapSelect, BoxActions.Irrelevant }, // NOTE: maybe !Irrelevant, but then only partial application (say, visual)
         { EffectTypes.Swapping, BoxActions.SwappedBySpace }, // 
         { EffectTypes.QuantumSelect, BoxActions.Irrelevant },
-        { EffectTypes.QuantumConnect, BoxActions.Irrelevant }
+        { EffectTypes.QuantumConnect, BoxActions.Irrelevant },
+        { EffectTypes.GravityArgument, BoxActions.Levitating }
     };
 
     static public string ledgeToGrabName = "LedgeToGrab";

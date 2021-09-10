@@ -44,6 +44,7 @@ public class BoxBehavior : MonoBehaviour
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument] = true;
                 break;
             case ObjectTypes.BoxTypes.Stone:
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
@@ -53,6 +54,7 @@ public class BoxBehavior : MonoBehaviour
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true; // TODO: temp
                 //boxConstraints.attackSueffectSusceptiblesceptible[ObjectTypes.AttackTypes.AnalysisAttack] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument] = true;
                 break;
             case ObjectTypes.BoxTypes.Mirror:
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
@@ -61,6 +63,7 @@ public class BoxBehavior : MonoBehaviour
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument] = true;
                 break;
             case ObjectTypes.BoxTypes.Turret:
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = true;
@@ -69,6 +72,7 @@ public class BoxBehavior : MonoBehaviour
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = true;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = true;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument] = true;
                 break;
             case ObjectTypes.BoxTypes.Finish:
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.SwapSelect] = false;
@@ -77,6 +81,7 @@ public class BoxBehavior : MonoBehaviour
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.QuantumConnect] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack] = false;
                 boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.TurretAttack] = false;
+                boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument] = false;
                 break;
             default:
                 break;
@@ -255,6 +260,16 @@ public class BoxBehavior : MonoBehaviour
 
                     // structural
                     simpleEmergence.CleanUpUnfinishedEffects();
+                }
+                break;
+            case ObjectTypes.EffectTypes.GravityArgument:
+                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument])
+                {
+                    OnGravityArgument();
+                }
+                else
+                {
+
                 }
                 break;
         }
@@ -453,6 +468,17 @@ public class BoxBehavior : MonoBehaviour
         simpleEmergence.selBoxData = null;
     }
 
+    private void OnGravityArgument()
+    {
+        // vistual
+
+        // structural
+        simpleEmergence.replayBoxObj = gameObject;
+        simpleEmergence.replayBoxTraits = boxTraits;
+
+        boxTraits.levitating = !boxTraits.levitating;
+    }
+
     private void ReplayActionsOnConnected(BoxTraits curBoxTraits)
     {
         foreach (BoxData curBoxData in curBoxTraits.connectedTo)
@@ -484,6 +510,9 @@ public class BoxBehavior : MonoBehaviour
                 break;
             case ObjectTypes.BoxActions.SwappedBySpace:
                 boxBehavior.OnSwapping();
+                break;
+            case ObjectTypes.BoxActions.Levitating:
+                boxBehavior.OnGravityArgument();
                 break;
         }
     }

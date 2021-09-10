@@ -94,6 +94,10 @@ public class PlayerMovement : MonoBehaviour
         {
             toolControl.Equip(2);
         }
+        if (Input.GetKey(KeyCode.Alpha4))
+        {
+            toolControl.Equip(3);
+        }
         if (Input.GetKey(KeyCode.T))
         {
             toolControl.Unquip();
