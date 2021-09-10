@@ -15,13 +15,12 @@ public class BoxPicking : MonoBehaviour {
         editorUI = GameObject.Find("Canvas").GetComponent<EditorUI>();
     }
 
-    public void pickBox(GameObject slot){
-		if (!slot.activeSelf)
+    public void pickBox(GameObject slot)
+    {
+        editorUI.startBoxSelecting = false;
+        if (!slot.activeSelf)
         {
-            if (selBoxType != ObjectTypes.BoxTypes.Undetermined)
-            {
-                GameObject.Find(ObjectTypes.boxTypesToSlotNames[selBoxType]).SetActive(false);
-            }
+            DeactivateCurSlot();
             selBoxType = slot.GetComponent<SlotData>().slotBoxType;
             if (selBoxType != ObjectTypes.BoxTypes.Finish || !editorUI.finishBoxPlaced)
             {
@@ -39,4 +38,12 @@ public class BoxPicking : MonoBehaviour {
 		}
 	}
 
+    public void DeactivateCurSlot()
+    {
+        if (selBoxType != ObjectTypes.BoxTypes.Undetermined)
+        {
+            GameObject.Find(ObjectTypes.boxTypesToSlotNames[selBoxType]).SetActive(false);
+            selBoxType = ObjectTypes.BoxTypes.Undetermined;
+        }
+    }
 }

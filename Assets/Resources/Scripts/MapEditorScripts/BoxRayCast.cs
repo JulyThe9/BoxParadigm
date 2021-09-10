@@ -43,22 +43,33 @@ public class BoxRayCast : MonoBehaviour {
                 {
 					if (Input.GetMouseButtonDown (0))
                     {
-						Destroy (hit.transform.gameObject);
-                        // TODO: a better solution is to create Destroy method in BoxEntry
-                        // to do game object destruction and this
-                        if (boxEntryColumn[yInd].type == ObjectTypes.BoxTypes.Finish)
+                        if (editorUI.startBoxSelecting)
                         {
-                            editorUI.finishBoxPlaced = false;
-                        }
-
-						int columnSize = boxEntryColumn.Count;
-                        if (yInd >= columnSize - 1)
-                        {
-                            boxEntryColumn.RemoveAt(columnSize - 1);
+                            editorUI.startBoxSelecting = false;
+                            if (boxEntryColumn[yInd].type != ObjectTypes.BoxTypes.Finish)
+                            {
+                                editorUI.ConfirmStartBoxChoosing(xInd, yInd, zInd);
+                            }
                         }
                         else
                         {
-                            boxEntryColumn[yInd].type = ObjectTypes.BoxTypes.Undetermined;
+                            Destroy(hit.transform.gameObject);
+                            // TODO: a better solution is to create Destroy method in BoxEntry
+                            // to do game object destruction and this
+                            if (boxEntryColumn[yInd].type == ObjectTypes.BoxTypes.Finish)
+                            {
+                                editorUI.finishBoxPlaced = false;
+                            }
+
+                            int columnSize = boxEntryColumn.Count;
+                            if (yInd >= columnSize - 1)
+                            {
+                                boxEntryColumn.RemoveAt(columnSize - 1);
+                            }
+                            else
+                            {
+                                boxEntryColumn[yInd].type = ObjectTypes.BoxTypes.Undetermined;
+                            }
                         }
 					}
 				}

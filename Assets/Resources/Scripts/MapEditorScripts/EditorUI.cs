@@ -30,6 +30,7 @@ public class EditorUI : MonoBehaviour
     public int finishBoxYInd;
     public int finishBoxZInd;
 
+    public bool startBoxSelecting;
     public bool startBoxChosen;
     public int startBoxXInd;
     public int startBoxYInd;
@@ -38,6 +39,7 @@ public class EditorUI : MonoBehaviour
     private bool gridGenerated = false;
 
     private GameObject player = null;
+    private BoxPicking boxPicking = null;
 
     private List<List<XZCoords>> cellXZCoordsByIndices = new List<List<XZCoords>>();
 
@@ -47,8 +49,13 @@ public class EditorUI : MonoBehaviour
 
     void Start()
     {
+        // TODO: initialize everything else
+        startBoxSelecting = false;
+
         player = GameObject.FindGameObjectWithTag("Player");
         player.AddComponent<CharCtrl>();
+
+        boxPicking = GameObject.Find("Canvas").GetComponent<BoxPicking>();
 
         XIdxBox_ = GameObject.Find(GlobalVariables.XIdxBoxInputFieldName).GetComponent<InputField>();
         ZIdxBox_ = GameObject.Find(GlobalVariables.ZIdxBoxInputFieldName).GetComponent<InputField>();
@@ -292,8 +299,10 @@ public class EditorUI : MonoBehaviour
         panel.SetActive (false);
 	}
 
-    public void SetStartBox()
+    private void SetStartBox()
     {
+        startBoxSelecting = false;
+
         int startBoxXIndBuff = int.Parse(XIdxBox_.text);
         int startBoxZIndBuff = int.Parse(ZIdxBox_.text);
         int startBoxYIndBuff = int.Parse(YIdxBox_.text);
@@ -316,28 +325,34 @@ public class EditorUI : MonoBehaviour
 
         if (startBoxApproved)
         {
-            if (startBoxChosen)
-            {
-                BoxEntry curStartBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
-                curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
-                    Resources.Load("Materials/" + ObjectTypes.boxTypesToMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
-            }
-
-            startBoxXInd = startBoxXIndBuff;
-            startBoxYInd = startBoxYIndBuff;
-            startBoxZInd = startBoxZIndBuff;
-
-            BoxEntry startBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
-            startBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material = 
-                Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[startBoxEntry.type], typeof(Material)) as Material;
-
-            startBoxChosen = true;
+            ConfirmStartBoxChoosing(startBoxXIndBuff, startBoxYIndBuff, startBoxZIndBuff);
         }
     }
 
-    public void SelectStartBox()
+    private void SelectStartBox()
     {
+        startBoxSelecting = true;
+        boxPicking.DeactivateCurSlot();  
+    }
 
+    public void ConfirmStartBoxChoosing(int startBoxXIndPar, int startBoxYIndPar, int startBoxZIndPar)
+    {
+        if (startBoxChosen)
+        {
+            BoxEntry curStartBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+            curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
+                Resources.Load("Materials/" + ObjectTypes.boxTypesToMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
+        }
+
+        startBoxXInd = startBoxXIndPar;
+        startBoxYInd = startBoxYIndPar;
+        startBoxZInd = startBoxZIndPar;
+
+        BoxEntry startBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+        startBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
+            Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[startBoxEntry.type], typeof(Material)) as Material;
+
+        startBoxChosen = true;
     }
 
     public bool GetGridGenerated()
