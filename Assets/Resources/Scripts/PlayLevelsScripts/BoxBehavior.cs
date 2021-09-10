@@ -155,15 +155,7 @@ public class BoxBehavior : MonoBehaviour
         boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
 
-        // NOTE: this is probably never triggered
-        // TODO: PLEASE rewrite
-        if (IsTopInPillar())
-        {
-            for (int i = BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].Count - 1; i > boxEntry.yInd; --i)
-            {
-                BHWrapper.bHolder.list[boxEntry.xInd][boxEntry.zInd].RemoveAt(i);
-            }
-        }
+        // TODO: Consider box garbage collection
 
         DebugMethods.PrintPillar(boxEntry.xInd, boxEntry.zInd);
     }
@@ -346,6 +338,7 @@ public class BoxBehavior : MonoBehaviour
         // next two checks - for replaying
         List<BoxEntry> swapPillar = BHWrapper.bHolder.list[toSwapBoxXInd][toSwapBoxZInd];
 
+        // TODO: Consider box garbage collection
         if (toSwapBoxYInd > swapPillar.Count - 1)
         {
             BHWrapper.FillWithEmpty(toSwapBoxXInd, toSwapBoxZInd, toSwapBoxYInd);
@@ -495,6 +488,7 @@ public class BoxBehavior : MonoBehaviour
         }
     }
 
+    // top as per last boxEntry in the pillar regardless to the type (Undetermined or anything else)
     private bool IsTopInPillar()
     {
         // TODO: return topInPillar
