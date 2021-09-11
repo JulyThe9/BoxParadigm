@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -47,10 +46,15 @@ public class EditorUI : MonoBehaviour
     private InputField ZIdxBox_;
     private InputField YIdxBox_;
 
+    public InputField saveLevelNameBox_;
+    public GameObject levelSavingPanel_;
+    private string curSaveLevelName_;
+
     void Start()
     {
         // TODO: initialize everything else
         startBoxSelecting = false;
+        curSaveLevelName_ = "";
 
         player = GameObject.FindGameObjectWithTag("Player");
         player.AddComponent<CharCtrl>();
@@ -153,14 +157,44 @@ public class EditorUI : MonoBehaviour
 		buildingEnabled = true;
 	}
 
-	public void saveBoxes()
+    public void confirmBoxSaving(GameObject overwritePanel)
+    {
+        curSaveLevelName_ = saveLevelNameBox_.text;
+        foreach (char c in curSaveLevelName_)
+        {
+            if (!Char.IsLetterOrDigit(c) && c != '!' && c !='?' && c !='_' && c != '-')
+            {
+                return;
+            }
+        }
+        string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + curSaveLevelName_ + GlobalVariables.levelFileExtension;
+        if (File.Exists(fullPath))
+        {
+            preAction(overwritePanel);
+        }
+        else
+        {
+            cancelAction(levelSavingPanel_);
+            saveBoxes(curSaveLevelName_);
+        }
+    }
+
+
+    public void saveBoxesFromVar(GameObject panel)
+    {
+        saveBoxes(curSaveLevelName_);
+        cancelAction(panel);
+        cancelAction(levelSavingPanel_);
+    }
+
+	public void saveBoxes(string levelName)
     {
         AddFundamentToEmptyPillars();
 
         ValidateAndTransferLevelData();
 
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-		FileStream stream = new FileStream (Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Create);
+		FileStream stream = new FileStream (Application.dataPath + GlobalVariables.levelsSubpath + levelName + GlobalVariables.levelFileExtension, FileMode.Create);
 		serializer.Serialize (stream, BHWrapper.bHolder);
 		stream.Close ();
 	}
@@ -238,7 +272,7 @@ public class EditorUI : MonoBehaviour
         }
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-        FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
+        FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + "boxes.xml", FileMode.Open);
         BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 

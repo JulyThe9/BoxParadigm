@@ -9,6 +9,12 @@ public class GlobalVariables : MonoBehaviour
     public static string ZIdxBoxInputFieldName = "ZIdxBox";
     public static string YIdxBoxInputFieldName = "YIdxBox";
 
+    public static string saveLevelNameBoxInputFieldName = "SaveLevelNameBox";
+    public static string levelsSubpath = "/Resources/StreamingFiles/XML/";
+    public static string levelFileExtension = ".xml";
+
+    public static string levelSavingPanelName = "Bg3"; // TODO: please...
+
     // Play levels names
     public static string mapEditorBoxesName = "MapEditorBoxes";
     public static string playLevelsBoxesName = "PlayLevelsBoxes";
