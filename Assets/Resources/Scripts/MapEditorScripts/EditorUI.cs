@@ -47,6 +47,8 @@ public class EditorUI : MonoBehaviour
     private InputField YIdxBox_;
 
     public InputField saveLevelNameBox_;
+    public InputField loadLevelNameBox_;
+
     public GameObject levelSavingPanel_;
     private string curSaveLevelName_;
 
@@ -157,6 +159,17 @@ public class EditorUI : MonoBehaviour
 		buildingEnabled = true;
 	}
 
+    public void confirmBoxLoading(GameObject panel)
+    {
+        string curLoadLevelName = loadLevelNameBox_.text;
+        string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + curLoadLevelName + GlobalVariables.levelFileExtension;
+        if (File.Exists(fullPath))
+        {
+            loadMap(fullPath);
+            cancelAction(panel);
+        }
+    }
+
     public void confirmBoxSaving(GameObject overwritePanel)
     {
         curSaveLevelName_ = saveLevelNameBox_.text;
@@ -263,7 +276,7 @@ public class EditorUI : MonoBehaviour
         }
     }
 
-    public void loadMap()
+    public void loadMap(string levelPath)
     {
         if (BHWrapper.bHolder.list.Count != 0)
         {
@@ -272,7 +285,7 @@ public class EditorUI : MonoBehaviour
         }
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-        FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + "boxes.xml", FileMode.Open);
+        FileStream stream = new FileStream(levelPath, FileMode.Open);
         BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 
