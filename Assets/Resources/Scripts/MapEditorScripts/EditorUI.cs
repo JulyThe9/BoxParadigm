@@ -50,13 +50,14 @@ public class EditorUI : MonoBehaviour
     public InputField loadLevelNameBox_;
 
     public GameObject levelSavingPanel_;
+    private string tempSaveLevelName_;
     private string curSaveLevelName_;
 
     void Start()
     {
         // TODO: initialize everything else
         startBoxSelecting = false;
-        curSaveLevelName_ = "";
+        tempSaveLevelName_ = "";
 
         player = GameObject.FindGameObjectWithTag("Player");
         player.AddComponent<CharCtrl>();
@@ -165,22 +166,22 @@ public class EditorUI : MonoBehaviour
         string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + curLoadLevelName + GlobalVariables.levelFileExtension;
         if (File.Exists(fullPath))
         {
-            loadMap(fullPath);
+            loadMap(curLoadLevelName);
             cancelAction(panel);
         }
     }
 
     public void confirmBoxSaving(GameObject overwritePanel)
     {
-        curSaveLevelName_ = saveLevelNameBox_.text;
-        foreach (char c in curSaveLevelName_)
+        tempSaveLevelName_ = saveLevelNameBox_.text;
+        foreach (char c in tempSaveLevelName_)
         {
             if (!Char.IsLetterOrDigit(c) && c != '!' && c !='?' && c !='_' && c != '-')
             {
                 return;
             }
         }
-        string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + curSaveLevelName_ + GlobalVariables.levelFileExtension;
+        string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + tempSaveLevelName_ + GlobalVariables.levelFileExtension;
         if (File.Exists(fullPath))
         {
             preAction(overwritePanel);
@@ -188,26 +189,37 @@ public class EditorUI : MonoBehaviour
         else
         {
             cancelAction(levelSavingPanel_);
+            saveBoxes(tempSaveLevelName_);
+            curSaveLevelName_ = tempSaveLevelName_;
+        }
+    }
+
+    public void saveCurOpenLevel()
+    {
+        if (!String.IsNullOrEmpty(curSaveLevelName_))
+        {
             saveBoxes(curSaveLevelName_);
         }
     }
 
-
+    // TOOD: seems like a very specific method, rename
     public void saveBoxesFromVar(GameObject panel)
     {
-        saveBoxes(curSaveLevelName_);
+        saveBoxes(tempSaveLevelName_);
+        curSaveLevelName_ = tempSaveLevelName_;
+
         cancelAction(panel);
         cancelAction(levelSavingPanel_);
     }
 
-	public void saveBoxes(string levelName)
+	public void saveBoxes(string saveLevelName)
     {
         AddFundamentToEmptyPillars();
 
         ValidateAndTransferLevelData();
 
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-		FileStream stream = new FileStream (Application.dataPath + GlobalVariables.levelsSubpath + levelName + GlobalVariables.levelFileExtension, FileMode.Create);
+		FileStream stream = new FileStream (Application.dataPath + GlobalVariables.levelsSubpath + saveLevelName + GlobalVariables.levelFileExtension, FileMode.Create);
 		serializer.Serialize (stream, BHWrapper.bHolder);
 		stream.Close ();
 	}
@@ -276,7 +288,7 @@ public class EditorUI : MonoBehaviour
         }
     }
 
-    public void loadMap(string levelPath)
+    public void loadMap(string loadLevelName)
     {
         if (BHWrapper.bHolder.list.Count != 0)
         {
@@ -285,7 +297,7 @@ public class EditorUI : MonoBehaviour
         }
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-        FileStream stream = new FileStream(levelPath, FileMode.Open);
+        FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + loadLevelName + GlobalVariables.levelFileExtension, FileMode.Open);
         BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
         stream.Close();
 
@@ -309,6 +321,7 @@ public class EditorUI : MonoBehaviour
             }
         }
 
+        curSaveLevelName_ = loadLevelName;
         TransferLevelDataBack();
     }
 
