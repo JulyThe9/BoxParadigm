@@ -132,5 +132,10 @@ public class BoxHolder
     public int finishZInd = 0;
     public bool finishGiven = false;
 
+    public int analysisCount = 0;
+    public int spaceWarpCount = 0;
+    public int synthesisCount = 0;
+    public int levitatorCount = 0;
+
     public List<List<List<BoxEntry>>> list = new List<List<List<BoxEntry>>>();
 }

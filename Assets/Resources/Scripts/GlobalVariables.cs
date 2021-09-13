@@ -15,6 +15,11 @@ public class GlobalVariables : MonoBehaviour
 
     public static string levelSavingPanelName = "Bg3"; // TODO: please...
 
+    public static string analysisCountBoxInputFieldName = "AnalysisCountBox";
+    public static string spaceWarpBoxInputFieldName = "SpaceWarpCountBox";
+    public static string synthesisCountBoxInputFieldName = "SynthesisCountBox";
+    public static string levitatorBoxInputFieldName = "LevitatorCountBox";
+
     // Play levels names
     public static string mapEditorBoxesName = "MapEditorBoxes";
     public static string playLevelsBoxesName = "PlayLevelsBoxes";

@@ -53,6 +53,11 @@ public class EditorUI : MonoBehaviour
     private string tempSaveLevelName_;
     private string curSaveLevelName_;
 
+    private InputField analysisCountBox_;
+    private InputField spaceWarpCountBox_;
+    private InputField synthesisCountBox_;
+    private InputField levitatorCountBox_;
+
     void Start()
     {
         // TODO: initialize everything else
@@ -67,6 +72,11 @@ public class EditorUI : MonoBehaviour
         XIdxBox_ = GameObject.Find(GlobalVariables.XIdxBoxInputFieldName).GetComponent<InputField>();
         ZIdxBox_ = GameObject.Find(GlobalVariables.ZIdxBoxInputFieldName).GetComponent<InputField>();
         YIdxBox_ = GameObject.Find(GlobalVariables.YIdxBoxInputFieldName).GetComponent<InputField>();
+
+        analysisCountBox_ = GameObject.Find(GlobalVariables.analysisCountBoxInputFieldName).GetComponent<InputField>();
+        spaceWarpCountBox_ = GameObject.Find(GlobalVariables.spaceWarpBoxInputFieldName).GetComponent<InputField>();
+        synthesisCountBox_ = GameObject.Find(GlobalVariables.synthesisCountBoxInputFieldName).GetComponent<InputField>();
+        levitatorCountBox_ = GameObject.Find(GlobalVariables.levitatorBoxInputFieldName).GetComponent<InputField>();
     }
 
     public void parseAndCreateGrid()
@@ -263,6 +273,23 @@ public class EditorUI : MonoBehaviour
         BHWrapper.bHolder.startXInd = startBoxXInd;
         BHWrapper.bHolder.startYInd = startBoxYInd;
         BHWrapper.bHolder.startZInd = startBoxZInd;
+
+        if (!String.IsNullOrEmpty(analysisCountBox_.text))
+        {
+            BHWrapper.bHolder.analysisCount = int.Parse(analysisCountBox_.text);
+        }
+        if (!String.IsNullOrEmpty(spaceWarpCountBox_.text))
+        {
+            BHWrapper.bHolder.spaceWarpCount = int.Parse(spaceWarpCountBox_.text);
+        }
+        if (!String.IsNullOrEmpty(synthesisCountBox_.text))
+        {
+            BHWrapper.bHolder.synthesisCount = int.Parse(synthesisCountBox_.text);
+        }
+        if (!String.IsNullOrEmpty(levitatorCountBox_.text))
+        {
+            BHWrapper.bHolder.levitatorCount = int.Parse(levitatorCountBox_.text);
+        }
     }
 
     private void TransferLevelDataBack()
@@ -286,6 +313,11 @@ public class EditorUI : MonoBehaviour
             curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
                 Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
         }
+
+        analysisCountBox_.text = BHWrapper.bHolder.analysisCount.ToString();
+        spaceWarpCountBox_.text = BHWrapper.bHolder.spaceWarpCount.ToString();
+        synthesisCountBox_.text = BHWrapper.bHolder.synthesisCount.ToString();
+        levitatorCountBox_.text = BHWrapper.bHolder.levitatorCount.ToString();
     }
 
     public void loadMap(string loadLevelName)
