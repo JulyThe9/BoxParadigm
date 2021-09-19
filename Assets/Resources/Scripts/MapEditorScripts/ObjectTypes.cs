@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectTypes : MonoBehaviour
@@ -88,6 +87,14 @@ public class ObjectTypes : MonoBehaviour
         Levitator
     }
 
+    static public Dictionary<EffectTypes, ToolTypes> effectTypesToToolTypes = new Dictionary<EffectTypes, ToolTypes>
+    {
+        { EffectTypes.AnalysisAttack, ToolTypes.Analysis },
+        { EffectTypes.Swapping, ToolTypes.SpaceWarp },
+        { EffectTypes.QuantumConnect, ToolTypes.Synthesis },
+        { EffectTypes.GravityArgument, ToolTypes.Levitator }
+    };
+
     public enum BoxActions : uint // Kind of relates to EffectTypes
     {
         Irrelevant,
@@ -114,6 +121,7 @@ public class ObjectTypes : MonoBehaviour
     static public string floorTagName = "Floor";
     static public string boxTagName = "Box";
     static public string projectileTagName = "Projectile";
+    static public string playerTagName = "Player";
 
     static public string fire1Name = "Fire1";
 

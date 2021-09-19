@@ -17,6 +17,8 @@ public class BoxBehavior : MonoBehaviour
     private BoxEntry boxEntry = null;
     private BoxEntry tempBoxEntry = null;
 
+    private ToolControl toolControl = null; // TODO: is this the right place?
+
     private SimpleEmergence simpleEmergence;
     public Material curMaterial;
     public GameObject secondaryEffect;
@@ -96,6 +98,8 @@ public class BoxBehavior : MonoBehaviour
                 boxTraits.levitating = true;
             }
         }
+
+        toolControl = GameObject.FindGameObjectWithTag(ObjectTypes.playerTagName).GetComponent<ToolControl>();
     }
 
     void FixedUpdate()
@@ -179,12 +183,14 @@ public class BoxBehavior : MonoBehaviour
 
     private void ProjectileBoxInteraction(GeneralProjectileConstraints prjctlConstraints)
     {
+        bool toolUsageFinished = false;
         switch(prjctlConstraints.effectType)
         {
             case ObjectTypes.EffectTypes.AnalysisAttack:
                 if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
                 {
                     OnAttack();
+                    toolUsageFinished = true;
                 }
                 else
                 {
@@ -217,6 +223,7 @@ public class BoxBehavior : MonoBehaviour
                     if (simpleEmergence.effectInProgress)
                     {
                         OnSwappingWrapper();
+                        toolUsageFinished = true;
                     }
                     else
                     {
@@ -247,6 +254,7 @@ public class BoxBehavior : MonoBehaviour
                     if (simpleEmergence.effectInProgress)
                     {
                         OnQuantumConnect();
+                        toolUsageFinished = true;
                     }
                     else
                     {
@@ -266,6 +274,7 @@ public class BoxBehavior : MonoBehaviour
                 if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument])
                 {
                     OnGravityArgument();
+                    toolUsageFinished = true;
                 }
                 else
                 {
@@ -273,6 +282,12 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
         }
+
+        if (toolUsageFinished)
+        {
+            toolControl.ReduceToolCount(ObjectTypes.effectTypesToToolTypes[prjctlConstraints.effectType]);
+        }
+
         simpleEmergence.latestAction = ObjectTypes.effectTypesToBoxActions[prjctlConstraints.effectType];
         if (simpleEmergence.latestAction != ObjectTypes.BoxActions.Irrelevant)
         {

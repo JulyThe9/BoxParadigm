@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 public class ToolControl : MonoBehaviour
 {
@@ -19,6 +20,14 @@ public class ToolControl : MonoBehaviour
     private int layerMask_;
 
     private bool dHandedToolLeftUsed_ = false;
+
+    public Dictionary<ObjectTypes.ToolTypes, int> toolCounts = new Dictionary<ObjectTypes.ToolTypes, int>
+    {
+        { ObjectTypes.ToolTypes.Analysis, 0 },
+        { ObjectTypes.ToolTypes.SpaceWarp, 0 },
+        { ObjectTypes.ToolTypes.Synthesis, 0 },
+        { ObjectTypes.ToolTypes.Levitator, 0 }
+    };
 
     public void Start()
     {
@@ -66,6 +75,23 @@ public class ToolControl : MonoBehaviour
         }
     }
 
+    public void ReduceToolCount(ObjectTypes.ToolTypes toolType)
+    {
+        if (!toolCounts.ContainsKey(toolType))
+        {
+            return; // nothing to reduce
+        }
+
+        if (toolCounts[toolType] > 0)
+        {
+            if (toolCounts[toolType] == 1)
+            {
+                // Apply effects
+            }
+            --toolCounts[toolType];
+        }
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     void InstToolPrefab(int toolIdx)
     {
@@ -82,6 +108,11 @@ public class ToolControl : MonoBehaviour
     {
         if (curToolType_ == ObjectTypes.ToolTypes.Undetermined)
         {
+            return false;
+        }
+        if (toolCounts[curToolType_] == 0)
+        {
+            // effects
             return false;
         }
 

@@ -12,6 +12,7 @@ public class LevelLoader : MonoBehaviour
     {
         loadMap();
         loadPlayer();
+        loadToolCounts();
     }
 
     private void loadMap()
@@ -61,10 +62,22 @@ public class LevelLoader : MonoBehaviour
         GameObject startBox =
             BHWrapper.bHolder.list[BHWrapper.bHolder.startXInd][BHWrapper.bHolder.startZInd][BHWrapper.bHolder.startYInd].GetBoxGameObj();
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(ObjectTypes.playerTagName);
         player.transform.position = new Vector3(startBox.transform.position.x, 
             startBox.transform.position.y + GlobalDimensions.margin_ + GlobalDimensions.minDifDistance_, startBox.transform.position.z);
     }
+
+    private void loadToolCounts()
+    {
+        Debug.Assert(player != null);
+        ToolControl toolControl = player.GetComponent<ToolControl>();
+
+        toolControl.toolCounts[ObjectTypes.ToolTypes.Analysis] = BHWrapper.bHolder.analysisCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.SpaceWarp] = BHWrapper.bHolder.spaceWarpCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.Synthesis] = BHWrapper.bHolder.synthesisCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.Levitator] = BHWrapper.bHolder.levitatorCount;
+    }
+
     private void findHighestBox()
     {
         int xInd = 0;
