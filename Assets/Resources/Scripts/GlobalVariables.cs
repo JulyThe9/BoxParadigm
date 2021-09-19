@@ -2,6 +2,11 @@
 
 public class GlobalVariables : MonoBehaviour
 {
+    // Scene names
+    public static string startMenu = "StartMenu";
+    public static string mapEditorName = "MapEditor";
+    public static string playLevelsName = "PlayLevels";
+
     // Map editor names
     public static string canvasName = "Canvas";
 

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -9,32 +7,32 @@ public class MenuBehaviour : MonoBehaviour {
 
 	public void newGame()
     {
-        SceneManager.LoadScene("PlayLevels");
+        SceneManager.LoadScene(GlobalVariables.playLevelsName);
     }
 
 	public void mapEditor()
     {
-		SceneManager.LoadScene("MapEditor");
+		SceneManager.LoadScene(GlobalVariables.mapEditorName);
 	}
 
-	public void settings(){
+	public void settings()
+    {
 	}
 
-	public void quit(){
+	public void quit()
+    {
 		Application.Quit();
 	}
 
-	public void mark(string objName)
+	public void mark(GameObject menuEntry)
     {
-		Text value = GameObject.Find(objName).GetComponent<Text>();
-		value.alignment = TextAnchor.UpperCenter;
+         menuEntry.GetComponent<Text>().alignment = TextAnchor.UpperCenter;
 	}
 
-	public void unmark(string objName)
+	public void unmark(GameObject menuEntry)
     {
-		Text value = GameObject.Find(objName).GetComponent<Text>();
-		value.alignment = TextAnchor.MiddleCenter;
-	}
+        menuEntry.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+    }
 		
 
 }
