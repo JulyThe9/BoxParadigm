@@ -5,18 +5,36 @@ using System.Linq;
 // TODO: might want to add range changes for all methods
 public static class BHWrapper
 {
-    public static BoxHolder bHolder = new BoxHolder();
+    private static int curLevelIdx_ = 0;
+    private static List<BoxHolder> bHolders_ = new List<BoxHolder>();
+    private static BoxHolder bHolder;
+
+    public static BoxHolder BHolder()
+    {
+        Debug.Assert(curLevelIdx_ < bHolders_.Count);
+        return bHolders_[curLevelIdx_];
+    }
+
+    public static void BHolderSet(BoxHolder bHolder)
+    {
+        bHolders_[curLevelIdx_] = bHolder; // TODO: copy?
+    }
+
+    public static void AddEmptyLevel()
+    {
+        bHolders_.Add(new BoxHolder());
+    }
 
     // TODO: find out how refs work
     public static BoxEntry GetBoxEntry(int xInd, int zInd, int yInd)
     {
-        return bHolder.list[xInd][zInd][yInd];
+        return BHolder().list[xInd][zInd][yInd];
     }
 
     // TODO: see where else this can be used
     public static bool BoxExists(int xInd, int zInd, int yInd)
     {
-        if (bHolder.list[xInd][zInd].Count - 1 < yInd || bHolder.list[xInd][zInd][yInd].type == ObjectTypes.BoxTypes.Undetermined)
+        if (BHolder().list[xInd][zInd].Count - 1 < yInd || BHolder().list[xInd][zInd][yInd].type == ObjectTypes.BoxTypes.Undetermined)
         {
             return false;
         }
@@ -25,25 +43,25 @@ public static class BHWrapper
 
     public static void ClearBoxEntry(int xInd, int zInd, int yInd)
     {
-        bHolder.list[xInd][zInd][yInd].Clear();
+        BHolder().list[xInd][zInd][yInd].Clear();
     }
 
     public static void UpdateBoxEntry(int xInd, int zInd, int yInd, BoxEntry boxEntry)
     {
         // NOTE: temporary for debugging
-        if (xInd > bHolder.list.Count - 1)
+        if (xInd > BHolder().list.Count - 1)
         {
             return;
         }
-        if (zInd > bHolder.list[xInd].Count - 1)
+        if (zInd > BHolder().list[xInd].Count - 1)
         {
             return; 
         }
-        if (yInd > bHolder.list[xInd][zInd].Count - 1)
+        if (yInd > BHolder().list[xInd][zInd].Count - 1)
         {
             return;
         }
-        bHolder.list[xInd][zInd][yInd].Update(boxEntry);
+        BHolder().list[xInd][zInd][yInd].Update(boxEntry);
     }
 
     // TODO: see where else can be used; ALWAYS USE THIS TO REMOVE to preserve the logic with never having an empty pillar
@@ -51,18 +69,18 @@ public static class BHWrapper
     {
         if (yIndToRemove > 0)
         {
-            bHolder.list[xInd][zInd].RemoveAt(yIndToRemove);
+            BHolder().list[xInd][zInd].RemoveAt(yIndToRemove);
         }
         else
         {
-            bHolder.list[xInd][zInd][yIndToRemove].Clear();
+            BHolder().list[xInd][zInd][yIndToRemove].Clear();
         }
     }
 
     public static void FillWithEmpty(int xInd, int zInd, int yIndFinal) // yIndFinal is inclusive
     {
         Vector3 refPos = new Vector3(0, 0, 0);
-        List<BoxEntry> pillar = bHolder.list[xInd][zInd];
+        List<BoxEntry> pillar = BHolder().list[xInd][zInd];
 
         Debug.Assert(pillar.Count > 0);
         if (pillar.Count > 0)
@@ -85,13 +103,13 @@ public static class BHWrapper
     public static bool CheckIntegrity()
     {
         bool res = true;
-        for (int i = 0; i < bHolder.list.Count; ++i) // x
+        for (int i = 0; i < BHolder().list.Count; ++i) // x
         {
-            for (int j = 0; j < bHolder.list[i].Count; ++j) // z
+            for (int j = 0; j < BHolder().list[i].Count; ++j) // z
             {
-                for (int k = 0; k < bHolder.list[i][j].Count; ++k) // y
+                for (int k = 0; k < BHolder().list[i][j].Count; ++k) // y
                 {
-                    BoxEntry boxEntry = bHolder.list[i][j][k];
+                    BoxEntry boxEntry = BHolder().list[i][j][k];
                     if (boxEntry.xInd != i || boxEntry.zInd != j || boxEntry.yInd != k)
                     {
                         Debug.Log("INTEGRITY CHECK FAILED: BoxEntry index mismatch: " + boxEntry.xInd + i + " " + boxEntry.zInd + j + " " + boxEntry.yInd + k);

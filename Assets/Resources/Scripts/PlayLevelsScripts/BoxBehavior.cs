@@ -35,7 +35,7 @@ public class BoxBehavior : MonoBehaviour
         boxConstraints = transform.GetComponent<BoxConstraints>();
         boxTraits = transform.GetComponent<BoxTraits>();
         boxData = transform.GetComponent<BoxData>();
-        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+        boxEntry = BHWrapper.BHolder().list[boxData.xInd][boxData.zInd][boxData.yInd];
 
         switch (boxEntry.type)
         {
@@ -92,7 +92,7 @@ public class BoxBehavior : MonoBehaviour
         // trait initialization
         if (boxData.yInd > 0)
         {
-            if (BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd - 1].type == ObjectTypes.BoxTypes.Undetermined)
+            if (BHWrapper.BHolder().list[boxData.xInd][boxData.zInd][boxData.yInd - 1].type == ObjectTypes.BoxTypes.Undetermined)
             {
                 // TODO: also add an option to editor to make a box levitating (with visual effects)
                 boxTraits.levitating = true;
@@ -161,7 +161,7 @@ public class BoxBehavior : MonoBehaviour
         {
             Debug.Log("tempBoxEntry is NULL, backend error");
         }
-        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+        boxEntry = BHWrapper.BHolder().list[boxData.xInd][boxData.zInd][boxData.yInd];
         tempBoxEntry = null;
 
         // TODO: Consider box garbage collection
@@ -357,16 +357,16 @@ public class BoxBehavior : MonoBehaviour
 
     public void OnSwapping(int mult = 1)
     {
-        int rowCount = BHWrapper.bHolder.list.Count;
-        int columnCount = BHWrapper.bHolder.list[0].Count;
-        int layerCount = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd].Count;
+        int rowCount = BHWrapper.BHolder().list.Count;
+        int columnCount = BHWrapper.BHolder().list[0].Count;
+        int layerCount = BHWrapper.BHolder().list[boxData.xInd][boxData.zInd].Count;
 
         int toSwapBoxXInd = ((boxData.xInd + mult * simpleEmergence.swapXIndDiff) % rowCount  + rowCount) % rowCount;
         int toSwapBoxZInd = ((boxData.zInd + mult * simpleEmergence.swapZIndDiff) % columnCount + columnCount) % columnCount;
         int toSwapBoxYInd = ((boxData.yInd + mult * simpleEmergence.swapYIndDiff) % layerCount + layerCount) % layerCount;
 
         // next two checks - for replaying
-        List<BoxEntry> swapPillar = BHWrapper.bHolder.list[toSwapBoxXInd][toSwapBoxZInd];
+        List<BoxEntry> swapPillar = BHWrapper.BHolder().list[toSwapBoxXInd][toSwapBoxZInd];
 
         // TODO: Consider box garbage collection
         if (toSwapBoxYInd > swapPillar.Count - 1)
@@ -409,7 +409,7 @@ public class BoxBehavior : MonoBehaviour
         BoxData tempBoxData = boxData.ShallowCopy();
         boxData.UpdateBoxDataIndexByIndex(swapBoxEntry.xInd, swapBoxEntry.yInd, swapBoxEntry.zInd);
 
-        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
+        boxEntry = BHWrapper.BHolder().list[boxData.xInd][boxData.zInd][boxData.yInd];
 
         // clean-up
         Destroy(secondaryEffect);
@@ -438,8 +438,8 @@ public class BoxBehavior : MonoBehaviour
         boxData.UpdateBoxData(swapBoxBehavior.boxData);
         swapBoxBehavior.boxData.UpdateBoxData(tempBoxData);
 
-        boxEntry = BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd];
-        swapBoxBehavior.boxEntry = BHWrapper.bHolder.list[swapBoxBehavior.boxData.xInd][swapBoxBehavior.boxData.zInd][swapBoxBehavior.boxData.yInd];
+        boxEntry = BHWrapper.BHolder().list[boxData.xInd][boxData.zInd][boxData.yInd];
+        swapBoxBehavior.boxEntry = BHWrapper.BHolder().list[swapBoxBehavior.boxData.xInd][swapBoxBehavior.boxData.zInd][swapBoxBehavior.boxData.yInd];
 
         // clean-up
         Destroy(secondaryEffect);
@@ -468,7 +468,7 @@ public class BoxBehavior : MonoBehaviour
            ObjectTypes.boxTypesToMaterialNames[boxEntry.type] + "_" + ObjectTypes.effectTypesToSelMaterialNames[ObjectTypes.EffectTypes.QuantumConnect],
            typeof(Material)) as Material;
 
-        BoxEntry selBoxEntry = BHWrapper.bHolder.list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
+        BoxEntry selBoxEntry = BHWrapper.BHolder().list[simpleEmergence.selBoxData.xInd][simpleEmergence.selBoxData.zInd][simpleEmergence.selBoxData.yInd];
         BoxBehavior selBoxBehavior = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>();
 
         curMaterial = GetComponent<Renderer>().material;
@@ -536,12 +536,12 @@ public class BoxBehavior : MonoBehaviour
     private bool IsTopInPillar()
     {
         // TODO: return topInPillar
-        return boxData.yInd == BHWrapper.bHolder.list[boxData.xInd][boxData.zInd].Count - 1;
+        return boxData.yInd == BHWrapper.BHolder().list[boxData.xInd][boxData.zInd].Count - 1;
     }
 
     private BoxEntry GetUpperBoxEntry()
     {
-        return BHWrapper.bHolder.list[boxData.xInd][boxData.zInd][boxData.yInd + 1];
+        return BHWrapper.BHolder().list[boxData.xInd][boxData.zInd][boxData.yInd + 1];
     }
 
     private void SetGrounded(bool grounded)

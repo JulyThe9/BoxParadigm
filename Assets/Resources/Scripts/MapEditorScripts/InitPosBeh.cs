@@ -52,13 +52,13 @@ public class InitPosBeh : MonoBehaviour {
 			if (curType != ObjectTypes.BoxTypes.Undetermined)
             {
 				BoxEntry boxEntry = new BoxEntry (curType, "", xInd, yInd + 1, zInd, refPos.x, refPos.y + GlobalDimensions.halfMargin_, refPos.z);
-                if (yInd + 1 < BHWrapper.bHolder.list[xInd][zInd].Count)
+                if (yInd + 1 < BHWrapper.BHolder().list[xInd][zInd].Count)
                 {
-                    BHWrapper.bHolder.list[xInd][zInd][yInd + 1] = boxEntry;
+                    BHWrapper.BHolder().list[xInd][zInd][yInd + 1] = boxEntry;
                 }
                 else
                 {
-                    BHWrapper.bHolder.list[xInd][zInd].Add(boxEntry);
+                    BHWrapper.BHolder().list[xInd][zInd].Add(boxEntry);
                 }
 				
 				GameObject box = mapPlacements.placeBox (boxEntry, refPos.x, refPos.y - GlobalDimensions.minDifDistance_, refPos.z, GlobalDimensions.halfMargin_, GlobalVariables.mapEditorBoxesName);

@@ -35,7 +35,7 @@ public class SimpleEmergence : MonoBehaviour
         // TODO: legit for quantum select/connect, what about others?
         if (selBoxData != null)
         {
-            BoxEntry selBoxEntry = BHWrapper.bHolder.list[selBoxData.xInd][selBoxData.zInd][selBoxData.yInd];
+            BoxEntry selBoxEntry = BHWrapper.BHolder().list[selBoxData.xInd][selBoxData.zInd][selBoxData.yInd];
             selBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>().curMaterial;
 
             BoxBehavior selBoxBehavior = selBoxEntry.GetBoxGameObj().GetComponent<BoxBehavior>();

@@ -17,13 +17,16 @@ public class LevelLoader : MonoBehaviour
 
     private void loadMap()
     {
+        // TODO: temp
+        BHWrapper.AddEmptyLevel();
+
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         // TODO: parametrize
         FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
-        BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
+        BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
         stream.Close();
 
-        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list) // x
+        foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
@@ -55,12 +58,12 @@ public class LevelLoader : MonoBehaviour
 
     private void loadPlayer()
     {
-        if (!BHWrapper.bHolder.startGiven)
+        if (!BHWrapper.BHolder().startGiven)
         {
             findHighestBox();
         }
         GameObject startBox =
-            BHWrapper.bHolder.list[BHWrapper.bHolder.startXInd][BHWrapper.bHolder.startZInd][BHWrapper.bHolder.startYInd].GetBoxGameObj();
+            BHWrapper.BHolder().list[BHWrapper.BHolder().startXInd][BHWrapper.BHolder().startZInd][BHWrapper.BHolder().startYInd].GetBoxGameObj();
 
         player = GameObject.FindGameObjectWithTag(ObjectTypes.playerTagName);
         player.transform.position = new Vector3(startBox.transform.position.x, 
@@ -72,10 +75,10 @@ public class LevelLoader : MonoBehaviour
         Debug.Assert(player != null);
         ToolControl toolControl = player.GetComponent<ToolControl>();
 
-        toolControl.toolCounts[ObjectTypes.ToolTypes.Analysis] = BHWrapper.bHolder.analysisCount;
-        toolControl.toolCounts[ObjectTypes.ToolTypes.SpaceWarp] = BHWrapper.bHolder.spaceWarpCount;
-        toolControl.toolCounts[ObjectTypes.ToolTypes.Synthesis] = BHWrapper.bHolder.synthesisCount;
-        toolControl.toolCounts[ObjectTypes.ToolTypes.Levitator] = BHWrapper.bHolder.levitatorCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.Analysis] = BHWrapper.BHolder().analysisCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.SpaceWarp] = BHWrapper.BHolder().spaceWarpCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.Synthesis] = BHWrapper.BHolder().synthesisCount;
+        toolControl.toolCounts[ObjectTypes.ToolTypes.Levitator] = BHWrapper.BHolder().levitatorCount;
     }
 
     private void findHighestBox()
@@ -83,7 +86,7 @@ public class LevelLoader : MonoBehaviour
         int xInd = 0;
         int zInd = 0;
         int maxPillarHeight = 0;
-        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list) // x
+        foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
@@ -96,8 +99,8 @@ public class LevelLoader : MonoBehaviour
                 pillar[pillar.Count - 1].topInPillar = true;
             }
         }
-        BHWrapper.bHolder.startXInd = xInd;
-        BHWrapper.bHolder.startZInd = zInd;
-        BHWrapper.bHolder.startYInd = maxPillarHeight - 1;
+        BHWrapper.BHolder().startXInd = xInd;
+        BHWrapper.BHolder().startZInd = zInd;
+        BHWrapper.BHolder().startYInd = maxPillarHeight - 1;
     }
 }

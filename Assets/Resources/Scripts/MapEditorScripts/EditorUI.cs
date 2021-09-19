@@ -77,32 +77,34 @@ public class EditorUI : MonoBehaviour
         spaceWarpCountBox_ = GameObject.Find(GlobalVariables.spaceWarpBoxInputFieldName).GetComponent<InputField>();
         synthesisCountBox_ = GameObject.Find(GlobalVariables.synthesisCountBoxInputFieldName).GetComponent<InputField>();
         levitatorCountBox_ = GameObject.Find(GlobalVariables.levitatorBoxInputFieldName).GetComponent<InputField>();
+
+        BHWrapper.AddEmptyLevel();
     }
 
     public void parseAndCreateGrid()
     {
         InputField LBox = GameObject.Find("LBox").GetComponent<InputField>();
         InputField WBox = GameObject.Find("WBox").GetComponent<InputField>();
-        BHWrapper.bHolder.length = int.Parse(LBox.text); // TODO: input format check/sanitization needed
-        BHWrapper.bHolder.width = int.Parse(WBox.text);
+        BHWrapper.BHolder().length = int.Parse(LBox.text); // TODO: input format check/sanitization needed
+        BHWrapper.BHolder().width = int.Parse(WBox.text);
         createGrid();
     }
 
     public void createGrid(bool fillBoxList = true)
     {
-        floor = setUpPlane (BHWrapper.bHolder.length, BHWrapper.bHolder.width, "Floor");
-		setUpCells (BHWrapper.bHolder.length, BHWrapper.bHolder.width, floor);
+        floor = setUpPlane (BHWrapper.BHolder().length, BHWrapper.BHolder().width, "Floor");
+		setUpCells (BHWrapper.BHolder().length, BHWrapper.BHolder().width, floor);
 
         if (fillBoxList)
         {
-            fillList(BHWrapper.bHolder.length, BHWrapper.bHolder.width);
+            fillList(BHWrapper.BHolder().length, BHWrapper.BHolder().width);
         }
 
         gridGenerated = true;
 
-        Debug.Log (BHWrapper.bHolder.list.Count);
-		Debug.Log (BHWrapper.bHolder.list[0].Count);
-		Debug.Log (BHWrapper.bHolder.list[0][0].Count);
+        Debug.Log (BHWrapper.BHolder().list.Count);
+		Debug.Log (BHWrapper.BHolder().list[0].Count);
+		Debug.Log (BHWrapper.BHolder().list[0][0].Count);
     }
 
 	public GameObject setUpPlane(float length, float width, string surfNamePar)
@@ -230,22 +232,22 @@ public class EditorUI : MonoBehaviour
 
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
 		FileStream stream = new FileStream (Application.dataPath + GlobalVariables.levelsSubpath + saveLevelName + GlobalVariables.levelFileExtension, FileMode.Create);
-		serializer.Serialize (stream, BHWrapper.bHolder);
+		serializer.Serialize (stream, BHWrapper.BHolder());
 		stream.Close ();
 	}
 
     private void AddFundamentToEmptyPillars()
     {
-        for (int i = 0; i < BHWrapper.bHolder.length; ++i) // x
+        for (int i = 0; i < BHWrapper.BHolder().length; ++i) // x
         {
-            for (int j = 0; j < BHWrapper.bHolder.width; ++j) // z
+            for (int j = 0; j < BHWrapper.BHolder().width; ++j) // z
             {
-                if (BHWrapper.bHolder.list[i][j].Count == 0)
+                if (BHWrapper.BHolder().list[i][j].Count == 0)
                 {
                     // placing an empty box
                     BoxEntry emptyBoxEntry = new BoxEntry(ObjectTypes.BoxTypes.Undetermined, "", i, 0, j,
                         cellXZCoordsByIndices[i][j].XPos_, floor.transform.position.y + GlobalDimensions.halfMargin_, cellXZCoordsByIndices[i][j].ZPos_);
-                    BHWrapper.bHolder.list[i][j].Add(emptyBoxEntry);
+                    BHWrapper.BHolder().list[i][j].Add(emptyBoxEntry);
                 }
             }
         }
@@ -253,14 +255,14 @@ public class EditorUI : MonoBehaviour
 
     private void ValidateAndTransferLevelData()
     {
-        BHWrapper.bHolder.finishGiven = finishBoxPlaced;
-        BHWrapper.bHolder.finishXInd = finishBoxXInd;
-        BHWrapper.bHolder.finishYInd = finishBoxYInd;
-        BHWrapper.bHolder.finishZInd = finishBoxZInd;
+        BHWrapper.BHolder().finishGiven = finishBoxPlaced;
+        BHWrapper.BHolder().finishXInd = finishBoxXInd;
+        BHWrapper.BHolder().finishYInd = finishBoxYInd;
+        BHWrapper.BHolder().finishZInd = finishBoxZInd;
 
         if (startBoxChosen)
         {
-            List<BoxEntry> pillar = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd];
+            List<BoxEntry> pillar = BHWrapper.BHolder().list[startBoxXInd][startBoxZInd];
             // NOTE: BoxBehavior's IsTopInPillar and GetUpperBoxEntry might come in handy here
             // TODO: need to change the first condition if the concept of ceiling is introduced
             // this check is for making sure there is space for player to be placed on the box marked as start
@@ -269,60 +271,60 @@ public class EditorUI : MonoBehaviour
                 startBoxChosen = false;
             }
         }
-        BHWrapper.bHolder.startGiven = startBoxChosen;
-        BHWrapper.bHolder.startXInd = startBoxXInd;
-        BHWrapper.bHolder.startYInd = startBoxYInd;
-        BHWrapper.bHolder.startZInd = startBoxZInd;
+        BHWrapper.BHolder().startGiven = startBoxChosen;
+        BHWrapper.BHolder().startXInd = startBoxXInd;
+        BHWrapper.BHolder().startYInd = startBoxYInd;
+        BHWrapper.BHolder().startZInd = startBoxZInd;
 
         if (!String.IsNullOrEmpty(analysisCountBox_.text))
         {
-            BHWrapper.bHolder.analysisCount = int.Parse(analysisCountBox_.text);
+            BHWrapper.BHolder().analysisCount = int.Parse(analysisCountBox_.text);
         }
         if (!String.IsNullOrEmpty(spaceWarpCountBox_.text))
         {
-            BHWrapper.bHolder.spaceWarpCount = int.Parse(spaceWarpCountBox_.text);
+            BHWrapper.BHolder().spaceWarpCount = int.Parse(spaceWarpCountBox_.text);
         }
         if (!String.IsNullOrEmpty(synthesisCountBox_.text))
         {
-            BHWrapper.bHolder.synthesisCount = int.Parse(synthesisCountBox_.text);
+            BHWrapper.BHolder().synthesisCount = int.Parse(synthesisCountBox_.text);
         }
         if (!String.IsNullOrEmpty(levitatorCountBox_.text))
         {
-            BHWrapper.bHolder.levitatorCount = int.Parse(levitatorCountBox_.text);
+            BHWrapper.BHolder().levitatorCount = int.Parse(levitatorCountBox_.text);
         }
     }
 
     private void TransferLevelDataBack()
     {
-        finishBoxPlaced = BHWrapper.bHolder.finishGiven;
+        finishBoxPlaced = BHWrapper.BHolder().finishGiven;
         if (finishBoxPlaced)
         {
-            finishBoxXInd = BHWrapper.bHolder.finishXInd;
-            finishBoxYInd = BHWrapper.bHolder.finishYInd;
-            finishBoxZInd = BHWrapper.bHolder.finishZInd;
+            finishBoxXInd = BHWrapper.BHolder().finishXInd;
+            finishBoxYInd = BHWrapper.BHolder().finishYInd;
+            finishBoxZInd = BHWrapper.BHolder().finishZInd;
         }
 
-        startBoxChosen = BHWrapper.bHolder.startGiven;
+        startBoxChosen = BHWrapper.BHolder().startGiven;
         if (startBoxChosen)
         {
-            startBoxXInd = BHWrapper.bHolder.startXInd;
-            startBoxYInd = BHWrapper.bHolder.startYInd;
-            startBoxZInd = BHWrapper.bHolder.startZInd;
+            startBoxXInd = BHWrapper.BHolder().startXInd;
+            startBoxYInd = BHWrapper.BHolder().startYInd;
+            startBoxZInd = BHWrapper.BHolder().startZInd;
 
-            BoxEntry curStartBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+            BoxEntry curStartBoxEntry = BHWrapper.BHolder().list[startBoxXInd][startBoxZInd][startBoxYInd];
             curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
                 Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
         }
 
-        analysisCountBox_.text = BHWrapper.bHolder.analysisCount.ToString();
-        spaceWarpCountBox_.text = BHWrapper.bHolder.spaceWarpCount.ToString();
-        synthesisCountBox_.text = BHWrapper.bHolder.synthesisCount.ToString();
-        levitatorCountBox_.text = BHWrapper.bHolder.levitatorCount.ToString();
+        analysisCountBox_.text = BHWrapper.BHolder().analysisCount.ToString();
+        spaceWarpCountBox_.text = BHWrapper.BHolder().spaceWarpCount.ToString();
+        synthesisCountBox_.text = BHWrapper.BHolder().synthesisCount.ToString();
+        levitatorCountBox_.text = BHWrapper.BHolder().levitatorCount.ToString();
     }
 
     public void loadMap(string loadLevelName)
     {
-        if (BHWrapper.bHolder.list.Count != 0)
+        if (BHWrapper.BHolder().list.Count != 0)
         {
             // TODO: warn the user, prompt for a decision
             clearUserCreatedObjects();
@@ -330,12 +332,12 @@ public class EditorUI : MonoBehaviour
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + loadLevelName + GlobalVariables.levelFileExtension, FileMode.Open);
-        BHWrapper.bHolder = serializer.Deserialize(stream) as BoxHolder;
+        BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
         stream.Close();
 
         createGrid(false);
 
-        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list) // x
+        foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
         {
             foreach (List<BoxEntry> pillar in column) // z
             {
@@ -360,7 +362,7 @@ public class EditorUI : MonoBehaviour
     private void clearUserCreatedObjects()
     {
         // removing the all boxes
-        foreach (List<List<BoxEntry>> column in BHWrapper.bHolder.list)
+        foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list)
         {
             foreach (List<BoxEntry> pillar in column)
             {
@@ -401,11 +403,11 @@ public class EditorUI : MonoBehaviour
 
         bool startBoxApproved = false;
 
-        if  (startBoxXIndBuff <= BHWrapper.bHolder.list.Count - 1)
+        if  (startBoxXIndBuff <= BHWrapper.BHolder().list.Count - 1)
         {
-            if (startBoxZIndBuff <= BHWrapper.bHolder.list[startBoxXIndBuff].Count - 1)
+            if (startBoxZIndBuff <= BHWrapper.BHolder().list[startBoxXIndBuff].Count - 1)
             {
-                if (startBoxYIndBuff <= BHWrapper.bHolder.list[startBoxXIndBuff][startBoxZIndBuff].Count - 1)
+                if (startBoxYIndBuff <= BHWrapper.BHolder().list[startBoxXIndBuff][startBoxZIndBuff].Count - 1)
                 {
                     if (startBoxXIndBuff != finishBoxXInd || startBoxZIndBuff != finishBoxZInd || startBoxYIndBuff != finishBoxYInd)
                     {
@@ -431,7 +433,7 @@ public class EditorUI : MonoBehaviour
     {
         if (startBoxChosen)
         {
-            BoxEntry curStartBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+            BoxEntry curStartBoxEntry = BHWrapper.BHolder().list[startBoxXInd][startBoxZInd][startBoxYInd];
             curStartBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
                 Resources.Load("Materials/" + ObjectTypes.boxTypesToMaterialNames[curStartBoxEntry.type], typeof(Material)) as Material;
         }
@@ -440,7 +442,7 @@ public class EditorUI : MonoBehaviour
         startBoxYInd = startBoxYIndPar;
         startBoxZInd = startBoxZIndPar;
 
-        BoxEntry startBoxEntry = BHWrapper.bHolder.list[startBoxXInd][startBoxZInd][startBoxYInd];
+        BoxEntry startBoxEntry = BHWrapper.BHolder().list[startBoxXInd][startBoxZInd][startBoxYInd];
         startBoxEntry.GetBoxGameObj().GetComponent<Renderer>().material =
             Resources.Load("Materials/" + ObjectTypes.boxTypesToStartMaterialNames[startBoxEntry.type], typeof(Material)) as Material;
 
@@ -456,10 +458,10 @@ public class EditorUI : MonoBehaviour
     {
         for (int i = 0; i < length; i++)
         {
-            BHWrapper.bHolder.list.Add(new List<List<BoxEntry>>());
+            BHWrapper.BHolder().list.Add(new List<List<BoxEntry>>());
             for (int j = 0; j < width; j++)
             {
-                BHWrapper.bHolder.list[i].Add(new List<BoxEntry>());
+                BHWrapper.BHolder().list[i].Add(new List<BoxEntry>());
             }
         }
     }
