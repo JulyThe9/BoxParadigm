@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour
 
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         // TODO: parametrize
-        FileStream stream = new FileStream(Application.dataPath + "/Resources/StreamingFiles/XML/boxes.xml", FileMode.Open);
+        FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + "boxes.xml", FileMode.Open);
         BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
         stream.Close();
 
