@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Xml.Serialization;
 using System.IO;
-
+using UnityEngine.SceneManagement;
 
 public class EditorUI : MonoBehaviour
 {
@@ -58,6 +58,8 @@ public class EditorUI : MonoBehaviour
     private InputField synthesisCountBox_;
     private InputField levitatorCountBox_;
 
+    private string devMode_levelSubPath;
+
     void Start()
     {
         // TODO: initialize everything else
@@ -79,6 +81,13 @@ public class EditorUI : MonoBehaviour
         levitatorCountBox_ = GameObject.Find(GlobalVariables.levitatorBoxInputFieldName).GetComponent<InputField>();
 
         BHWrapper.AddEmptyLevel();
+
+        devMode_levelSubPath = GlobalVariables.premadeLevelsSubpath;
+    }
+
+    private void OnDestroy()
+    {
+        BHWrapper.BHolderRemoveLast();
     }
 
     public void parseAndCreateGrid()
@@ -175,7 +184,7 @@ public class EditorUI : MonoBehaviour
     public void confirmBoxLoading(GameObject panel)
     {
         string curLoadLevelName = loadLevelNameBox_.text;
-        string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + curLoadLevelName + GlobalVariables.levelFileExtension;
+        string fullPath = Application.dataPath + devMode_levelSubPath + curLoadLevelName + GlobalVariables.levelFileExtension;
         if (File.Exists(fullPath))
         {
             loadMap(curLoadLevelName);
@@ -193,7 +202,7 @@ public class EditorUI : MonoBehaviour
                 return;
             }
         }
-        string fullPath = Application.dataPath + GlobalVariables.levelsSubpath + tempSaveLevelName_ + GlobalVariables.levelFileExtension;
+        string fullPath = Application.dataPath + devMode_levelSubPath + tempSaveLevelName_ + GlobalVariables.levelFileExtension;
         if (File.Exists(fullPath))
         {
             preAction(overwritePanel);
@@ -231,7 +240,7 @@ public class EditorUI : MonoBehaviour
         ValidateAndTransferLevelData();
 
 		XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-		FileStream stream = new FileStream (Application.dataPath + GlobalVariables.levelsSubpath + saveLevelName + GlobalVariables.levelFileExtension, FileMode.Create);
+		FileStream stream = new FileStream (Application.dataPath + devMode_levelSubPath + saveLevelName + GlobalVariables.levelFileExtension, FileMode.Create);
 		serializer.Serialize (stream, BHWrapper.BHolder());
 		stream.Close ();
 	}
@@ -331,7 +340,7 @@ public class EditorUI : MonoBehaviour
         }
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-        FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + loadLevelName + GlobalVariables.levelFileExtension, FileMode.Open);
+        FileStream stream = new FileStream(Application.dataPath + devMode_levelSubPath + loadLevelName + GlobalVariables.levelFileExtension, FileMode.Open);
         BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
         stream.Close();
 
@@ -392,6 +401,12 @@ public class EditorUI : MonoBehaviour
         player.GetComponent<CharCtrl>().enabled = true;
         panel.SetActive (false);
 	}
+
+    public void returnToMenu()
+    {
+        BHWrapper.BHolderRemoveLast();
+        SceneManager.LoadScene(GlobalVariables.startMenuName);
+    }
 
     private void SetStartBox()
     {

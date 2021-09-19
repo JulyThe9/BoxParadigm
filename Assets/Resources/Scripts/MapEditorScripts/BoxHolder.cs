@@ -9,10 +9,27 @@ public static class BHWrapper
     private static List<BoxHolder> bHolders_ = new List<BoxHolder>();
     private static BoxHolder bHolder;
 
+    public static List<BoxHolder> GetBHolders()
+    {
+        return bHolders_;
+    }
+
     public static BoxHolder BHolder()
     {
         Debug.Assert(curLevelIdx_ < bHolders_.Count);
         return bHolders_[curLevelIdx_];
+    }
+
+    public static void BHolderAdd(BoxHolder bHolder)
+    {
+        bHolders_.Add(bHolder);
+    }
+    public static void BHolderRemoveLast()
+    {
+        if (bHolders_.Count > 0)
+        {
+            bHolders_.RemoveAt(bHolders_.Count - 1);
+        }
     }
 
     public static void BHolderSet(BoxHolder bHolder)

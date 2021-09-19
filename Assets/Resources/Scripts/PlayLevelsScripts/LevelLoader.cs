@@ -17,14 +17,16 @@ public class LevelLoader : MonoBehaviour
 
     private void loadMap()
     {
-        // TODO: temp
-        BHWrapper.AddEmptyLevel();
+        if (BHWrapper.GetBHolders().Count == 0)
+        {
+            // TODO: temp
+            BHWrapper.AddEmptyLevel();
 
-        XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
-        // TODO: parametrize
-        FileStream stream = new FileStream(Application.dataPath + GlobalVariables.levelsSubpath + "boxes.xml", FileMode.Open);
-        BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
-        stream.Close();
+            XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
+            FileStream stream = new FileStream(Application.dataPath + GlobalVariables.premadeLevelsSubpath + "2boxes.xml", FileMode.Open);
+            BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
+            stream.Close();
+        }
 
         foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
         {

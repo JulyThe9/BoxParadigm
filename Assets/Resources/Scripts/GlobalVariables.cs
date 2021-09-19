@@ -3,7 +3,7 @@
 public class GlobalVariables : MonoBehaviour
 {
     // Scene names
-    public static string startMenu = "StartMenu";
+    public static string startMenuName = "StartMenu";
     public static string mapEditorName = "MapEditor";
     public static string playLevelsName = "PlayLevels";
 
@@ -16,6 +16,8 @@ public class GlobalVariables : MonoBehaviour
 
     public static string saveLevelNameBoxInputFieldName = "SaveLevelNameBox";
     public static string levelsSubpath = "/Resources/StreamingFiles/Levels/PlayerCreated/";
+    public static string premadeLevelsSubpath = "/Resources/StreamingFiles/Levels/Premade/";
+
     public static string levelFileExtension = ".xml";
 
     public static string levelSavingPanelName = "Bg3"; // TODO: please...
@@ -33,6 +35,8 @@ public class GlobalVariables : MonoBehaviour
 
     public static string leftHaloPath = "_Tools and projectiles/LeftHalo";
     public static string rightHaloPath = "_Tools and projectiles/RightHalo";
+
+    public static string toolsScriptableObjPath = "/Resources/ScriptableObjects/Tools/";
 
     // TODO: maybe a separate utility script
     public static float prjctlSpeed = 2f;
