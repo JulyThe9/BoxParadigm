@@ -9,6 +9,17 @@ public class Tool : ScriptableObject
     public ObjectTypes.ToolTypes type_;
     public bool doubleHanded_;
     public GameObject prefab_;
+    public GameObject secondaryPrefab_;
     public GameObject leftProjectilePrefab_;
     public GameObject rightProjectilePrefab_;
+
+    private bool depleted_;
+    public void SetDepleted(bool depleted)
+    {
+        depleted_ = depleted;
+    }
+    public bool GetDepleted()
+    {
+        return depleted_;
+    }
 }

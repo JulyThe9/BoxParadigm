@@ -8,6 +8,7 @@ public class ToolControl : MonoBehaviour
     public Transform toolParent_;
 
     private Tool curTool_;
+    private int curToolIdx_;
     private ObjectTypes.ToolTypes curToolType_;
     private GameObject currentToolObj_;
     private Transform curToolLeftFirePoint_;
@@ -34,7 +35,9 @@ public class ToolControl : MonoBehaviour
         playerCam_ = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         simpleEmergence_ = GameObject.Find(ObjectTypes.simpleEmergenceName).GetComponent<SimpleEmergence>();
         // MAKE SURE it corresponds to colliding map (otherwise we will have undestroyed objects)
-        layerMask_ = LayerMask.GetMask(GlobalVariables.groundLayerName); 
+        layerMask_ = LayerMask.GetMask(GlobalVariables.groundLayerName);
+
+        curToolIdx_ = 0;
      }
 
     public void Equip(int toolIdx)
@@ -53,6 +56,7 @@ public class ToolControl : MonoBehaviour
                 Destroy(currentToolObj_); // TODO: more efficient with enabling/disabling?
 
                 curTool_ = loadout_[toolIdx];
+                curToolIdx_ = toolIdx;
                 curToolType_ = loadout_[toolIdx].type_;
                 InstToolPrefab(toolIdx);
             }
@@ -60,6 +64,7 @@ public class ToolControl : MonoBehaviour
         else
         {
             curTool_ = loadout_[toolIdx];
+            curToolIdx_ = toolIdx;
             curToolType_ = loadout_[toolIdx].type_;
             InstToolPrefab(toolIdx);
         }
@@ -70,6 +75,7 @@ public class ToolControl : MonoBehaviour
         if (curToolType_ != ObjectTypes.ToolTypes.Undetermined)
         {
             curTool_ = null;
+            curToolIdx_ = 0;
             curToolType_ = ObjectTypes.ToolTypes.Undetermined;
             Destroy(currentToolObj_);
         }
@@ -86,10 +92,20 @@ public class ToolControl : MonoBehaviour
         {
             if (toolCounts[toolType] == 1)
             {
-                // Apply effects
+                TriggerToolDepletion(curToolIdx_, true);
+                Destroy(currentToolObj_);
+                InstToolPrefab(curToolIdx_);
             }
             --toolCounts[toolType];
         }
+    }
+
+    private void TriggerToolDepletion(int toolIdx, bool depleted)
+    {
+        GameObject tempPrefab = loadout_[toolIdx].prefab_;
+        loadout_[toolIdx].prefab_ = loadout_[toolIdx].secondaryPrefab_;
+        loadout_[toolIdx].secondaryPrefab_ = tempPrefab;
+        loadout_[toolIdx].SetDepleted(depleted);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -164,5 +180,16 @@ public class ToolControl : MonoBehaviour
         projectileObj.GetComponent<Rigidbody>().velocity = (projTravelDest_ - firePoint.position).normalized * GlobalVariables.prjctlSpeed;
         projectileObj.GetComponent<GeneralProjectileBehavior>().simplEmergence_ = simpleEmergence_;
         return projectileObj;
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < loadout_.Length; ++i)
+        {
+            if (loadout_[i].GetDepleted())
+            {
+                TriggerToolDepletion(i, false);
+            }
+        }
     }
 }
