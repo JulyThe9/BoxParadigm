@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class ToolControl : MonoBehaviour
 {
-    public Tool[] loadout_;
+    public SO_Tool[] loadout_;
     public Transform toolParent_;
 
-    private Tool curTool_;
+    private SO_Tool curTool_;
     private int curToolIdx_;
     private ObjectTypes.ToolTypes curToolType_;
     private GameObject currentToolObj_;

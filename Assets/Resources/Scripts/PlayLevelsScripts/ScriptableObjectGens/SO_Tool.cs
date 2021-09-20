@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Tool", menuName = "Tool")]
-public class Tool : ScriptableObject
+public class SO_Tool : ScriptableObject
 {
     public string name_;
     public ObjectTypes.ToolTypes type_;
