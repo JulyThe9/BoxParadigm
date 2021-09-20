@@ -23,6 +23,8 @@ public class BoxBehavior : MonoBehaviour
     public Material curMaterial;
     public GameObject secondaryEffect;
 
+    public bool playerOnBox = false;
+
     private void Start()
     {
         curMaterial = GetComponent<Renderer>().material;
@@ -530,6 +532,19 @@ public class BoxBehavior : MonoBehaviour
                 boxBehavior.OnGravityArgument();
                 break;
         }
+    }
+
+    public void OnPlayerEnterBox()
+    {
+        playerOnBox = true;
+        if (boxEntry.type == ObjectTypes.BoxTypes.Finish)
+        {
+
+        }
+    }
+    public void OnPlayerExitBox()
+    {
+        playerOnBox = false;
     }
 
     // top as per last boxEntry in the pillar regardless to the type (Undetermined or anything else)
