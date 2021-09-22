@@ -547,6 +547,7 @@ public class BoxBehavior : MonoBehaviour
         playerOnBox = false;
     }
 
+    // TODO: it seems like these two methods belong to either BHWrapper or SimpleEmergence
     // top as per last boxEntry in the pillar regardless to the type (Undetermined or anything else)
     private bool IsTopInPillar()
     {
