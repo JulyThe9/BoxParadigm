@@ -43,15 +43,12 @@ public class LevelLoader : MonoBehaviour
                         box.layer = LayerMask.NameToLayer("Ground");
                         boxEntry.SetBoxGameObj(box);
 
-                        if (i + 1 >= pillar.Count || pillar[i+1].type == ObjectTypes.BoxTypes.Undetermined)
-                        {
-                            GameObject ledgeToGrab = GameObject.Instantiate(Resources.Load(ObjectTypes.ledgeToGrabName)) as GameObject;
-                            ledgeToGrab.transform.position = new Vector3(boxEntry.xPos, boxEntry.yPos + GlobalDimensions.marginToLedge_, boxEntry.zPos); 
-                            ledgeToGrab.transform.Rotate(boxEntry.xRot, boxEntry.yRot, 0f);
-                            ledgeToGrab.transform.parent = box.transform;
-                            ledgeToGrab.name = ObjectTypes.ledgeToGrabName;
-                        }
-
+                        // TODO: check how efficient it is in larger levels
+                        GameObject ledgeToGrab = GameObject.Instantiate(Resources.Load(ObjectTypes.ledgeToGrabName)) as GameObject;
+                        ledgeToGrab.transform.position = new Vector3(boxEntry.xPos, boxEntry.yPos + GlobalDimensions.marginToLedge_, boxEntry.zPos); 
+                        ledgeToGrab.transform.Rotate(boxEntry.xRot, boxEntry.yRot, 0f);
+                        ledgeToGrab.transform.parent = box.transform;
+                        ledgeToGrab.name = ObjectTypes.ledgeToGrabName;
                     }
                 }
             }
