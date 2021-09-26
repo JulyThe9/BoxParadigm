@@ -100,12 +100,25 @@ public class ToolControl : MonoBehaviour
         }
     }
 
-    private void TriggerToolDepletion(int toolIdx, bool depleted)
+    public void TriggerToolDepletion(int toolIdx, bool depleted)
     {
         GameObject tempPrefab = loadout_[toolIdx].prefab_;
         loadout_[toolIdx].prefab_ = loadout_[toolIdx].secondaryPrefab_;
         loadout_[toolIdx].secondaryPrefab_ = tempPrefab;
         loadout_[toolIdx].SetDepleted(depleted);
+    }
+
+    // TODO: if this is going to be called frequently, create typesToIndices storage
+    public int GetToolIdxByType(ObjectTypes.ToolTypes toolType)
+    {
+        for (int i = 0; i < loadout_.Length; ++i)
+        {
+            if (loadout_[i].type_ == toolType)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

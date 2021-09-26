@@ -7,6 +7,7 @@ using System.IO;
 public class LevelLoader : MonoBehaviour
 {
     private GameObject player = null;
+    private ToolControl toolControl = null;
 
     void Start()
     {
@@ -67,6 +68,8 @@ public class LevelLoader : MonoBehaviour
         player = GameObject.FindGameObjectWithTag(ObjectTypes.playerTagName);
         player.transform.position = new Vector3(startBox.transform.position.x, 
             startBox.transform.position.y + GlobalDimensions.margin_ + GlobalDimensions.minDifDistance_, startBox.transform.position.z);
+
+        toolControl = player.GetComponent<ToolControl>();
     }
 
     private void loadToolCounts()
@@ -78,6 +81,14 @@ public class LevelLoader : MonoBehaviour
         toolControl.toolCounts[ObjectTypes.ToolTypes.SpaceWarp] = BHWrapper.BHolder().spaceWarpCount;
         toolControl.toolCounts[ObjectTypes.ToolTypes.Synthesis] = BHWrapper.BHolder().synthesisCount;
         toolControl.toolCounts[ObjectTypes.ToolTypes.Levitator] = BHWrapper.BHolder().levitatorCount;
+
+        foreach (KeyValuePair<ObjectTypes.ToolTypes, int> toolCount in toolControl.toolCounts)
+        {
+            if (toolCount.Value == 0)
+            {
+                toolControl.TriggerToolDepletion(toolControl.GetToolIdxByType(toolCount.Key), true);
+            }
+        }
     }
 
     private void findHighestBox()
