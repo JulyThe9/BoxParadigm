@@ -301,6 +301,8 @@ public class EditorUI : MonoBehaviour
         {
             BHWrapper.BHolder().levitatorCount = int.Parse(levitatorCountBox_.text);
         }
+
+        BHWrapper.BHolder().levelPlayable = BHWrapper.BHolder().finishGiven;
     }
 
     private void TransferLevelDataBack()

@@ -54,6 +54,16 @@ public static class BHWrapper
         return BHolder().list[xInd][zInd][yInd];
     }
 
+    public static void IncreaseLevel()
+    {
+        ++curLevelIdx_;
+    }
+
+    public static void ResetCurLevel()
+    {
+        curLevelIdx_ = 0;
+    }
+
     // TODO: see where else this can be used
     public static bool BoxExists(int xInd, int zInd, int yInd)
     {
@@ -182,6 +192,8 @@ public class BoxHolder
     public int spaceWarpCount = 0;
     public int synthesisCount = 0;
     public int levitatorCount = 0;
+
+    public bool levelPlayable = false;
 
     public List<List<List<BoxEntry>>> list = new List<List<List<BoxEntry>>>();
 }

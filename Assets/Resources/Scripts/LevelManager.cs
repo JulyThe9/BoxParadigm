@@ -21,7 +21,11 @@ public static class LevelManager
                     Path.GetExtension(levelFiles[fileIdx].Name) == GlobalVariables.levelFileExtension)
                 {
                     FileStream stream = new FileStream(premadeLevelPath + levelFiles[fileIdx].Name, FileMode.Open);
-                    BHWrapper.BHoldersAdd(serializer.Deserialize(stream) as BoxHolder);
+                    BoxHolder curLevel = serializer.Deserialize(stream) as BoxHolder;
+                    if (curLevel.levelPlayable)
+                    {
+                        BHWrapper.BHoldersAdd(curLevel);
+                    }
                     stream.Close();
                     break;
                 }

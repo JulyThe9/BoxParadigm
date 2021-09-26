@@ -46,7 +46,8 @@ public class PlayLevelsGuiManager : MonoBehaviour
 
     public void NextLevel()
     {
-
+        BHWrapper.IncreaseLevel();
+        SceneManager.LoadScene(GlobalVariables.playLevelsName);
     }
 
     public void BackToMenu()

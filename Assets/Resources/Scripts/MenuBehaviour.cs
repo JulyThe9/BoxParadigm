@@ -7,7 +7,9 @@ public class MenuBehaviour : MonoBehaviour {
 
 	public void newGame()
     {
+        // TODO: perhaps create a method ResetLevels() or OnNewGame() in terms of levels
         BHWrapper.BHoldersClear();
+        BHWrapper.ResetCurLevel();
         LevelManager.DeserializeLevelFiles();
         SceneManager.LoadScene(GlobalVariables.playLevelsName);
     }
