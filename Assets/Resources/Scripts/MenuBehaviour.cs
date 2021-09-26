@@ -8,16 +8,14 @@ public class MenuBehaviour : MonoBehaviour {
 	public void newGame()
     {
         // TODO: perhaps create a method ResetLevels() or OnNewGame() in terms of levels
-        BHWrapper.BHoldersClear();
-        BHWrapper.ResetCurLevel();
+        BHWrapper.BHoldersReset();
         LevelManager.DeserializeLevelFiles();
         SceneManager.LoadScene(GlobalVariables.playLevelsName);
     }
 
 	public void mapEditor()
     {
-        BHWrapper.BHoldersClear();
-        BHWrapper.ResetCurLevel();
+        BHWrapper.BHoldersReset();
         SceneManager.LoadScene(GlobalVariables.mapEditorName);
 	}
 

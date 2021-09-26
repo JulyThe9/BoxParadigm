@@ -38,6 +38,12 @@ public static class BHWrapper
         bHolders_.Clear();
     }
 
+    public static void BHoldersReset()
+    {
+        BHoldersClear();
+        ResetCurLevel();
+    }
+
     public static void BHolderSet(BoxHolder bHolder)
     {
         bHolders_[curLevelIdx_] = bHolder; // TODO: copy?

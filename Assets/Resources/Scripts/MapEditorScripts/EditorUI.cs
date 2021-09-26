@@ -90,12 +90,37 @@ public class EditorUI : MonoBehaviour
         BHWrapper.BHoldersRemoveLast();
     }
 
+    private void ResetCurLevel()
+    { 
+        clearUserCreatedObjects();
+        BHWrapper.BHoldersReset();
+        BHWrapper.AddEmptyLevel();
+
+        finishBoxPlaced = false;
+        finishBoxXInd = 0;
+        finishBoxYInd = 0;
+        finishBoxZInd = 0;
+
+        startBoxSelecting = false;
+        startBoxChosen = false;
+        startBoxXInd = 0;
+        startBoxYInd = 0;
+        startBoxZInd = 0;
+
+        gridGenerated = false;
+        tempSaveLevelName_ = "";
+        curSaveLevelName_ = "";
+    }
+
     public void parseAndCreateGrid()
     {
+        ResetCurLevel();
+
         InputField LBox = GameObject.Find("LBox").GetComponent<InputField>();
         InputField WBox = GameObject.Find("WBox").GetComponent<InputField>();
         BHWrapper.BHolder().length = int.Parse(LBox.text); // TODO: input format check/sanitization needed
         BHWrapper.BHolder().width = int.Parse(WBox.text);
+
         createGrid();
     }
 
@@ -335,11 +360,9 @@ public class EditorUI : MonoBehaviour
 
     public void loadMap(string loadLevelName)
     {
-        if (BHWrapper.BHolder().list.Count != 0)
-        {
-            // TODO: warn the user, prompt for a decision
-            clearUserCreatedObjects();
-        }
+        // TODO: warn the user, prompt for a decision
+        ResetCurLevel();
+
         // TODO: path hardcoded, ask the user
         XmlSerializer serializer = new XmlSerializer(typeof(BoxHolder));
         FileStream stream = new FileStream(Application.dataPath + devMode_levelSubPath + loadLevelName + GlobalVariables.levelFileExtension, FileMode.Open);
@@ -372,7 +395,7 @@ public class EditorUI : MonoBehaviour
 
     private void clearUserCreatedObjects()
     {
-        // removing the all boxes
+        // removing all boxes
         foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list)
         {
             foreach (List<BoxEntry> pillar in column)
@@ -387,8 +410,11 @@ public class EditorUI : MonoBehaviour
             }
         }
 
-        Destroy(floor);
-        floor = null;
+        if (floor != null)
+        {
+            Destroy(floor);
+            floor = null;
+        }
         finishBoxPlaced = false;
     }
 
