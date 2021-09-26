@@ -87,7 +87,7 @@ public class EditorUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        BHWrapper.BHolderRemoveLast();
+        BHWrapper.BHoldersRemoveLast();
     }
 
     public void parseAndCreateGrid()
@@ -404,7 +404,7 @@ public class EditorUI : MonoBehaviour
 
     public void returnToMenu()
     {
-        BHWrapper.BHolderRemoveLast();
+        BHWrapper.BHoldersRemoveLast();
         SceneManager.LoadScene(GlobalVariables.startMenuName);
     }
 

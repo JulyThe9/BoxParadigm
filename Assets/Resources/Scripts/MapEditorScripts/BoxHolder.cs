@@ -20,17 +20,22 @@ public static class BHWrapper
         return bHolders_[curLevelIdx_];
     }
 
-    public static void BHolderAdd(BoxHolder bHolder)
+    public static void BHoldersAdd(BoxHolder bHolder)
     {
         bHolders_.Add(bHolder);
     }
 
-    public static void BHolderRemoveLast()
+    public static void BHoldersRemoveLast()
     {
         if (bHolders_.Count > 0)
         {
             bHolders_.RemoveAt(bHolders_.Count - 1);
         }
+    }
+
+    public static void BHoldersClear()
+    {
+        bHolders_.Clear();
     }
 
     public static void BHolderSet(BoxHolder bHolder)

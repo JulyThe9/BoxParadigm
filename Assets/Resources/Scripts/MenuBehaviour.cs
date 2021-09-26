@@ -7,6 +7,7 @@ public class MenuBehaviour : MonoBehaviour {
 
 	public void newGame()
     {
+        BHWrapper.BHoldersClear();
         LevelManager.DeserializeLevelFiles();
         SceneManager.LoadScene(GlobalVariables.playLevelsName);
     }
