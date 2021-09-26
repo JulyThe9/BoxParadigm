@@ -18,8 +18,8 @@ public class BoxBehavior : MonoBehaviour
     private BoxEntry tempBoxEntry = null;
 
     private ToolControl toolControl = null; // TODO: is this the right place?
-
-    private SimpleEmergence simpleEmergence;
+    private PlayLevelsGuiManager playLevelsGuiManager = null;
+    private SimpleEmergence simpleEmergence = null;
     public Material curMaterial;
     public GameObject secondaryEffect;
 
@@ -30,8 +30,8 @@ public class BoxBehavior : MonoBehaviour
         curMaterial = GetComponent<Renderer>().material;
 
         simpleEmergence = GameObject.Find(ObjectTypes.simpleEmergenceName).GetComponent<SimpleEmergence>();
-
         groundedChecker = transform.Find(ObjectTypes.bottomJoint).GetComponent<BoxGroundedChecker>();
+        playLevelsGuiManager = GameObject.Find(GlobalVariables.levelSetUpObjName).GetComponent<PlayLevelsGuiManager>();
 
         // constraint initialization
         boxConstraints = transform.GetComponent<BoxConstraints>();
@@ -539,7 +539,7 @@ public class BoxBehavior : MonoBehaviour
         playerOnBox = true;
         if (boxEntry.type == ObjectTypes.BoxTypes.Finish)
         {
-
+            playLevelsGuiManager.OnLevelCompleted(BHWrapper.IsLastLevel());
         }
     }
     public void OnPlayerExitBox()

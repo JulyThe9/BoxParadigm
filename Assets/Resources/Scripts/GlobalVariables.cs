@@ -38,6 +38,12 @@ public class GlobalVariables : MonoBehaviour
 
     public static string toolsScriptableObjPath = "/Resources/ScriptableObjects/Tools/";
 
+    // Play levels gui names
+    public static string levelSetUpObjName = "LevelSetUp";
+    public static string levelCompletedPanelName = "LevelCompleted";
+    public static string gameCompletedPanelName = "GameCompleted";
+    public static string crosshairCanvasName = "CrosshairCanvas";
+
     // TODO: maybe a separate utility script
     public static float prjctlSpeed = 2f;
     public static float maxPrjctlSpeedPercent = 10f;

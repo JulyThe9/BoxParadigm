@@ -123,6 +123,7 @@ public class ObjectTypes : MonoBehaviour
     static public string projectileTagName = "Projectile";
     static public string playerTagName = "Player";
     static public string playerBottomTagName = "PlayerBottom";
+    static public string mainCameraTagName = "MainCamera";
 
     static public string fire1Name = "Fire1";
 

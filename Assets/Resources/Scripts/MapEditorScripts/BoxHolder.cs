@@ -118,6 +118,11 @@ public static class BHWrapper
         }
     }
 
+    public static bool IsLastLevel()
+    {
+        return curLevelIdx_ == bHolders_.Count - 1;
+    }
+
     public static bool CheckIntegrity()
     {
         bool res = true;
