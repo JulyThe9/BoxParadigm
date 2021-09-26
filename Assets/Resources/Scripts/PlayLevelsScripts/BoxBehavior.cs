@@ -189,7 +189,7 @@ public class BoxBehavior : MonoBehaviour
         switch(prjctlConstraints.effectType)
         {
             case ObjectTypes.EffectTypes.AnalysisAttack:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     OnAttack();
                     toolUsageFinished = true;
@@ -200,7 +200,7 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
             case ObjectTypes.EffectTypes.TurretAttack:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     OnAttack();
                 }
@@ -210,7 +210,7 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
             case ObjectTypes.EffectTypes.SwapSelect:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     OnSwapSelect();
                 }
@@ -220,7 +220,7 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
             case ObjectTypes.EffectTypes.Swapping:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     if (simpleEmergence.effectInProgress)
                     {
@@ -241,7 +241,7 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
             case ObjectTypes.EffectTypes.QuantumSelect:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     OnQuantumSelect();
                 }
@@ -251,7 +251,7 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
             case ObjectTypes.EffectTypes.QuantumConnect:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.AnalysisAttack])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     if (simpleEmergence.effectInProgress)
                     {
@@ -273,7 +273,7 @@ public class BoxBehavior : MonoBehaviour
                 }
                 break;
             case ObjectTypes.EffectTypes.GravityArgument:
-                if (boxConstraints.effectSusceptible[ObjectTypes.EffectTypes.GravityArgument])
+                if (boxConstraints.effectSusceptible[prjctlConstraints.effectType])
                 {
                     OnGravityArgument();
                     toolUsageFinished = true;
@@ -291,7 +291,8 @@ public class BoxBehavior : MonoBehaviour
         }
 
         simpleEmergence.latestAction = ObjectTypes.effectTypesToBoxActions[prjctlConstraints.effectType];
-        if (simpleEmergence.latestAction != ObjectTypes.BoxActions.Irrelevant)
+        // TODO: second part implies that whenever an action is replayable toolUsageFinished must be true (keep in mind for future tools)
+        if (simpleEmergence.latestAction != ObjectTypes.BoxActions.Irrelevant && toolUsageFinished)
         {
             Debug.Assert(simpleEmergence.replayBoxTraits != null);
 
