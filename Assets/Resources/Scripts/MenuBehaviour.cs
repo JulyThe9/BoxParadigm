@@ -16,7 +16,9 @@ public class MenuBehaviour : MonoBehaviour {
 
 	public void mapEditor()
     {
-		SceneManager.LoadScene(GlobalVariables.mapEditorName);
+        BHWrapper.BHoldersClear();
+        BHWrapper.ResetCurLevel();
+        SceneManager.LoadScene(GlobalVariables.mapEditorName);
 	}
 
 	public void settings()
