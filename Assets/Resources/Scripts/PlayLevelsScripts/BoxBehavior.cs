@@ -111,13 +111,15 @@ public class BoxBehavior : MonoBehaviour
             if (wasFalling)
             {
                 float additDist = 0f;
+                float dynamicMargin = GlobalDimensions.margin_;
                 if (groundedChecker.hitBoxGameObject.tag == ObjectTypes.floorTagName)
                 {
                     additDist = GlobalDimensions.minDifDistance_;
+                    dynamicMargin = GlobalDimensions.halfMargin_ + GlobalDimensions.halfFloorThickness_;
                 }
                 transform.position = Vector3.MoveTowards(transform.position,
                     new Vector3(transform.position.x,
-                                groundedChecker.hitBoxGameObject.transform.position.y + GlobalDimensions.margin_ + additDist,
+                                groundedChecker.hitBoxGameObject.transform.position.y + dynamicMargin + additDist,
                                 transform.position.z),
                     0.5f);
 

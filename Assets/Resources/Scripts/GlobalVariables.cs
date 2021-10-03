@@ -38,6 +38,8 @@ public class GlobalVariables : MonoBehaviour
 
     public static string toolsScriptableObjPath = "/Resources/ScriptableObjects/Tools/";
 
+    public static string environmentObjPath = "Environment";
+
     // Play levels gui names
     public static string levelSetUpObjName = "LevelSetUp";
     public static string levelCompletedPanelName = "LevelCompleted";

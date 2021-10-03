@@ -128,4 +128,11 @@ public class ObjectTypes : MonoBehaviour
     static public string fire1Name = "Fire1";
 
     static public string simpleEmergenceName = "SimpleEmergence";
+
+    static public string baseWallName = "BaseWall";
+    static public string topWallName = "TopWall";
+    static public string leftWallName = "LeftWall";
+    static public string rightWallName = "RightWall";
+    static public string backWallName = "BackWall";
+    static public string frontWallName = "FrontWall";
 }

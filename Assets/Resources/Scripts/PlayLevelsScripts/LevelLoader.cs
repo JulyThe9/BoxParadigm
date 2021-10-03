@@ -11,9 +11,96 @@ public class LevelLoader : MonoBehaviour
 
     void Start()
     {
+        loadWalls();
         loadMap();
         loadPlayer();
         loadToolCounts();
+    }
+
+    private void loadWalls()
+    {
+        // TODO: temp
+        if (BHWrapper.GetBHolders().Count == 0)
+        {
+            return;
+        }
+
+        // base wall
+        GameObject baseWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.baseWallName)) as GameObject;
+        baseWall.name = ObjectTypes.baseWallName;
+        Vector3 baseWallLS = baseWall.transform.localScale;
+        baseWallLS.x = (BHWrapper.BHolder().length * 2 - 1) + GlobalDimensions.levelMarginInBoxes_;
+        baseWallLS.y = (BHWrapper.BHolder().width * 2 - 1) + GlobalDimensions.levelMarginInBoxes_;
+        baseWall.transform.localScale = baseWallLS;
+
+        GlobalDimensions.halfFloorThickness_ = baseWallLS.z / 2f;
+        baseWall.transform.position = new Vector3(0f, 0f - GlobalDimensions.halfFloorThickness_, 0f);
+
+        // top wall
+        GameObject topWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.topWallName)) as GameObject;
+        topWall.name = ObjectTypes.topWallName;
+        topWall.transform.localScale = baseWallLS;
+
+        int height = findMaxPillarHeight();
+        topWall.transform.position = baseWall.transform.position;
+        float topWallDist = height * GlobalDimensions.margin_ + 2 * GlobalDimensions.playerSize_ + 2 * GlobalDimensions.halfFloorThickness_;
+        Vector3 topWallIncr = new Vector3(0f, topWallDist, 0f);
+        topWall.transform.position += topWallIncr;
+
+
+        // left wall
+        GameObject leftWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.leftWallName)) as GameObject;
+        leftWall.name = ObjectTypes.leftWallName;
+        leftWall.transform.localScale = baseWallLS;
+        leftWall.transform.Rotate(-90f, 0f, 0f);
+        leftWall.transform.Rotate(0f, 90f, 0f);
+        leftWall.transform.Rotate(0f, 0f, -90f);
+
+        Vector3 leftWallLS = leftWall.transform.localScale;
+        leftWallLS.x = topWallDist - 2 * GlobalDimensions.halfFloorThickness_;
+        leftWall.transform.localScale = leftWallLS;
+
+        leftWall.transform.position = baseWall.transform.position;
+        Vector3 leftWallIncr = new Vector3(topWall.transform.localScale.x / 2 - GlobalDimensions.halfFloorThickness_, -topWallDist / 2, 0f);
+        leftWall.transform.position -= leftWallIncr;
+
+        // right wall
+        GameObject rightWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.rightWallName)) as GameObject;
+        rightWall.name = ObjectTypes.rightWallName;
+        rightWall.transform.localScale = leftWallLS;
+        rightWall.transform.Rotate(-90f, 0f, 0f);
+        rightWall.transform.Rotate(0f, 90f, 0f);
+        rightWall.transform.Rotate(0f, 0f, -90f);
+
+        rightWall.transform.position = leftWall.transform.position;
+        Vector3 rightWallIncr = new Vector3(topWall.transform.localScale.x - 2 * GlobalDimensions.halfFloorThickness_, 0f, 0f);
+        rightWall.transform.position += rightWallIncr;
+
+
+        // back wall
+        GameObject backWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.backWallName)) as GameObject;
+        backWall.name = ObjectTypes.backWallName;
+        backWall.transform.localScale = baseWallLS;
+        backWall.transform.Rotate(-90f, 0f, 0f);
+
+        Vector3 backWallLS = backWall.transform.localScale;
+        backWallLS.x -= 4 * GlobalDimensions.halfFloorThickness_;
+        backWallLS.y = topWallDist - 2 * GlobalDimensions.halfFloorThickness_;
+        backWall.transform.localScale = backWallLS;
+
+        backWall.transform.position = baseWall.transform.position;
+        Vector3 backWallIncr = new Vector3(0f, topWallDist / 2, topWall.transform.localScale.y / 2 - GlobalDimensions.halfFloorThickness_);
+        backWall.transform.position += backWallIncr;
+
+        // front wall
+        GameObject frontWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.frontWallName)) as GameObject;
+        frontWall.name = ObjectTypes.frontWallName;
+        frontWall.transform.localScale = backWallLS;
+        frontWall.transform.Rotate(-90f, 0f, 0f);
+
+        frontWall.transform.position = backWall.transform.position;
+        Vector3 frontWallIncr = new Vector3(0f, 0f, topWall.transform.localScale.y - 2 * GlobalDimensions.halfFloorThickness_);
+        frontWall.transform.position -= frontWallIncr;
     }
 
     private void loadMap()
@@ -27,6 +114,16 @@ public class LevelLoader : MonoBehaviour
             FileStream stream = new FileStream(Application.dataPath + GlobalVariables.premadeLevelsSubpath + "2boxes.xml", FileMode.Open);
             BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
             stream.Close();
+
+            GameObject baseWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.baseWallName)) as GameObject;
+
+            Vector3 baseWallLS = baseWall.transform.localScale;
+            baseWallLS.x = (BHWrapper.BHolder().length * 2 - 1) + GlobalDimensions.levelMarginInBoxes_;
+            baseWallLS.y = (BHWrapper.BHolder().width * 2 - 1) + GlobalDimensions.levelMarginInBoxes_;
+            baseWall.transform.localScale = baseWallLS;
+
+            GlobalDimensions.halfFloorThickness_ = baseWallLS.z / 2f;
+            baseWall.transform.position = new Vector3(0f, 0f - GlobalDimensions.halfFloorThickness_, 0f);
         }
 
         foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
@@ -60,7 +157,7 @@ public class LevelLoader : MonoBehaviour
     {
         if (!BHWrapper.BHolder().startGiven)
         {
-            findHighestBox();
+            findHighestBox(out BHWrapper.BHolder().startXInd, out BHWrapper.BHolder().startZInd, out BHWrapper.BHolder().startYInd);
         }
         GameObject startBox =
             BHWrapper.BHolder().list[BHWrapper.BHolder().startXInd][BHWrapper.BHolder().startZInd][BHWrapper.BHolder().startYInd].GetBoxGameObj();
@@ -91,10 +188,10 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    private void findHighestBox()
+    private void findHighestBox(out int xInd, out int zInd, out int yInd)
     {
-        int xInd = 0;
-        int zInd = 0;
+        xInd = 0;
+        zInd = 0;
         int maxPillarHeight = 0;
         foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
         {
@@ -109,8 +206,22 @@ public class LevelLoader : MonoBehaviour
                 pillar[pillar.Count - 1].topInPillar = true;
             }
         }
-        BHWrapper.BHolder().startXInd = xInd;
-        BHWrapper.BHolder().startZInd = zInd;
-        BHWrapper.BHolder().startYInd = maxPillarHeight - 1;
+        yInd = maxPillarHeight - 1;
+    }
+
+    private int findMaxPillarHeight()
+    {
+        int maxPillarHeight = 0;
+        foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x
+        {
+            foreach (List<BoxEntry> pillar in column) // z
+            {
+                if (pillar.Count > maxPillarHeight)
+                {
+                    maxPillarHeight = pillar.Count;
+                }
+            }
+        }
+        return maxPillarHeight;
     }
 }
