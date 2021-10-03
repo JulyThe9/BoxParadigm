@@ -47,7 +47,7 @@ public class GlobalVariables : MonoBehaviour
     public static string crosshairCanvasName = "CrosshairCanvas";
 
     // TODO: maybe a separate utility script
-    public static float prjctlSpeed = 2f;
+    public static float prjctlSpeed = 4f;
     public static float maxPrjctlSpeedPercent = 10f;
     public static float prjctlSpeedChangePercent = 0.1f;
 }

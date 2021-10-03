@@ -18,8 +18,6 @@ public class ToolControl : MonoBehaviour
     private SimpleEmergence simpleEmergence_;
     private Vector3 projTravelDest_;
 
-    private int layerMask_;
-
     private bool dHandedToolLeftUsed_ = false;
 
     public Dictionary<ObjectTypes.ToolTypes, int> toolCounts = new Dictionary<ObjectTypes.ToolTypes, int>
@@ -34,8 +32,6 @@ public class ToolControl : MonoBehaviour
     {
         playerCam_ = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         simpleEmergence_ = GameObject.Find(ObjectTypes.simpleEmergenceName).GetComponent<SimpleEmergence>();
-        // MAKE SURE it corresponds to colliding map (otherwise we will have undestroyed objects)
-        layerMask_ = LayerMask.GetMask(GlobalVariables.groundLayerName);
 
         curToolIdx_ = 0;
      }
@@ -165,24 +161,15 @@ public class ToolControl : MonoBehaviour
         Ray ray = playerCam_.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
         float rayCastDist = 1000f;
-        if (Physics.Raycast(ray, out hit, rayCastDist, layerMask_))
+
+        Physics.Raycast(ray, out hit, rayCastDist);
+        projTravelDest_ = ray.GetPoint(rayCastDist);
+        if (hit.transform.gameObject != null)
         {
-            projTravelDest_ = hit.point;
-            if (hit.transform.gameObject != null)
-            {
-                Debug.Log(hit.transform.gameObject.tag);
-            }
-            ++simpleEmergence_.dHandedToolRightUsed;
-            InstantiateProjectile(projectilePrefab, curToolFirePoint);
+            Debug.Log(hit.transform.gameObject.tag);
         }
-        else
-        {
-            projTravelDest_ = ray.GetPoint(rayCastDist);
-            ++simpleEmergence_.dHandedToolRightUsed;
-            GameObject projectileObj = InstantiateProjectile(projectilePrefab, curToolFirePoint);
-            // TODO: temp, level will be enclosed (hits everywhere, otherwise could scale t with level size - glob var)
-            Destroy(projectileObj, 3.0f);
-        }
+        ++simpleEmergence_.dHandedToolRightUsed;
+        InstantiateProjectile(projectilePrefab, curToolFirePoint);
 
         return true;
     }

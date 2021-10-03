@@ -29,6 +29,9 @@ public class GeneralProjectileBehavior : MonoBehaviour
         prjctlMult_ = 0f;
         changingVelocity_ = true;
         markedABox_ = false;
+
+        // just for safety
+        Destroy(gameObject, 120f);
     }
 
     public void Update()
