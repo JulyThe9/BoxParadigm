@@ -115,15 +115,7 @@ public class LevelLoader : MonoBehaviour
             BHWrapper.BHolderSet(serializer.Deserialize(stream) as BoxHolder);
             stream.Close();
 
-            GameObject baseWall = GameObject.Instantiate(Resources.Load(GlobalVariables.environmentObjPath + "/" + ObjectTypes.baseWallName)) as GameObject;
-
-            Vector3 baseWallLS = baseWall.transform.localScale;
-            baseWallLS.x = (BHWrapper.BHolder().length * 2 - 1) + GlobalDimensions.levelMarginInBoxes_;
-            baseWallLS.y = (BHWrapper.BHolder().width * 2 - 1) + GlobalDimensions.levelMarginInBoxes_;
-            baseWall.transform.localScale = baseWallLS;
-
-            GlobalDimensions.halfFloorThickness_ = baseWallLS.z / 2f;
-            baseWall.transform.position = new Vector3(0f, 0f - GlobalDimensions.halfFloorThickness_, 0f);
+            loadWalls();
         }
 
         foreach (List<List<BoxEntry>> column in BHWrapper.BHolder().list) // x

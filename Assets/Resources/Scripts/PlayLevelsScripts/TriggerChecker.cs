@@ -8,12 +8,17 @@ public class TriggerChecker : MonoBehaviour
     public GameObject grabbedBoxGameObject = null;
     private void OnTriggerEnter(Collider other)
     {
-        grabbedBoxGameObject = other.transform.parent.gameObject;
-        BoxData collidedBoxData = grabbedBoxGameObject.GetComponent<BoxData>();
-        // Checking if there is no actual box above the collided box to be able to grab
-        if (!BHWrapper.BoxExists(collidedBoxData.xInd, collidedBoxData.zInd, collidedBoxData.yInd + 1))
+        // TODO: perhaps should be a separate tag name var and in ObjectTypes
+        //if (other.gameObject.CompareTag(GlobalVariables.groundLayerName))
+        if (other.gameObject.tag.Equals(GlobalVariables.groundLayerName))
         {
-            grabbed = true;
+            grabbedBoxGameObject = other.transform.parent.gameObject;
+            BoxData collidedBoxData = grabbedBoxGameObject.GetComponent<BoxData>();
+            // Checking if there is no actual box above the collided box to be able to grab
+            if (!BHWrapper.BoxExists(collidedBoxData.xInd, collidedBoxData.zInd, collidedBoxData.yInd + 1))
+            {
+                grabbed = true;
+            }
         }
     }
     private void OnTriggerExit(Collider other)
